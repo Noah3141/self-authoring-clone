@@ -1,0 +1,12 @@
+.baseLayout {
+    @apply grid
+    size-full
+    grid-cols-[1fr]
+    grid-rows-[auto_1fr_auto];
+}
+
+.homeLayout {
+    section {
+        @apply py-12;
+    }
+}

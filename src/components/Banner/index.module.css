@@ -1,0 +1,22 @@
+.banner {
+    @apply rounded-lg border px-6 py-4;
+
+    &.primary {
+        @apply border-primary-500 bg-primary-500 bg-opacity-25  text-primary-500;
+    }
+    &.secondary {
+        @apply border-secondary-500 bg-secondary-500 bg-opacity-25  text-secondary-500;
+    }
+    &.neutral {
+        @apply border-neutral-500 bg-neutral-500 bg-opacity-25 text-neutral-500;
+    }
+    &.warning {
+        @apply border-warning-500 bg-warning-500 text-warning-500 bg-opacity-25;
+    }
+    &.info {
+        @apply border-info-500 bg-info-500 text-info-500 bg-opacity-25;
+    }
+    &.danger {
+        @apply border-danger-500 bg-danger-500 text-danger-500 bg-opacity-25;
+    }
+}

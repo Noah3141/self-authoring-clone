@@ -1,0 +1,66 @@
+.button {
+    @apply relative block translate-y-0 cursor-pointer rounded-lg  px-4 py-2 transition-transform disabled:cursor-default;
+
+    .idle,
+    .pending,
+    .error,
+    .success {
+        @apply scale-0 transition-all;
+    }
+
+    &.clicked {
+        @apply translate-y-1;
+    }
+
+    svg {
+        @apply size-6;
+    }
+
+    /* Statuses */
+
+    .loader {
+        @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+    }
+
+    &.idle {
+        .idle {
+            @apply scale-100;
+        }
+    }
+    &.pending {
+        .pending.loader {
+            @apply scale-100;
+        }
+    }
+    &.success {
+        .success.loader {
+            @apply scale-100;
+        }
+    }
+    &.error {
+        .error.loader {
+            @apply scale-100;
+        }
+    }
+
+    /* Kinds */
+
+    &.primary {
+        @apply bg-primary-500 text-neutral-50 hover:bg-primary-600;
+    }
+    &.secondary {
+        @apply bg-secondary-500 text-neutral-50 hover:bg-secondary-600;
+    }
+    &.neutral {
+        @apply bg-neutral-500 text-neutral-50 hover:bg-neutral-600;
+    }
+    &.warning {
+        @apply bg-warning-500 hover:bg-warning-600 text-neutral-50;
+    }
+    &.info {
+        @apply bg-info-500 hover:bg-info-600 text-neutral-50;
+    }
+    &.danger {
+        @apply bg-danger-500 hover:bg-danger-600 text-neutral-50;
+    }
+}

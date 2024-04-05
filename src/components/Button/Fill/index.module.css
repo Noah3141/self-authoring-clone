@@ -1,0 +1,120 @@
+.button {
+    @apply relative
+    block
+    translate-y-0
+    cursor-pointer
+    rounded-lg
+    border
+    px-4
+    py-2
+    
+    disabled:cursor-default;
+
+    .idle,
+    .pending,
+    .error,
+    .success {
+        @apply scale-0;
+    }
+
+    &.clicked {
+        @apply translate-y-1;
+    }
+
+    svg {
+        @apply size-6;
+    }
+
+    /*
+    Statuses
+    */
+
+    .loader {
+        @apply absolute
+        left-1/2
+        top-1/2
+        -translate-x-1/2
+        -translate-y-1/2;
+    }
+
+    &.idle {
+        .idle {
+            @apply scale-100;
+        }
+    }
+
+    &.pending {
+        .pending.loader {
+            @apply scale-100;
+        }
+    }
+
+    &.success {
+        .success.loader {
+            @apply scale-100;
+        }
+    }
+
+    &.error {
+        .error.loader {
+            @apply scale-100;
+        }
+    }
+
+    /* Kinds */
+
+    &.primary {
+        @apply border-primary-500
+        bg-transparent
+        text-primary-500
+        duration-0
+        hover:bg-primary-500
+        hover:text-neutral-50;
+    }
+
+    &.secondary {
+        @apply border-secondary-500
+        bg-transparent
+        text-secondary-500
+        duration-0
+        hover:bg-secondary-500
+        hover:text-neutral-50;
+    }
+
+    &.neutral {
+        @apply border-neutral-500
+        bg-transparent
+        text-neutral-500
+        
+        duration-0
+        hover:bg-neutral-500
+        hover:text-neutral-50;
+    }
+
+    &.warning {
+        @apply border-warning-500
+        hover:bg-warning-500
+        text-warning-500
+        bg-transparent
+        duration-0
+        hover:text-neutral-50;
+    }
+
+    &.info {
+        @apply border-info-500
+        hover:bg-info-500
+        text-info-500
+        bg-transparent
+        duration-0
+        hover:text-neutral-50;
+    }
+
+    &.danger {
+        @apply border-danger-500
+        hover:bg-danger-500
+        text-danger-500
+        bg-transparent
+        duration-0
+        hover:text-neutral-50;
+    }
+}
