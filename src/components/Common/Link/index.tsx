@@ -2,18 +2,18 @@ import React, { type FC } from "react";
 import NextLink from "next/link";
 import classNames from "classnames";
 import styles from "./index.module.css";
-import { type ColorType } from "~/styles/types";
+import { type Color } from "~/styles/types";
 
 type LinkProps = {
     children: React.ReactNode;
     href?: string;
-    kind?: ColorType;
+    color?: Color;
 };
 
-const Link: FC<LinkProps> = ({ href, kind = "primary", children }) => {
+const Link: FC<LinkProps> = ({ href, color = "primary", children }) => {
     return (
         <NextLink
-            className={classNames(styles.link, styles[kind])}
+            className={classNames(styles.link, styles[color])}
             href={href ?? "#"}
         >
             <div className={classNames(styles.text)}>{children}</div>

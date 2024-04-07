@@ -41,6 +41,14 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -49,13 +57,62 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    map           String
+
+    pastAuthoring    PastAuthoring?
+    Experience       Experience[]
+    // A users list of past authoring experiences
+    ExtendedAnalysis ExtendedAnalysis[]
+    // An experience that the user has chosen to go into more depth on
+
+    futureAuthoring FutureAuthoring?
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+model PastAuthoring {
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @id @unique
 
-    @@unique([identifier, token])
+    epochs Epoch[]
+}
+
+model Epoch {
+    id String @id @default(cuid())
+
+    PastAuthoring       PastAuthoring? @relation(fields: [pastAuthoringUserId], references: [userId])
+    pastAuthoringUserId String?
+
+    experiences Experience[]
+}
+
+model Experience {
+    id     String @id @default(cuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    epoch   Epoch  @relation(fields: [epochId], references: [id])
+    epochId String
+
+    title       String?
+    description String?
+    // The first time the user writes about an experience they give it a title, and a description.
+
+    basicAnalysis String?
+
+    extendedAnalysis   ExtendedAnalysis?
+    extendedAnalysisId String?
+}
+
+model ExtendedAnalysis {
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    experience   Experience @relation(fields: [experienceId], references: [id])
+    experienceId String     @id
+
+    eventAnalysis  String?
+    effectAnalysis String?
+}
+
+model FutureAuthoring {
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @id @unique
 }

@@ -14,11 +14,7 @@
         after:bg-opacity-0 
         hover:after:bg-opacity-20;
     }
-    &.secondary {
-        @apply after:bg-secondary-500
-        after:bg-opacity-0 
-        hover:after:bg-opacity-20;
-    }
+
     &.warning {
         @apply after:bg-warning-500
         after:bg-opacity-0 
