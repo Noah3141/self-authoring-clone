@@ -1,8 +1,10 @@
 const config = {
     plugins: {
+        "postcss-mixins": {},
+        "postcss-simple-vars": {},
         "postcss-import": {},
         "tailwindcss/nesting": {},
-        tailwindcss: { config: "./tailwind.config.ts" },
+        tailwindcss: {},
         autoprefixer: {},
     },
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import classNames from "classnames";
 import { type PropsWithChildren, type FC, useState } from "react";
 import { Tooltip as ReactTooltip, type ITooltip } from "react-tooltip";

@@ -7,19 +7,11 @@ import { api } from "~/utils/api";
 export default function Home() {
     return (
         <>
-            <BaseLayout>
-                <AuthoringLayout>
-                    <h1></h1>
+            <h1></h1>
 
-                    <Button
-                        className="place-self-end"
-                        color="neutral"
-                        fill="hollow"
-                    >
-                        Submit
-                    </Button>
-                </AuthoringLayout>
-            </BaseLayout>
+            <Button className="place-self-end" color="neutral" fill="hollow">
+                Submit
+            </Button>
         </>
     );
 }

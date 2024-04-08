@@ -3,18 +3,21 @@
     size-full
     grid-cols-[1fr]
     grid-rows-[auto_1fr_auto];
-}
-
-.homeLayout {
-    @apply mx-auto 
-    grid
-    w-full
-    max-w-5xl
-    gap-8
-    md:flex-row;
 
     section {
         @apply p-3 md:p-12;
+    }
+    h1 {
+        @apply text-3xl font-medium text-neutral-800;
+    }
+    h2 {
+        @apply text-2xl;
+    }
+    h3 {
+        @apply text-xl;
+    }
+    p {
+        @apply text-neutral-700;
     }
 }
 
