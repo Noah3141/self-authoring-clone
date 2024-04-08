@@ -1,8 +1,7 @@
 import classNames from "classnames";
-import React, { type FC, type PropsWithChildren } from "react";
+import React, { useId, type FC, type PropsWithChildren } from "react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import styles from "./index.module.css";
-import { createId } from "@paralleldrive/cuid2";
 
 type TooltipProps = {
     contents: React.ReactNode;
@@ -16,7 +15,7 @@ const Tooltip: FC<PropsWithChildren<TooltipProps>> = ({
     contents,
     className,
 }) => {
-    const id = createId();
+    const id = useId();
     return (
         <>
             <div id={id}>{children}</div>

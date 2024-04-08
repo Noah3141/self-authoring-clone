@@ -77,8 +77,8 @@ model PastAuthoring {
 model Epoch {
     id String @id @default(cuid())
 
-    PastAuthoring       PastAuthoring? @relation(fields: [pastAuthoringUserId], references: [userId])
-    pastAuthoringUserId String?
+    PastAuthoring PastAuthoring? @relation(fields: [userId], references: [userId])
+    userId        String?
 
     experiences Experience[]
 }
@@ -112,7 +112,41 @@ model ExtendedAnalysis {
     effectAnalysis String?
 }
 
+//
+//
+//
+
 model FutureAuthoring {
     user   User   @relation(fields: [userId], references: [id])
     userId String @id @unique
+
+    // Stage 1 Forming an Abstract View, from the bottom up
+
+    oneThingYouCouldDoBetter String?
+    thingsToLearnAbout       String?
+    improveYourHabits        String?
+
+    socialLife  String?
+    leisureLife String?
+    familyLife  String?
+    careerLife  String?
+
+    qualitiesYouAdmire String?
+    idealFuture        String?
+    worstFuture        String?
+
+    // Stage 2
+    goals Goal[]
+}
+
+model Goal {
+    id String @id @unique
+
+    isMain          Boolean
+    // Is this the abstract aggregate goal
+    priority        Int
+    title           String
+    description     String
+    FutureAuthoring FutureAuthoring? @relation(fields: [userId], references: [userId])
+    userId          String?
 }

@@ -11,7 +11,7 @@ export default {
 
             success: colors.lime,
             warning: colors.amber,
-            danger: colors.rose,
+            danger: colors.red,
             info: colors.sky,
         },
         extend: {

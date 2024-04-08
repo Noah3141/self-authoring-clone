@@ -1,14 +1,19 @@
-import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
+import { useState } from "react";
 import Button from "~/components/Common/Button";
-import Tooltip from "~/components/Common/Tooltip";
-import UserIcon from "~/components/Icons/Theme/UserIcon";
+import ProgressBar from "~/components/Common/ProgressBar";
+import Textarea from "~/components/Common/Textarea";
 
 import { api } from "~/utils/api";
 
 export default function Home() {
-    const hello = api.post.hello.useQuery({ text: "from tRPC" });
+    const [val, setVal] = useState(0);
+    function increment() {
+        setVal((p) => p + 1);
+    }
+    function decrement() {
+        setVal((p) => p - 1);
+    }
 
     return (
         <>
@@ -20,12 +25,21 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className="">
-                <div className="flex flex-row p-12">
-                    <Button>
-                        Profile <UserIcon />
+            <main className="p-12">
+                <div className="flex flex-col items-center gap-3">
+                    <Textarea maxWords={3000} minLength={5} />
+                    <Button
+                        onClick={() => {
+                            increment();
+                        }}
+                        className="self-end"
+                        color="primary"
+                        fill="splash"
+                    >
+                        Submit
                     </Button>
                 </div>
+                <ProgressBar progress={val} cap={17}></ProgressBar>
             </main>
         </>
     );

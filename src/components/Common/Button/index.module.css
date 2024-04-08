@@ -1,16 +1,20 @@
 .button {
-    @apply flex cursor-pointer flex-row whitespace-nowrap rounded-lg px-3
-    py-2 disabled:cursor-default;
+    @apply flex h-fit cursor-pointer flex-row whitespace-nowrap rounded-lg px-3 py-2
+    transition-all ease-out hover:shadow disabled:cursor-default;
 
     div {
         @apply relative z-10 flex shrink-0 flex-row gap-2 whitespace-nowrap;
     }
 
+    &.clicked {
+        @apply translate-y-[3px] shadow-none;
+    }
+
     &.hollow-neutral {
-        @apply border  border-neutral-200 text-neutral-600 transition-all hover:border-neutral-400 hover:text-neutral-950;
+        @apply border border-neutral-300 bg-neutral-50 text-neutral-600 hover:border-neutral-500 hover:text-neutral-800;
     }
     &.hollow-primary {
-        @apply border border-primary-500 text-primary-500 transition-all hover:bg-primary-500 hover:text-neutral-50;
+        @apply border border-primary-500 bg-primary-500 bg-opacity-15 text-primary-500 hover:bg-opacity-100 hover:text-neutral-50;
     }
 
     &.filled-neutral {
@@ -21,13 +25,13 @@
     }
 
     &.splash-neutral {
-        @apply hover:border-transparent relative overflow-hidden border border-neutral-400 bg-neutral-200 text-neutral-700 after:absolute
-        after:left-1/2 after:top-1/2 after:z-0 after:h-[500%] after:w-full after:origin-center after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-6 
-        after:scale-x-0 after:bg-neutral-950 after:transition-all after:ease-out hover:text-neutral-50 hover:after:scale-x-105;
+        @apply relative overflow-hidden border border-neutral-400 bg-neutral-200 text-neutral-700 after:absolute after:left-1/2
+        after:top-1/2 after:z-0 after:h-[500%] after:w-full after:origin-center after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-6 after:scale-x-0 
+        after:bg-neutral-950 after:transition-all after:ease-out hover:border-transparent hover:text-neutral-50 hover:after:scale-x-105;
     }
     &.splash-primary {
-        @apply relative overflow-hidden bg-neutral-950 text-neutral-50 after:absolute
-        after:left-1/2 after:top-1/2 after:z-0 after:h-[500%] after:w-full after:origin-center after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-6 
-        after:scale-x-0 after:bg-primary-500 after:transition-all after:ease-out hover:text-primary-950 hover:after:scale-x-105;
+        @apply relative overflow-hidden border-none bg-neutral-950 text-neutral-50 outline-none after:absolute after:left-1/2
+        after:top-1/2 after:z-0 after:h-[500%] after:w-full after:origin-center after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-6 after:scale-x-0 
+        after:bg-primary-500 after:transition-all after:ease-out  hover:bg-primary-500 hover:text-primary-950 hover:after:scale-x-105;
     }
 }

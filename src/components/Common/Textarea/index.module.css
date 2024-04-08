@@ -1,0 +1,28 @@
+.textarea {
+    @apply h-96
+    w-full
+    shrink-0
+    resize-none
+    whitespace-pre-wrap
+    rounded-lg
+    bg-neutral-50
+    p-3
+    caret-neutral-500
+    outline
+    outline-1
+    outline-neutral-300
+    transition-colors
+    placeholder:text-neutral-300
+    hover:cursor-pointer
+    hover:outline-neutral-400
+    focus:cursor-text
+    focus:shadow-inner
+    focus:outline-neutral-500
+    disabled:border-neutral-200
+    disabled:text-neutral-300;
+
+    &.validate {
+        @apply invalid:bg-danger-100 
+        invalid:outline-danger-300;
+    }
+}
