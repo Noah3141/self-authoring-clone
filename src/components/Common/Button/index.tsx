@@ -1,9 +1,12 @@
-import React, {
+"use client";
+
+import {
+    useState,
     type PropsWithChildren,
     type FC,
-    useState,
-    ButtonHTMLAttributes,
+    type ButtonHTMLAttributes,
 } from "react";
+
 import styles from "./index.module.css";
 import classNames from "classnames";
 

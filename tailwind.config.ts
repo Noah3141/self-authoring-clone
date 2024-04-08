@@ -3,7 +3,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 import colors, { transparent } from "tailwindcss/colors";
 
 export default {
-    content: ["./src/**/*.tsx"],
+    content: ["./src/**/*.tsx", "./app/**/*.tsx"],
     theme: {
         colors: {
             primary: colors.lime,
