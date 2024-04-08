@@ -1,32 +1,41 @@
 import classNames from "classnames";
-import React, { useId, type FC, type PropsWithChildren } from "react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { type PropsWithChildren, type FC, useState } from "react";
+import { Tooltip as ReactTooltip, type ITooltip } from "react-tooltip";
 import styles from "./index.module.css";
 
-type TooltipProps = {
-    contents: React.ReactNode;
+type TooltipProps = ITooltip & {
     size?: "mini" | "normal";
     className?: string;
+    id: string;
 };
 
 const Tooltip: FC<PropsWithChildren<TooltipProps>> = ({
-    size = "normal",
-    children,
-    contents,
+    size = "mini",
     className,
+    id,
+    children,
+    ...props
 }) => {
-    const id = useId();
+    const [show, setShow] = useState(false);
+
     return (
         <>
-            <div id={id}>{children}</div>
             <ReactTooltip
-                opacity={0.9}
-                delayShow={300}
-                className={classNames(styles.tooltip)}
+                delayShow={200}
+                setIsOpen={setShow}
+                afterShow={() => {
+                    setShow(true);
+                }}
+                afterHide={() => {
+                    setShow(false);
+                }}
+                classNameArrow=""
+                className={classNames(styles.tooltip, { [styles.show!]: show })}
                 anchorSelect={`#${id}`}
+                {...props}
             >
                 <div className={classNames(styles[size], className)}>
-                    {contents}
+                    {children}
                 </div>
             </ReactTooltip>
         </>

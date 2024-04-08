@@ -25,7 +25,7 @@
     justify-center
     bg-info-500
     text-xs
-    text-info-700
+    text-info-100
     shadow-inner
     md:text-sm;
 }

@@ -1,10 +1,14 @@
 .tooltip {
-    @apply !rounded !bg-neutral-950 !p-0 !text-neutral-300 !opacity-90;
+    @apply !scale-75  !rounded !bg-neutral-900 !p-0 !text-neutral-300 !opacity-0 !transition-all;
 
     .mini {
-        @apply !px-3 !py-1.5 text-sm;
+        @apply !px-2 !py-1 text-xs;
     }
     .normal {
-        @apply !px-4 !py-2;
+        @apply !px-4 !py-2 text-sm;
+    }
+
+    &.show {
+        @apply !scale-100 !opacity-100;
     }
 }

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 import Button from "~/components/Common/Button";
 import ProgressBar from "~/components/Common/ProgressBar";
@@ -9,14 +10,6 @@ import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 
 export default function Home() {
-    const [val, setVal] = useState(0);
-    function increment() {
-        setVal((p) => p + 1);
-    }
-    function decrement() {
-        setVal((p) => p - 1);
-    }
-
     return (
         <>
             <Head>
@@ -31,7 +24,7 @@ export default function Home() {
                 <AuthoringLayout>
                     <ProgressBar
                         className="place-self-end"
-                        progress={val}
+                        progress={0}
                         cap={17}
                     />
                     <h1>Completing the Exercise 1</h1>
@@ -58,26 +51,24 @@ export default function Home() {
                         that you had completed.
                     </p>
                     <div className="flex flex-row justify-between">
-                        <Button
-                            onClick={() => {
-                                decrement();
-                            }}
-                            className="place-self-end"
-                            color="neutral"
-                            fill="hollow"
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                increment();
-                            }}
-                            className="place-self-end"
-                            color="neutral"
-                            fill="hollow"
-                        >
-                            Next
-                        </Button>
+                        <Link href={`/past-authoring/`}>
+                            <Button
+                                className="place-self-end"
+                                color="neutral"
+                                fill="hollow"
+                            >
+                                Previous
+                            </Button>
+                        </Link>
+                        <Link href={`/past-authoring/exercise/intro-continued`}>
+                            <Button
+                                className="place-self-end"
+                                color="neutral"
+                                fill="hollow"
+                            >
+                                Next
+                            </Button>
+                        </Link>
                     </div>
                 </AuthoringLayout>
             </BaseLayout>
