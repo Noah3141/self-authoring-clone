@@ -29,7 +29,14 @@ export default function Home() {
             </Head>
             <BaseLayout>
                 <AuthoringLayout>
-                    <h1></h1>
+                    <h1>Completing the Exercise 1</h1>
+
+                    <p>
+                        You can come back to the exercise later, and resume your
+                        work. All your previous work will be waiting for you,
+                        and you will be taken to the last point in the exercise
+                        that you had completed.
+                    </p>
                     <ProgressBar
                         className="place-self-end"
                         progress={val}

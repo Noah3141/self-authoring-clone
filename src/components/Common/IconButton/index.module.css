@@ -1,0 +1,22 @@
+.button {
+    @apply after:absolute-center
+    relative
+    grid
+    size-8
+    place-items-center
+    after:-z-10
+    after:size-0
+    after:rounded-full
+    after:bg-neutral-500
+    after:bg-opacity-10
+    after:transition-all
+    hover:after:size-8;
+
+    svg {
+        @apply absolute-center size-0 text-neutral-500 transition-all hover:text-neutral-700;
+
+        &.active {
+            @apply size-8;
+        }
+    }
+}

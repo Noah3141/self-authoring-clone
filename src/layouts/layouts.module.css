@@ -6,7 +6,41 @@
 }
 
 .homeLayout {
+    @apply mx-auto 
+    grid
+    w-full
+    max-w-5xl
+    gap-8
+    md:flex-row;
+
     section {
-        @apply py-12;
+        @apply p-3 md:p-12;
+    }
+}
+
+.authoringLayout {
+    @apply mx-auto 
+    grid
+    w-full
+    max-w-5xl
+    gap-6
+    px-3
+    py-12
+    md:flex-row;
+
+    section {
+        @apply p-3 md:p-12;
+    }
+    h1 {
+        @apply text-3xl font-medium text-neutral-800;
+    }
+    h2 {
+        @apply text-2xl;
+    }
+    h3 {
+        @apply text-xl;
+    }
+    p {
+        @apply text-neutral-700;
     }
 }

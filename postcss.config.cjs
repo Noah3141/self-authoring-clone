@@ -2,7 +2,7 @@ const config = {
     plugins: {
         "postcss-import": {},
         "tailwindcss/nesting": {},
-        tailwindcss: {},
+        tailwindcss: { config: "./tailwind.config.ts" },
     },
 };
 

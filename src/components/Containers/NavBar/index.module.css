@@ -1,0 +1,29 @@
+.navbar {
+    @apply flex 
+    h-16
+    flex-row
+    items-center 
+    justify-between 
+    overflow-hidden 
+    border
+    border-neutral-300 px-3
+    md:px-0;
+}
+
+.items {
+    @apply mx-auto 
+    flex
+    h-0
+    w-full
+    max-w-5xl
+    flex-col
+    items-center justify-between
+    overflow-hidden
+    px-2
+    transition-all
+    md:h-12 md:flex-row;
+
+    &.expanded {
+        @apply h-12 flex-col md:h-12 md:flex-row;
+    }
+}

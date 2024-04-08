@@ -1,8 +1,9 @@
 .progress-bar {
     @apply relative
     flex
-    h-8
-    max-w-[800px]
+    h-6
+    w-full
+    max-w-full
     items-center
     justify-center
     overflow-hidden
@@ -10,7 +11,8 @@
     bg-neutral-100
     text-center
     shadow-inner
-    transition-all;
+    transition-all
+    md:max-w-[500px];
 }
 
 .progress {
@@ -22,9 +24,10 @@
     items-center
     justify-center
     bg-info-500
-    text-sm
-    text-info-800
-    shadow-inner;
+    text-xs
+    text-info-700
+    shadow-inner
+    md:text-sm;
 }
 
 .bar {
@@ -34,9 +37,15 @@
     -translate-x-1
     items-center
     justify-center
-    overflow-hidden 
-    border
-    border-info-500
-    shadow-[0px_0px_10px_3px_rgba(0,0,0,0.3)]
-    shadow-info-500;
+    shadow-[0px_0px_12px_4px_rgba(0,0,0,0.3)]
+    shadow-info-500
+    after:absolute
+    after:h-full
+    after:w-full
+    after:translate-x-1
+    after:bg-gradient-to-b
+    after:from-transparent
+    after:from-50%
+    after:to-neutral-900
+    after:opacity-20;
 }
