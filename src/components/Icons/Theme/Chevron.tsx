@@ -1,6 +1,6 @@
 import type { FC, SVGProps } from "react";
 
-const ExitIcon: FC<SVGProps<SVGSVGElement>> = ({ ...props }) => {
+const ChevronIcon: FC<SVGProps<SVGSVGElement>> = ({ ...props }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -13,10 +13,10 @@ const ExitIcon: FC<SVGProps<SVGSVGElement>> = ({ ...props }) => {
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M6 18 18 6M6 6l12 12"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
             />
         </svg>
     );
 };
 
-export default ExitIcon;
+export default ChevronIcon;

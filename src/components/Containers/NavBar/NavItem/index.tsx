@@ -18,7 +18,7 @@ const NavItem: FC<PropsWithChildren<NavbarItemProps>> = ({
 }) => {
     return (
         <NextLink
-            className={classNames(styles.item, className)}
+            className={classNames(styles.item, styles.hoverline, className)}
             href={href ?? ""}
         >
             {children}

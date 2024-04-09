@@ -28,7 +28,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <h1></h1>
+                <h1>Main</h1>
                 <ProgressBar
                     className="place-self-end"
                     progress={val}

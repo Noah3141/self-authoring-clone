@@ -1,0 +1,66 @@
+.dropdown {
+    @apply relative z-50;
+
+    .heading {
+        @apply flex
+        cursor-pointer
+        flex-row
+        items-center
+        gap-1
+        px-3
+        py-6
+        hover:text-neutral-900;
+
+        &.hoverline {
+            @apply after:absolute
+            after:left-1/2
+            after:top-full
+            after:h-1
+            after:w-4
+            after:-translate-x-1/2
+            after:-translate-y-full
+            after:rounded-t
+            after:bg-neutral-300
+            after:transition-all
+            hover:text-neutral-900
+            hover:after:w-full
+            hover:after:bg-primary-500;
+        }
+    }
+
+    .icon {
+        @apply size-4 transition-all;
+
+        &.rotate {
+            @apply rotate-180;
+        }
+    }
+
+    .items {
+        @apply pointer-events-none
+        absolute left-1/2
+        top-full
+        -translate-x-1/2
+        translate-y-0
+        scale-90
+        flex-col
+        divide-y
+        divide-neutral-200
+        overflow-hidden
+        rounded
+        border
+        border-neutral-400
+        bg-neutral-50
+        opacity-0
+        shadow-lg
+        transition-all;
+
+        &.expanded {
+            @apply pointer-events-auto h-fit translate-y-3 scale-100  opacity-100;
+        }
+
+        .item {
+            @apply block whitespace-nowrap px-3 py-2 hover:bg-neutral-100;
+        }
+    }
+}

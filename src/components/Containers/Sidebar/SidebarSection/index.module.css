@@ -7,12 +7,12 @@
     origin-left
     -translate-x-full
     flex-col
-    gap-1
+    gap-3
     whitespace-nowrap
     border-r
     border-neutral-300
     bg-neutral-50
-    p-6
+    p-8
     
     transition-all
     duration-300

@@ -1,6 +1,6 @@
 import type { FC, SVGProps } from "react";
 
-const ErrorIcon: FC<SVGProps<SVGSVGElement>> = ({ ...props }) => {
+const GearIcon: FC<SVGProps<SVGSVGElement>> = ({ ...props }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -24,4 +24,4 @@ const ErrorIcon: FC<SVGProps<SVGSVGElement>> = ({ ...props }) => {
     );
 };
 
-export default ErrorIcon;
+export default GearIcon;

@@ -19,7 +19,7 @@ export default {
                 transparent: transparent,
             },
             fontFamily: {
-                sans: ["var(--font-sans)", ...fontFamily.sans],
+                sans: ["Noto Sans Display", ...fontFamily.sans],
             },
         },
     },

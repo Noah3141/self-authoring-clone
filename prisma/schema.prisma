@@ -75,12 +75,11 @@ model PastAuthoring {
 }
 
 model Epoch {
-    id String @id @default(cuid())
-
+    id            String         @id @default(cuid())
     PastAuthoring PastAuthoring? @relation(fields: [userId], references: [userId])
     userId        String?
-
-    experiences Experience[]
+    title         String
+    experiences   Experience[]
 }
 
 model Experience {
