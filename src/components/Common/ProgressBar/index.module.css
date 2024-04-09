@@ -8,6 +8,8 @@
     justify-center
     overflow-hidden
     rounded-lg
+    border
+    border-neutral-300
     bg-neutral-100
     text-center
     shadow-inner

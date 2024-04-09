@@ -1,8 +1,5 @@
 .baseLayout {
-    @apply grid
-    size-full
-    grid-cols-[1fr]
-    grid-rows-[auto_1fr_auto];
+    @apply flex size-full flex-col;
 }
 
 .homeLayout {
@@ -19,14 +16,31 @@
 }
 
 .authoringLayout {
-    @apply mx-auto 
-    grid
-    w-full
-    max-w-5xl
-    gap-6
-    px-3
-    py-12
-    md:flex-row;
+    @apply flex 
+    size-full
+    flex-row
+    overflow-y-hidden;
+
+    .wrapper {
+        @apply h-full 
+        w-full 
+        overflow-y-auto;
+    }
+
+    .content {
+        @apply mx-auto 
+        flex
+        w-full
+        max-w-5xl
+        flex-col
+        gap-6
+        place-self-start
+        overflow-y-auto
+        px-6
+        py-12
+        transition-all
+        sm:px-12;
+    }
 
     section {
         @apply p-3 md:p-12;

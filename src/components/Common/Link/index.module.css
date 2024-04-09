@@ -15,6 +15,12 @@
         hover:after:bg-opacity-20;
     }
 
+    &.neutral {
+        @apply after:bg-neutral-500
+        after:bg-opacity-0 
+        hover:after:bg-opacity-20;
+    }
+
     &.warning {
         @apply after:bg-warning-500
         after:bg-opacity-0 

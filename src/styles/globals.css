@@ -6,6 +6,12 @@
     * {
         scrollbar-width: thin;
     }
+
+    body,
+    html,
+    #__next {
+        @apply !h-[100vh] !min-h-full;
+    }
 }
 
 @layer components {

@@ -28,25 +28,23 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
-                    <h1></h1>
-                    <ProgressBar
-                        className="place-self-end"
-                        progress={val}
-                        cap={17}
-                    ></ProgressBar>
-                    <Textarea maxWords={3000} minLength={5} />
-                    <Button
-                        onClick={() => {
-                            increment();
-                        }}
-                        className="place-self-end"
-                        color="neutral"
-                        fill="hollow"
-                    >
-                        Submit
-                    </Button>
-                </AuthoringLayout>
+                <h1></h1>
+                <ProgressBar
+                    className="place-self-end"
+                    progress={val}
+                    cap={17}
+                ></ProgressBar>
+                <Textarea maxWords={3000} minLength={5} />
+                <Button
+                    onClick={() => {
+                        increment();
+                    }}
+                    className="place-self-end"
+                    color="neutral"
+                    fill="hollow"
+                >
+                    Submit
+                </Button>
             </BaseLayout>
         </>
     );

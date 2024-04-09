@@ -1,0 +1,9 @@
+.sidebar-tile {
+    @apply flex 
+    flex-col 
+    gap-1
+    rounded
+    bg-neutral-200
+    p-3 
+    hover:bg-neutral-300;
+}

@@ -1,16 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
 import Button from "~/components/Common/Button";
 import ProgressBar from "~/components/Common/ProgressBar";
-import Textarea from "~/components/Common/Textarea";
-import Tooltip from "~/components/Common/Tooltip";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
-import { api } from "~/utils/api";
-
-export default function Home() {
+export default function IntroContinued() {
     return (
         <>
             <Head>
@@ -23,13 +18,18 @@ export default function Home() {
             </Head>
             <BaseLayout>
                 <AuthoringLayout>
-                    <ProgressBar
-                        className="place-self-end"
-                        progress={3}
-                        cap={25}
-                    />
-                    <h1>Completing the Exercise 1</h1>
+                    <h1>Completing the Exercise 2</h1>
 
+                    <p>
+                        Text boxes also have a minimum and maximum required
+                        lengths. You will not be able to proceed to the Next or
+                        Previous page when you go have not provided the required
+                        amount. To resolve this, edit your text until the number
+                        of characters is within the range. These limitations
+                        have been established to help you know how much to write
+                        so that you do not get stalled at any point in the
+                        process.
+                    </p>
                     <p>
                         We do encourage you to write in some detail, however,
                         subject to those limitations. Our research indicates
@@ -45,26 +45,29 @@ export default function Home() {
                     </p>
                     <p>
                         You may use the Index to jump to any page you have
-                        already completed. Clicking the [Index] link will open
-                        the index. Clicking it again will close it. Remember to
-                        click Save to save any work on the current page before
-                        using the index to jump to another page.
+                        already completed.
                     </p>
-                    <p id="fo">
+                    <p>
                         After you have completed the exercise, you will be taken
                         to a Summary page. You can use that page to email
                         yourself a copy of your writing.
                     </p>
-                    <Tooltip place={"bottom"} id="fo">
-                        Foo
-                    </Tooltip>
                     <p>
                         Before proceeding with the writing, you will be asked to
-                        read about 1) memory, emotion and stress, 2) the
-                        benefits of writing (and of sleeping in between writing
-                        sessions), and 3) adopting the correct attitude for
-                        beneficial writing.{" "}
+                        read about:
                     </p>
+                    <ol>
+                        <li>1) memory, emotion and stress </li>
+                        <li>
+                            {" "}
+                            2) the benefits of writing (and of sleeping in
+                            between writing sessions)
+                        </li>
+                        <li>
+                            3) adopting the correct attitude for beneficial
+                            writing
+                        </li>
+                    </ol>
                     <div className="flex flex-row justify-between">
                         <Link href={`/past-authoring/exercise/intro`}>
                             <Button
@@ -75,7 +78,9 @@ export default function Home() {
                                 Previous
                             </Button>
                         </Link>
-                        <Link href={`/past-authoring/exercise/intro-continued`}>
+                        <Link
+                            href={`/past-authoring/exercise/memory-emotion-stress`}
+                        >
                             <Button
                                 className="place-self-end"
                                 color="neutral"

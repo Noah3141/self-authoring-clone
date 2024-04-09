@@ -24,11 +24,7 @@ const ProgressBar: FC<ProgressBarProps> = ({ progress, cap, className }) => {
         <>
             <div
                 id={`progress-bar`}
-                className={classNames(
-                    styles["progress-bar"],
-                    className,
-                    "border",
-                )}
+                className={classNames(styles["progress-bar"], className)}
             >
                 <div
                     style={{

@@ -4,25 +4,33 @@ import { type AppType } from "next/app";
 import { Inter } from "next/font/google";
 
 import { api } from "~/utils/api";
+import { SidebarStateContext } from "~/server/contexts";
 
 import "~/styles/globals.css";
+import { useState } from "react";
 
 const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
+    subsets: ["latin"],
+    variable: "--font-sans",
 });
 
 const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
+    Component,
+    pageProps: { session, ...pageProps },
 }) => {
-  return (
-    <SessionProvider session={session}>
-      <main className={`font-sans ${inter.variable}`}>
-        <Component {...pageProps} />
-      </main>
-    </SessionProvider>
-  );
+    const [expanded, setExpanded] = useState({});
+
+    return (
+        <SessionProvider session={session}>
+            <SidebarStateContext.Provider value={{ expanded, setExpanded }}>
+                <main
+                    className={`font-sans ${inter.variable} h-full overflow-y-auto`}
+                >
+                    <Component {...pageProps} />
+                </main>
+            </SidebarStateContext.Provider>
+        </SessionProvider>
+    );
 };
 
 export default api.withTRPC(MyApp);

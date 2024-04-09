@@ -2,12 +2,11 @@ import React, { type FC } from "react";
 import NextLink from "next/link";
 import classNames from "classnames";
 import styles from "./index.module.css";
-import { type Color } from "~/styles/types";
 
 type LinkProps = {
     children: React.ReactNode;
     href?: string;
-    color?: Color;
+    color?: "primary" | "neutral";
 };
 
 const Link: FC<LinkProps> = ({ href, color = "primary", children }) => {

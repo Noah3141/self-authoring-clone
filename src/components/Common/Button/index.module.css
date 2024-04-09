@@ -1,6 +1,18 @@
 .button {
-    @apply flex h-fit w-fit cursor-pointer flex-row whitespace-nowrap rounded-lg px-3 py-2
-    transition-all ease-out hover:shadow disabled:cursor-default;
+    @apply relative
+    z-0
+    flex
+    h-fit
+    w-fit
+    cursor-pointer
+    flex-row
+    whitespace-nowrap
+    rounded-lg
+    px-3 py-2
+    transition-all
+    ease-out
+    hover:shadow
+    disabled:cursor-default;
 
     div {
         @apply relative z-10 flex shrink-0 flex-row gap-2 whitespace-nowrap;

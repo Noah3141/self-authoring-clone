@@ -8,10 +8,10 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     className?: string;
 };
 
-function wordsIn(text: string): number {
-    if (text === "") return 0;
-    return text.replaceAll("  ", " ").split(" ").length;
-}
+// function wordsIn(text: string): number {
+//     if (text === "") return 0;
+//     return text.replaceAll("  ", " ").split(" ").length;
+// }
 
 const Textarea: FC<TextareaProps> = ({ maxWords, ...props }) => {
     const [wordCount, setWordCount] = useState(0);
@@ -20,7 +20,7 @@ const Textarea: FC<TextareaProps> = ({ maxWords, ...props }) => {
         <div className="relative block w-full">
             <textarea
                 onChange={(e) => {
-                    setWordCount(wordsIn(e.target.value));
+                    setWordCount(e.target.value.length);
                 }}
                 className={classNames(
                     styles.textarea,

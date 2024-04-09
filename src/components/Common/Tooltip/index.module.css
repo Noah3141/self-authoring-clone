@@ -1,5 +1,5 @@
 .tooltip {
-    @apply !scale-75  !rounded !bg-neutral-900 !p-0 !text-neutral-300 !opacity-0 !transition-all;
+    @apply z-50 !scale-75 !rounded !bg-neutral-900 !p-0 !text-neutral-300 !opacity-0 !transition-transform;
 
     .mini {
         @apply !px-2 !py-1 text-xs;
@@ -9,6 +9,6 @@
     }
 
     &.show {
-        @apply !scale-100 !opacity-100;
+        @apply !scale-100 !opacity-90;
     }
 }

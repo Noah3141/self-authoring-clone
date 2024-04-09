@@ -1,5 +1,6 @@
 .navbar {
-    @apply flex 
+    @apply z-50 
+    flex
     h-16
     flex-row
     items-center 
