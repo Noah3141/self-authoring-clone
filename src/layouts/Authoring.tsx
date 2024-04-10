@@ -2,7 +2,8 @@ import type { FC, PropsWithChildren } from "react";
 
 import styles from "./layouts.module.css";
 import ProgressBar from "~/components/Common/ProgressBar";
-import WithSidebar from "~/components/Inc/withSidebar";
+import { useRouter } from "next/router";
+import Sidebar from "~/components/Containers/Sidebar";
 
 type AuthoringLayoutProps = {
     //
@@ -10,16 +11,26 @@ type AuthoringLayoutProps = {
 
 const AuthoringLayout: FC<PropsWithChildren<AuthoringLayoutProps>> = ({
     children,
-}) => (
-    <div className={styles.authoringLayout}>
-        <WithSidebar />
-        <div className={styles.wrapper}>
-            <div className={styles.content}>
-                <ProgressBar className="place-self-end" progress={0} cap={17} />
-                {children}
+}) => {
+    const router = useRouter();
+
+    const suite = router.pathname.split("/")[2] ?? "";
+
+    return (
+        <div className={styles.authoringLayout}>
+            <Sidebar suite={suite} />
+            <div className={styles.wrapper}>
+                <div className={styles.content}>
+                    <ProgressBar
+                        className="place-self-end"
+                        progress={0}
+                        cap={17}
+                    />
+                    {children}
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 export default AuthoringLayout;

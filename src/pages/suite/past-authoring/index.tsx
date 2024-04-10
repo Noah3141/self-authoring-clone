@@ -36,7 +36,7 @@ const PastAuthoringPage = () => {
                         already entered for this exercise, by clicking here.
                     </p>
 
-                    <Link href={`/past-authoring/exercise/intro`}>
+                    <Link href={`/suite/past-authoring/exercise/intro`}>
                         <Button
                             className="mx-auto !px-12"
                             color="primary"

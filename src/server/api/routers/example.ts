@@ -3,10 +3,10 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const GetExampleSchema = z.object({ exampleId: z.string() });
-type GetExampleOpts = z.infer<typeof GetExampleSchema>;
+export type GetExampleOpts = z.infer<typeof GetExampleSchema>;
 
 export const UpdateExampleSchema = z.object({});
-type UpdateExampleOpts = z.infer<typeof UpdateExampleSchema>;
+export type UpdateExampleOpts = z.infer<typeof UpdateExampleSchema>;
 
 export const exampleRouter = createTRPCRouter({
     get: protectedProcedure

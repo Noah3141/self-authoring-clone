@@ -19,14 +19,12 @@ import LoadingSpinner from "~/components/Common/LoadingSpinner";
 
 /** Used by variants of the sidebar */
 export type SidebarProps = {
-    navigation: (typeof Tile)[];
+    suite: string;
 };
 
-const Sidebar: FC<SidebarProps> = ({ navigation }) => {
+const Sidebar: FC<SidebarProps> = ({ suite }) => {
     const { data, status } = useSession();
-
     const { expanded, setExpanded } = useSidebarContext();
-    const suite = useRouter().pathname.split("/")[1];
 
     return (
         <nav className={styles.sidebar}>
@@ -91,7 +89,7 @@ const PastAuthoringNavigation = () => {
         api.user.epochs.all.useQuery();
 
     if (userEpochsStatus == "pending") return <LoadingSpinner />;
-    if (userEpochsStatus == "error") return "Not found";
+    if (userEpochsStatus == "error") return "Error encountered!";
 
     return (
         <>

@@ -19,6 +19,7 @@ export default function Home() {
             </Head>
             <BaseLayout>
                 <AuthoringLayout>
+                    
                     <h1>Completing the Exercise 1</h1>
                     <p>
                         Welcome to the Past Authoring (Autobiography) component
@@ -43,7 +44,7 @@ export default function Home() {
                         that you had completed.
                     </p>
                     <div className="flex w-full flex-row justify-between">
-                        <Link href={`/past-authoring/`}>
+                        <Link href={`/suite/past-authoring/`}>
                             <Button
                                 className="place-self-end"
                                 color="neutral"

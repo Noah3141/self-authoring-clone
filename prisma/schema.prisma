@@ -59,9 +59,9 @@ model User {
     sessions      Session[]
 
     pastAuthoring    PastAuthoring?
-    Experience       Experience[]
+    experiences      Experience[]
     // A users list of past authoring experiences
-    ExtendedAnalysis ExtendedAnalysis[]
+    extendedAnalysis ExtendedAnalysis[]
     // An experience that the user has chosen to go into more depth on
 
     futureAuthoring FutureAuthoring?
@@ -75,9 +75,9 @@ model PastAuthoring {
 }
 
 model Epoch {
-    id            String         @id @default(cuid())
-    PastAuthoring PastAuthoring? @relation(fields: [userId], references: [userId])
-    userId        String?
+    id            String        @id @default(cuid())
+    pastAuthoring PastAuthoring @relation(fields: [userId], references: [userId])
+    userId        String
     title         String
     experiences   Experience[]
 }
@@ -148,4 +148,10 @@ model Goal {
     description     String
     FutureAuthoring FutureAuthoring? @relation(fields: [userId], references: [userId])
     userId          String?
+
+    // Evaluating your motives
+    motiveAnalysis    String
+    impactAnalysis    String
+    strategicAnalysis String
+    obstacleAnalysis  String
 }

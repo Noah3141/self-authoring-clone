@@ -3,10 +3,10 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const GetExperienceSchema = z.object({ experienceId: z.string() });
-type GetExperienceOpts = z.infer<typeof GetExperienceSchema>;
+export type GetExperienceOpts = z.infer<typeof GetExperienceSchema>;
 
 export const UpdateExperienceSchema = z.object({});
-type UpdateExperienceOpts = z.infer<typeof UpdateExperienceSchema>;
+export type UpdateExperienceOpts = z.infer<typeof UpdateExperienceSchema>;
 
 export const experienceRouter = createTRPCRouter({
     get: protectedProcedure

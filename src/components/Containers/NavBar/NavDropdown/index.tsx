@@ -8,14 +8,14 @@ import useClickOutside from "~/hooks/useClickOutside";
 
 type NavDropdownProps = {
     heading: string;
-    href: string;
+    href?: string;
     items: {
         text: string;
         href: string;
     }[];
 };
 
-const NavDropdown: FC<NavDropdownProps> = ({ heading, items }) => {
+const NavDropdown: FC<NavDropdownProps> = ({ heading, href, items }) => {
     const [expanded, setExpanded] = useState(false);
 
     // const dropdownRef = useRef(null);
@@ -34,14 +34,17 @@ const NavDropdown: FC<NavDropdownProps> = ({ heading, items }) => {
             // ref={dropdownRef}
             className={styles.dropdown}
         >
-            <div className={classNames(styles.heading, styles.hoverline)}>
+            <Link
+                className={classNames(styles.heading, styles.hoverline)}
+                href={href ?? "#"}
+            >
                 <h1>{heading}</h1>
                 <ChevronIcon
                     className={classNames(styles.icon, {
                         [styles.rotate!]: expanded,
                     })}
                 />
-            </div>
+            </Link>
             <div
                 className={classNames(styles.items, {
                     [styles.expanded!]: expanded,

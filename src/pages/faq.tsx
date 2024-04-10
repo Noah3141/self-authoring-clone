@@ -2,25 +2,25 @@ import Head from "next/head";
 import React from "react";
 import Textarea from "~/components/Common/Textarea";
 import BaseLayout from "~/layouts/Base";
+import HomeLayout from "~/layouts/Home";
 
-const faq = () => {
+const FaqPage = () => {
     return (
         <>
             <Head>
-                <title></title>
+                <title>FAQ</title>
                 <meta
                     name="description"
-                    content="Map Your Life & Chart Your Course"
+                    content="Frequently asked questions about Self Authoring"
                 />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <h1>Faq</h1>
-
-                <Textarea maxWords={3000} minLength={5} />
+                <HomeLayout>
+                    <h1>FAQ</h1>
+                </HomeLayout>
             </BaseLayout>
         </>
     );
 };
 
-export default faq;
+export default FaqPage;

@@ -4,11 +4,15 @@
 
 .homeLayout {
     @apply mx-auto 
-    grid
+    flex
     w-full
     max-w-5xl
-    gap-8
-    md:flex-row;
+    flex-col
+    py-12;
+
+    h1 {
+        @apply text-3xl font-semibold;
+    }
 
     section {
         @apply p-3 md:p-12;

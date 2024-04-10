@@ -15,7 +15,7 @@ const Link: FC<LinkProps> = ({ href, color = "primary", children }) => {
             className={classNames(styles.link, styles[color])}
             href={href ?? "#"}
         >
-            <div className={classNames(styles.text)}>{children}</div>
+            {children}
         </NextLink>
     );
 };

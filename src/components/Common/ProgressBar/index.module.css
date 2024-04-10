@@ -47,7 +47,6 @@
     after:translate-x-1
     after:bg-gradient-to-b
     after:from-transparent
-    after:from-50%
     after:to-neutral-900
-    after:opacity-20;
+    after:opacity-15;
 }

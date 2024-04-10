@@ -3,6 +3,7 @@ import { epochRouter } from "./routers/epoch";
 import { experienceRouter } from "./routers/experience";
 import { extendedAnalysisRouter } from "./routers/extendedAnalysis";
 import { userRouter } from "./routers/user";
+import { suiteRouter } from "./routers/suite";
 
 /**
  * This is the primary router for your server.
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
     epoch: epochRouter,
     user: userRouter,
     experience: experienceRouter,
+    suite: suiteRouter,
     extendedAnalysis: extendedAnalysisRouter,
 });
 

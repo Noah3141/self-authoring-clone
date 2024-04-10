@@ -33,8 +33,9 @@ const DesktopNav: FC<NavbarProps> = ({ session }) => {
                     <NavItem href="/">Self Authoring v2 Desktop</NavItem>
                 </section>
                 <section>
-                    <NavItem href="/">My Work</NavItem>
+                    <NavItem href="/dashboard">My Work</NavItem>
                     <NavDropdown
+                        href="/products"
                         heading="Products"
                         items={[
                             {

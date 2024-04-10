@@ -1,26 +1,12 @@
 import Head from "next/head";
-import { useState } from "react";
-import Button from "~/components/Common/Button";
-import ProgressBar from "~/components/Common/ProgressBar";
-import Textarea from "~/components/Common/Textarea";
-import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
+import HomeLayout from "~/layouts/Home";
 
-import { api } from "~/utils/api";
-
-export default function Home() {
-    const [val, setVal] = useState(0);
-    function increment() {
-        setVal((p) => p + 1);
-    }
-    function decrement() {
-        setVal((p) => p - 1);
-    }
-
+export default function HomePage() {
     return (
         <>
             <Head>
-                <title></title>
+                <title>Self Authoring</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
@@ -28,23 +14,10 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <h1>Main</h1>
-                <ProgressBar
-                    className="place-self-end"
-                    progress={val}
-                    cap={17}
-                ></ProgressBar>
-                <Textarea maxWords={3000} minLength={5} />
-                <Button
-                    onClick={() => {
-                        increment();
-                    }}
-                    className="place-self-end"
-                    color="neutral"
-                    fill="hollow"
-                >
-                    Submit
-                </Button>
+                <HomeLayout>
+                    <h1>Main</h1>
+                    <section></section>
+                </HomeLayout>
             </BaseLayout>
         </>
     );
