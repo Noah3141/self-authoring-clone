@@ -3,7 +3,7 @@ import React from "react";
 import Textarea from "~/components/Common/Textarea";
 import BaseLayout from "~/layouts/Base";
 
-const OprahMagazine = () => {
+const TermsOfService = () => {
     return (
         <>
             <Head>
@@ -23,4 +23,4 @@ const OprahMagazine = () => {
     );
 };
 
-export default OprahMagazine;
+export default TermsOfService;

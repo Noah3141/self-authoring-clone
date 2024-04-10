@@ -8,6 +8,7 @@ import useClickOutside from "~/hooks/useClickOutside";
 
 type NavDropdownProps = {
     heading: string;
+    href: string;
     items: {
         text: string;
         href: string;
@@ -17,19 +18,23 @@ type NavDropdownProps = {
 const NavDropdown: FC<NavDropdownProps> = ({ heading, items }) => {
     const [expanded, setExpanded] = useState(false);
 
-    const dropdownRef = useRef(null);
-    useClickOutside(dropdownRef, () => {
-        setExpanded(false);
-    });
+    // const dropdownRef = useRef(null);
+    // useClickOutside(dropdownRef, () => {
+    //     setExpanded(false);
+    // });
 
     return (
-        <div ref={dropdownRef} className={styles.dropdown}>
-            <div
-                onClick={() => {
-                    setExpanded((p) => !p);
-                }}
-                className={classNames(styles.heading, styles.hoverline)}
-            >
+        <div
+            onMouseOver={() => {
+                setExpanded(true);
+            }}
+            onMouseLeave={() => {
+                setExpanded(false);
+            }}
+            // ref={dropdownRef}
+            className={styles.dropdown}
+        >
+            <div className={classNames(styles.heading, styles.hoverline)}>
                 <h1>{heading}</h1>
                 <ChevronIcon
                     className={classNames(styles.icon, {
@@ -50,6 +55,11 @@ const NavDropdown: FC<NavDropdownProps> = ({ heading, items }) => {
                     );
                 })}
             </div>
+            <div
+                className={classNames(styles["hover-panel"], {
+                    [styles.expanded!]: expanded,
+                })}
+            ></div>
         </div>
     );
 };

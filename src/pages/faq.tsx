@@ -3,7 +3,7 @@ import React from "react";
 import Textarea from "~/components/Common/Textarea";
 import BaseLayout from "~/layouts/Base";
 
-const OprahMagazine = () => {
+const faq = () => {
     return (
         <>
             <Head>
@@ -15,7 +15,7 @@ const OprahMagazine = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <h1>Main</h1>
+                <h1>Faq</h1>
 
                 <Textarea maxWords={3000} minLength={5} />
             </BaseLayout>
@@ -23,4 +23,4 @@ const OprahMagazine = () => {
     );
 };
 
-export default OprahMagazine;
+export default faq;

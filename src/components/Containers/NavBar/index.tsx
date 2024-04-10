@@ -37,17 +37,53 @@ const DesktopNav: FC<NavbarProps> = ({ session }) => {
                     <NavDropdown
                         heading="Products"
                         items={[
-                            { href: "/", text: "Past Authoring" },
-                            { href: "/", text: "Future Authoring" },
+                            {
+                                href: "/products/past-authoring",
+                                text: "Past Authoring",
+                            },
+                            {
+                                href: "/products/future-authoring",
+                                text: "Future Authoring",
+                            },
+                            {
+                                href: "/products/buy-it-for-a-friend",
+                                text: "Buy it for a friend",
+                            },
+                            {
+                                href: "/products/redeem-a-voucher",
+                                text: "Redeem a voucher",
+                            },
                         ]}
                     />
                     <NavDropdown
                         heading="More"
-                        items={[{ href: "/", text: "" }]}
+                        items={[
+                            { href: "/faq", text: "FAQ" },
+                            { href: "/privacy", text: "Privacy" },
+                            {
+                                href: "/terms-of-service",
+                                text: "Terms of Service",
+                            },
+                            { href: "/research", text: "Research" },
+                        ]}
                     />
                     <NavDropdown
                         heading="Media"
-                        items={[{ href: "/", text: "" }]}
+                        items={[
+                            {
+                                href: "/media/james-pennebaker",
+                                text: "James Pennebaker",
+                            },
+                            { href: "/media/npr", text: "NPR" },
+                            {
+                                href: "/media/oprah-magazine",
+                                text: "Oprah Magazine",
+                            },
+                            {
+                                href: "/media/steve-hilton",
+                                text: "Steve Hilton",
+                            },
+                        ]}
                     />
                     {!!session?.user ? (
                         <NavDropdown

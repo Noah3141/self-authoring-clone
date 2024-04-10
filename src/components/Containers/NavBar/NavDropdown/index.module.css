@@ -49,7 +49,7 @@
         overflow-hidden
         rounded
         border
-        border-neutral-400
+        border-neutral-500
         bg-neutral-50
         opacity-0
         shadow-lg
@@ -60,7 +60,14 @@
         }
 
         .item {
-            @apply block whitespace-nowrap px-3 py-2 hover:bg-neutral-100;
+            @apply block whitespace-nowrap px-4 py-2 hover:bg-neutral-100;
+        }
+    }
+    .hover-panel {
+        @apply absolute left-1/2 -z-10 w-full -translate-x-1/2 scale-0   p-3;
+
+        &.expanded {
+            @apply scale-100;
         }
     }
 }
