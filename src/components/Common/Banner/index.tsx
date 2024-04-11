@@ -1,10 +1,9 @@
 import React, { DetailedHTMLProps, type FC } from "react";
-import { type ColorType } from "~/styles/types";
 import styles from "./index.module.css";
 import classNames from "classnames";
 
 type BannerProps = {
-    kind?: ColorType;
+    kind?: "primary";
     children: React.ReactNode;
     className?: string;
 };
