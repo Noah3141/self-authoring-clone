@@ -32,21 +32,22 @@
     }
 
     .icon {
-        @apply absolute
-        right-2
+        @apply pointer-events-none
+        absolute
+        right-1
         top-1/2
         grid
-        h-fit
-        w-fit
+        size-6
         -translate-y-1/2
         scale-90
-        place-items-center
         
-        opacity-0 
+        place-items-center 
+        opacity-0
         transition-all;
 
         &.visible {
-            @apply !scale-100 
+            @apply pointer-events-auto 
+            !scale-100
             !opacity-90;
         }
     }

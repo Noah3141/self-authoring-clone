@@ -46,7 +46,7 @@ export default function DescriptionPage() {
                         people have written less.
                     </p>
 
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between pt-6">
                         <Link
                             href={`/suite/past-authoring/exercise/attitude-while-writing`}
                         >

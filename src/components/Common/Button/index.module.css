@@ -8,19 +8,54 @@
     flex-row
     whitespace-nowrap
     rounded-lg
-    px-3 py-2
     transition-all
     ease-out
     hover:shadow
     disabled:cursor-default;
 
-    div {
+    &.small {
+        @apply px-3 py-1;
+    }
+    &.normal {
+        @apply px-3 py-2;
+    }
+    &.square {
+        @apply p-1;
+    }
+
+    .container {
         @apply relative z-10 flex shrink-0 flex-row gap-2 whitespace-nowrap;
+
+        .loader {
+            @apply absolute left-1/2 grid -translate-x-1/2 place-items-center;
+        }
+
+        .contents {
+            @apply scale-0 transition-all;
+
+            &.visible {
+                @apply scale-100;
+            }
+        }
     }
 
     &.clicked {
         @apply translate-y-[3px] shadow-none;
     }
+
+    /* Blank */
+
+    &.blank-neutral {
+        @apply border border-neutral-300 bg-neutral-500 bg-opacity-0 text-neutral-500 opacity-90 hover:bg-opacity-15 hover:opacity-100;
+    }
+    &.blank-primary {
+        @apply border border-primary-300 bg-primary-500 bg-opacity-0 text-primary-500 opacity-90 hover:bg-opacity-15 hover:opacity-100;
+    }
+    &.blank-danger {
+        @apply border border-danger-300 bg-danger-500 bg-opacity-0 text-danger-500 opacity-90 hover:bg-opacity-15 hover:opacity-100;
+    }
+
+    /* Hollow */
 
     &.hollow-neutral {
         @apply border border-neutral-300 bg-neutral-50 text-neutral-600 hover:border-neutral-500 hover:text-neutral-800;
@@ -28,6 +63,11 @@
     &.hollow-primary {
         @apply border border-primary-500 bg-primary-500 bg-opacity-15 text-primary-500 hover:bg-opacity-100 hover:text-neutral-50;
     }
+    &.hollow-danger {
+        @apply border border-danger-500 bg-danger-500 bg-opacity-15 text-danger-500 hover:bg-opacity-100 hover:text-neutral-50;
+    }
+
+    /* Filled */
 
     &.filled-neutral {
         @apply bg-neutral-950 text-neutral-100 hover:bg-primary-500 hover:text-neutral-50;
@@ -35,6 +75,11 @@
     &.filled-primary {
         @apply bg-primary-500 text-neutral-50 hover:bg-primary-600;
     }
+    &.filled-danger {
+        @apply bg-danger-500 text-neutral-50 hover:bg-danger-600;
+    }
+
+    /* Splash */
 
     &.splash-neutral {
         @apply relative overflow-hidden border border-neutral-400 bg-neutral-200 text-neutral-700 after:absolute after:left-1/2
@@ -45,5 +90,10 @@
         @apply relative overflow-hidden border-none bg-neutral-950 text-neutral-50 outline-none after:absolute after:left-1/2
         after:top-1/2 after:z-0 after:h-[500%] after:w-full after:origin-center after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-6 after:scale-x-0 
         after:bg-primary-500 after:transition-all after:ease-out  hover:bg-primary-500 hover:text-primary-950 hover:after:scale-x-105;
+    }
+    &.splash-danger {
+        @apply relative overflow-hidden border-none bg-neutral-950 text-neutral-50 outline-none after:absolute after:left-1/2
+        after:top-1/2 after:z-0 after:h-[500%] after:w-full after:origin-center after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-6 after:scale-x-0 
+        after:bg-danger-500 after:transition-all after:ease-out  hover:bg-danger-500 hover:text-danger-950 hover:after:scale-x-105;
     }
 }

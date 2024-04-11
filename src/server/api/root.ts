@@ -7,6 +7,8 @@ import { suiteRouter } from "./routers/suite";
 import { getOrCreateRouter } from "./routers/getOrCreate";
 import { getRouter } from "./routers/get";
 import { updateRouter } from "./routers/update";
+import { deleteRouter } from "./routers/delete";
+import { createRouter } from "./routers/create";
 
 /**
  * This is the primary router for your server.
@@ -21,6 +23,8 @@ export const appRouter = createTRPCRouter({
     extendedAnalysis: extendedAnalysisRouter,
 
     get: getRouter,
+    delete: deleteRouter,
+    create: createRouter,
     getOrCreate: getOrCreateRouter,
     update: updateRouter,
 });

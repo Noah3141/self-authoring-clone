@@ -6,18 +6,27 @@ import React, {
 } from "react";
 import styles from "./index.module.css";
 import classNames from "classnames";
+import LoadingIcon from "~/components/Icons/Theme/LoadingIcon";
+import SuccessIcon from "~/components/Icons/Theme/SuccessIcon";
+import ExclamationIcon from "~/components/Icons/Theme/ExclamationIcon";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-    fill?: "hollow" | "filled" | "splash";
-    color?: "primary" | "neutral";
+    size?: "small" | "normal" | "square";
+    fill?: "hollow" | "filled" | "splash" | "blank";
+    color?: "primary" | "neutral" | "danger";
+    status?: "idle" | "pending" | "error" | "success";
+    iconSolid?: boolean;
     className?: string;
 };
 
 const Button: FC<PropsWithChildren<ButtonProps>> = ({
     children,
     className,
-    fill = "hollow",
+    status = "idle",
+    size = "normal",
+    fill = "blank",
     color = "neutral",
+    iconSolid = false,
     ...props
 }) => {
     const [mouseDown, setMouseDown] = useState(false);
@@ -26,6 +35,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
             onMouseDown={() => {
                 setMouseDown(true);
             }}
+            disabled={status !== "idle"}
             onMouseUp={() => {
                 setMouseDown(false);
             }}
@@ -34,6 +44,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
             }}
             className={classNames(
                 styles.button,
+                styles[size],
                 styles[`${fill}-${color}`],
                 {
                     [styles.clicked!]: mouseDown,
@@ -42,7 +53,37 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
             )}
             {...props}
         >
-            <div>{children}</div>
+            <div className={styles.container}>
+                <div
+                    className={classNames(styles.contents, {
+                        [styles.visible!]: status === "idle",
+                    })}
+                >
+                    {children}
+                </div>
+
+                <div
+                    className={classNames(styles.loader, styles.contents, {
+                        [styles.visible!]: status === "pending",
+                    })}
+                >
+                    <LoadingIcon size={14} />
+                </div>
+                <div
+                    className={classNames(styles.loader, styles.contents, {
+                        [styles.visible!]: status === "success",
+                    })}
+                >
+                    <SuccessIcon solid={iconSolid} size={24} />
+                </div>
+                <div
+                    className={classNames(styles.loader, styles.contents, {
+                        [styles.visible!]: status == "error",
+                    })}
+                >
+                    <ExclamationIcon solid={iconSolid} size={24} />
+                </div>
+            </div>
         </button>
     );
 };

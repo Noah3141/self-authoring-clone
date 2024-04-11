@@ -54,7 +54,7 @@ export default function AttitudeWhileWritingPage() {
                         be a deeply personal document.{" "}
                     </p>
 
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between pt-6">
                         <Link href={`/suite/past-authoring/exercise/sleeping`}>
                             <Button
                                 className="place-self-end"

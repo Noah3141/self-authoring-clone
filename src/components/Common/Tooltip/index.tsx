@@ -23,14 +23,12 @@ const Tooltip: FC<PropsWithChildren<TooltipProps>> = ({
             <ReactTooltip
                 delayShow={200}
                 setIsOpen={setShow}
-                afterShow={() => {
-                    setShow(true);
-                }}
-                afterHide={() => {
-                    setShow(false);
-                }}
-                classNameArrow=""
-                className={classNames(styles.tooltip, { [styles.show!]: show })}
+                isOpen={show}
+                className={classNames(
+                    styles.tooltip,
+                    { [styles.show!]: show },
+                    styles[props.place!],
+                )}
                 anchorSelect={`#${id}`}
                 {...props}
             >

@@ -67,7 +67,7 @@ export default function IntroContinued() {
                             writing
                         </li>
                     </ol>
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between pt-6">
                         <Link href={`/suite/past-authoring/exercise/intro`}>
                             <Button
                                 className="place-self-end"

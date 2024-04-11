@@ -68,7 +68,7 @@ export default function Writing() {
                         challenges of the present and the future.
                     </p>
 
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between pt-6">
                         <Link
                             href={`/suite/past-authoring/exercise/memory-emotion-stress`}
                         >

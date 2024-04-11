@@ -72,9 +72,10 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                     )}
                 </SidebarSection>
 
-                <SidebarSection expanded={!!expanded.settings} id="settings">
-                    <Tile></Tile>
-                </SidebarSection>
+                <SidebarSection
+                    expanded={!!expanded.settings}
+                    id="settings"
+                ></SidebarSection>
             </div>
         </nav>
     );
@@ -97,13 +98,9 @@ const PastAuthoringNavigation = () => {
                     RENAME AND SORT INTRO PARTS
 
                     */}
-                <Link
-                    className="pb-1"
-                    color="neutral"
-                    href={`/suite/past-authoring/exercise/intro`}
-                >
+                <Subtile main href={`/suite/past-authoring/exercise/intro`}>
                     Intro
-                </Link>
+                </Subtile>
                 <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise 1
                 </Subtile>
@@ -135,42 +132,34 @@ const PastAuthoringNavigation = () => {
                 </Subtile>
             </Tile>
             <Tile>
-                <Link
-                    color="neutral"
-                    href={`/suite/past-authoring/exercise/epochs`}
-                >
+                <Subtile main href={`/suite/past-authoring/exercise/epochs`}>
                     Epochs
-                </Link>
+                </Subtile>
 
                 {userEpochs.map((epoch, i) => {
-                    return (
-                        <Subtile
-                            key={i}
-                            href={`/suite/past-authoring/exercise/epochs/`}
-                        >
-                            {epoch.title}
-                        </Subtile>
-                    );
+                    if (epoch.title)
+                        return (
+                            <Subtile
+                                key={i}
+                                href={`/suite/past-authoring/exercise/epochs/`}
+                            >
+                                {epoch.title}
+                            </Subtile>
+                        );
                 })}
             </Tile>
             <Tile>
-                <Link
-                    color="neutral"
-                    href={`/suite/past-authoring/exercise/intro`}
-                >
+                <Subtile main href={`/suite/past-authoring/exercise/intro`}>
                     Impact of Experiences
-                </Link>
+                </Subtile>
                 <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise
                 </Subtile>
             </Tile>
             <Tile>
-                <Link
-                    color="neutral"
-                    href={`/suite/past-authoring/exercise/intro`}
-                >
+                <Subtile main href={`/suite/past-authoring/exercise/intro`}>
                     Select for Analysis
-                </Link>
+                </Subtile>
                 <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise
                 </Subtile>

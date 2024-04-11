@@ -92,7 +92,7 @@ model Experience {
     userId String
     user   User   @relation(fields: [userId], references: [id])
 
-    epoch   Epoch  @relation(fields: [epochId], references: [id])
+    epoch   Epoch  @relation(fields: [epochId], references: [id], onDelete: Cascade)
     epochId String
 
     title       String?
@@ -109,7 +109,7 @@ model ExtendedAnalysis {
     userId String
     user   User   @relation(fields: [userId], references: [id])
 
-    experience   Experience @relation(fields: [experienceId], references: [id])
+    experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
     experienceId String     @id
 
     eventAnalysis  String?

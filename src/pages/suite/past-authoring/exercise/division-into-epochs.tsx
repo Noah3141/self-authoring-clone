@@ -6,14 +6,41 @@ import toast from "react-hot-toast";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import TextInput from "~/components/Common/TextInput";
+import Tooltip from "~/components/Common/Tooltip";
+import TrashIcon from "~/components/Icons/Theme/TrashIcon";
 import SomethingsWrong from "~/components/Partials/SomethingsWrong";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 
 export default function DescriptionPage() {
+    const apiState = api.useUtils();
+
     const { data: epochs, status: epochsStatus } =
         api.getOrCreate.epochs.byUser.useQuery();
+
+    const {
+        mutate: addEpoch,
+        status,
+        reset,
+    } = api.create.epoch.push.useMutation({
+        onMutate: () => {
+            toast.loading("Adding epoch...", { id: "add-epoch-toast" });
+        },
+        onSuccess: async () => {
+            toast.success("Epoch added.", { id: "add-epoch-toast" });
+            await apiState.getOrCreate.epochs.byUser.invalidate();
+            setTimeout(() => {
+                reset();
+            }, 3000);
+        },
+        onError: () => {
+            toast.error("Something went wrong.", { id: "add-epoch-toast" });
+            setTimeout(() => {
+                reset();
+            }, 3000);
+        },
+    });
 
     if (epochsStatus == "pending") {
         return <LoadingSpinner />;
@@ -40,10 +67,24 @@ export default function DescriptionPage() {
                         Please divide your experiences into seven time periods
                         that represent your life so far:{" "}
                     </p>
-                    {epochs.map((epoch, i) => {
-                        return <EpochWizard key={i} epoch={epoch} />;
-                    })}
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-col gap-6">
+                        {epochs.map((epoch, i) => {
+                            return <EpochWizard key={i} epoch={epoch} />;
+                        })}
+                    </div>
+                    <div className="self-center pt-3">
+                        <Button
+                            status={status}
+                            onClick={() => {
+                                addEpoch();
+                            }}
+                            fill="blank"
+                            color="primary"
+                        >
+                            Add Epoch
+                        </Button>
+                    </div>
+                    <div className="flex flex-row justify-between pt-6">
                         <Link href={`/suite/past-authoring/exercise/intro`}>
                             <Button
                                 className="place-self-end"
@@ -87,27 +128,59 @@ const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
         onError: (e) => toast.error(e.message, { id: "update-title-toast" }),
     });
 
+    const {
+        mutate: deleteEpoch,
+        status: deleteStatus,
+        reset: resetDeletion,
+    } = api.delete.epoch.byId.useMutation({
+        onSuccess: async () => {
+            toast.success("Epoch removed!");
+            await apiState.getOrCreate.epochs.invalidate();
+            setTimeout(() => {
+                resetDeletion();
+            }, 3000);
+        },
+    });
+
     return (
         <div className="flex flex-col gap-3">
             <h2>Epoch {epoch.order}</h2>
-            <TextInput
-                status={status}
-                value={input}
-                maxLength={100}
-                placeholder="Title"
-                className="w-full"
-                setValue={setInput}
-                onFinishedTyping={() => {
-                    reset();
-
-                    if (epoch.title !== input) {
-                        updateEpochTitle({
-                            epochId: epoch.id,
-                            title: input,
-                        });
-                    }
-                }}
-            />
+            <div className="flex flex-row items-center gap-3">
+                <TextInput
+                    status={status}
+                    value={input}
+                    maxLength={100}
+                    placeholder="Title"
+                    className="w-full"
+                    setValue={setInput}
+                    tooltips={{ success: "Saved.", error: "Could not update!" }}
+                    onFinishedTyping={() => {
+                        reset();
+                        if (epoch.title !== input) {
+                            updateEpochTitle({
+                                epochId: epoch.id,
+                                title: input,
+                            });
+                        }
+                    }}
+                />
+                <Button
+                    status={deleteStatus}
+                    id={`delete-epoch-${epoch.order}`}
+                    fill="blank"
+                    size="square"
+                    color="danger"
+                    className="self-end"
+                    onClick={() => {
+                        deleteEpoch({ epochId: epoch.id });
+                    }}
+                >
+                    <TrashIcon />
+                </Button>
+                <Tooltip place={"right"} id={`delete-epoch-${epoch.order}`}>
+                    Remove this epoch and associated essays
+                </Tooltip>
+            </div>
         </div>
     );
 };

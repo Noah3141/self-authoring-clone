@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import LoadingSpinnerSVG from "~/components/Icons/Theme/LoadingSpinner";
+import LoadingSpinnerSVG from "~/components/Icons/Theme/LoadingIcon";
 import styles from "./index.module.css";
 
 type LoadingSpinnerProps = {

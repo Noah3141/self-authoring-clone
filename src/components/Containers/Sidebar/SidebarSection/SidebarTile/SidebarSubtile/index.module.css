@@ -4,6 +4,7 @@
     flex-col
     gap-3
     overflow-hidden
+    text-wrap
     rounded
     bg-neutral-100
     p-1
@@ -12,4 +13,8 @@
     transition-all
     ease-out
     hover:bg-neutral-200;
+
+    &.main {
+        @apply text-xl font-semibold;
+    }
 }
