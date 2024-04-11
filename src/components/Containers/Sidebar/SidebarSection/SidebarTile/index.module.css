@@ -1,7 +1,7 @@
 .sidebar-tile {
     @apply flex 
     flex-col 
-    gap-2
+    gap-0
     rounded
     border
     border-neutral-200

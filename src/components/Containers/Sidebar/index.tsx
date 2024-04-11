@@ -26,8 +26,14 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
     const { data, status } = useSession();
     const { expanded, setExpanded } = useSidebarContext();
 
+    const sidebarRef = useRef(null);
+
+    useClickOutside(() => {
+        setExpanded((p) => ({}));
+    }, sidebarRef);
+
     return (
-        <nav className={styles.sidebar}>
+        <nav ref={sidebarRef} className={styles.sidebar}>
             <div className={styles.buttons}>
                 <IconButton
                     size="medium"
@@ -55,11 +61,7 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                 />
             </div>
             <div className={styles.contents}>
-                <SidebarSection
-                    id="map"
-                    expanded={!!expanded.map}
-                    setExpanded={setExpanded}
-                >
+                <SidebarSection expanded={!!expanded.map} id="map">
                     <Header>Navigate</Header>
                     {suite === "past-authoring" ? (
                         <PastAuthoringNavigation />
@@ -70,11 +72,7 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                     )}
                 </SidebarSection>
 
-                <SidebarSection
-                    expanded={!!expanded.settings}
-                    setExpanded={setExpanded}
-                    id="settings"
-                >
+                <SidebarSection expanded={!!expanded.settings} id="settings">
                     <Tile></Tile>
                 </SidebarSection>
             </div>
@@ -99,53 +97,81 @@ const PastAuthoringNavigation = () => {
                     RENAME AND SORT INTRO PARTS
 
                     */}
-                <Link color="neutral" href={`/past-authoring/intro`}>
+                <Link
+                    className="pb-1"
+                    color="neutral"
+                    href={`/suite/past-authoring/exercise/intro`}
+                >
                     Intro
                 </Link>
-                <Subtile href={`/past-authoring/intro`}>
+                <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise 1
                 </Subtile>
-                <Subtile href={`/past-authoring/intro-continued`}>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/intro-continued`}
+                >
                     Completing the Exercise 2
                 </Subtile>
-                <Subtile href={`/past-authoring/memory-emotion-stress`}>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/memory-emotion-stress`}
+                >
                     Memory, Emotion, and Stress
                 </Subtile>
-                <Subtile href={`/past-authoring/writing`}>Writing</Subtile>
-                <Subtile href={`/past-authoring/sleeping`}>Sleeping</Subtile>
-                <Subtile href={`/past-authoring/attitude-while-writing`}>
+                <Subtile href={`/suite/past-authoring/exercise/writing`}>
+                    Writing
+                </Subtile>
+                <Subtile href={`/suite/past-authoring/exercise/sleeping`}>
+                    Sleeping
+                </Subtile>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/attitude-while-writing`}
+                >
                     Attitude While Writing
                 </Subtile>
-                <Subtile href={`/past-authoring/general-description`}>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/general-description`}
+                >
                     General Description
                 </Subtile>
             </Tile>
             <Tile>
-                <Link color="neutral" href={`/past-authoring/epochs`}>
+                <Link
+                    color="neutral"
+                    href={`/suite/past-authoring/exercise/epochs`}
+                >
                     Epochs
                 </Link>
 
                 {userEpochs.map((epoch, i) => {
                     return (
-                        <Subtile key={i} href={`/past-authoring/epochs/`}>
+                        <Subtile
+                            key={i}
+                            href={`/suite/past-authoring/exercise/epochs/`}
+                        >
                             {epoch.title}
                         </Subtile>
                     );
                 })}
             </Tile>
             <Tile>
-                <Link color="neutral" href={`/past-authoring/intro`}>
+                <Link
+                    color="neutral"
+                    href={`/suite/past-authoring/exercise/intro`}
+                >
                     Impact of Experiences
                 </Link>
-                <Subtile href={`/past-authoring/intro`}>
+                <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise
                 </Subtile>
             </Tile>
             <Tile>
-                <Link color="neutral" href={`/past-authoring/intro`}>
+                <Link
+                    color="neutral"
+                    href={`/suite/past-authoring/exercise/intro`}
+                >
                     Select for Analysis
                 </Link>
-                <Subtile href={`/past-authoring/intro`}>
+                <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise
                 </Subtile>
             </Tile>
@@ -157,24 +183,39 @@ const FutureAuthoringNavigation = () => {
     return (
         <>
             <Tile>
-                <Link color="neutral" href={`/past-authoring/intro`}>
+                <Link
+                    color="neutral"
+                    href={`/suite/past-authoring/exercise/intro`}
+                >
                     Intro
                 </Link>
-                <Subtile href={`/past-authoring/intro`}>
+                <Subtile href={`/suite/past-authoring/exercise/intro`}>
                     Completing the Exercise 1
                 </Subtile>
-                <Subtile href={`/past-authoring/intro-continued`}>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/intro-continued`}
+                >
                     Completing the Exercise 2
                 </Subtile>
-                <Subtile href={`/past-authoring/memory-emotion-stress`}>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/memory-emotion-stress`}
+                >
                     Memory, Emotion, and Stress
                 </Subtile>
-                <Subtile href={`/past-authoring/writing`}>Writing</Subtile>
-                <Subtile href={`/past-authoring/sleeping`}>Sleeping</Subtile>
-                <Subtile href={`/past-authoring/attitude-while-writing`}>
+                <Subtile href={`/suite/past-authoring/exercise/writing`}>
+                    Writing
+                </Subtile>
+                <Subtile href={`/suite/past-authoring/exercise/sleeping`}>
+                    Sleeping
+                </Subtile>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/attitude-while-writing`}
+                >
                     Attitude While Writing
                 </Subtile>
-                <Subtile href={`/past-authoring/general-description`}>
+                <Subtile
+                    href={`/suite/past-authoring/exercise/general-description`}
+                >
                     General Description
                 </Subtile>
             </Tile>

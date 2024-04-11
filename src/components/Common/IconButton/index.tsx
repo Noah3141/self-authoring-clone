@@ -35,8 +35,8 @@ const IconButton: FC<IconButtonProps> = ({
 
     return (
         <button
-            {...props}
             className={classNames(styles.button, styles[size], className)}
+            {...props}
         >
             <OnIcon
                 id={onId}

@@ -2,12 +2,17 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React from "react";
 import Link from "~/components/Common/Link";
+import SignInRequired from "~/components/Partials/SignInRequired";
 import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 
 const DashboardPage = () => {
     const session = useSession();
     const { data, status } = api.suite.wordCounts.all.useQuery();
+
+    if (!session.data?.user) {
+        return <SignInRequired />;
+    }
 
     return (
         <>

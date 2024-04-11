@@ -2,13 +2,18 @@ import type { RefObject } from "react";
 import { useEffect } from "react";
 
 const useClickOutside = <T extends HTMLElement>(
-    ref: RefObject<T>,
     fn: () => void,
+    ...ref: RefObject<T>[]
 ) => {
     useEffect(() => {
-        const element = ref?.current;
+        const elements = ref.map((ref) => ref.current);
         const handleClickOutside = (event: Event) => {
-            if (element && !element.contains(event.target as Node)) {
+            if (
+                elements &&
+                !elements.some((element) =>
+                    element?.contains(event.target as Node),
+                )
+            ) {
                 fn();
             }
         };
