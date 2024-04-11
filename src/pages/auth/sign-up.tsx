@@ -7,7 +7,6 @@ import Button from "~/components/Common/Button";
 import BaseLayout from "~/layouts/Base";
 import HomeLayout from "~/layouts/Home";
 import { api } from "~/utils/api";
-import { smartToast } from "~/utils/toast";
 
 type Credentials = {
     email: string;
@@ -29,9 +28,14 @@ const SignUpPage: NextPage = () => {
         },
     );
 
-    const { mutate: createUser, status } = api.user.create.useMutation(
-        smartToast({ success: "Successfully created your account!" }),
-    );
+    const { mutate: createUser, status } = api.user.create.useMutation({
+        onMutate: () => {
+            toast.loading("Creating account...", { id: "create-user-toast" });
+        },
+        onSuccess: () => {
+            toast.success("Account created!", { id: "create-user-toast" });
+        },
+    });
 
     return (
         <BaseLayout>
