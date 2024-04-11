@@ -77,23 +77,29 @@ type EpochWizardProps = {
 
 const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
     const [input, setInput] = useState(epoch.title);
-    const { mutate: updateEpochTitle, status } =
-        api.update.epoch.title.useMutation({
-            onMutate: () =>
-                toast.loading("Loading...", { id: "update-title-toast" }),
-            onSuccess: () =>
-                toast.success("Success!", { id: "update-title-toast" }),
-            onError: () => toast.error("Error!", { id: "update-title-toast" }),
-        });
+    const apiState = api.useUtils();
+    const {
+        mutate: updateEpochTitle,
+        status,
+        reset,
+    } = api.update.epoch.title.useMutation({
+        onSuccess: async () => await apiState.user.epochs.all.invalidate(),
+        onError: (e) => toast.error(e.message, { id: "update-title-toast" }),
+    });
 
     return (
         <div className="flex flex-col gap-3">
             <h2>Epoch {epoch.order}</h2>
             <TextInput
-                loading={status == "pending"}
+                status={status}
                 value={input}
+                maxLength={100}
+                placeholder="Title"
+                className="w-full"
                 setValue={setInput}
                 onFinishedTyping={() => {
+                    reset();
+
                     if (epoch.title !== input) {
                         updateEpochTitle({
                             epochId: epoch.id,

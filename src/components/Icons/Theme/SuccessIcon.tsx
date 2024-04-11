@@ -1,15 +1,20 @@
 import type { FC, SVGProps } from "react";
 
-const SuccessIcon: FC<SVGProps<SVGSVGElement>> = (
-    props: SVGProps<SVGSVGElement> & { solid?: boolean },
-) => {
-    if (props.solid) {
+type SuccessIconProps = SVGProps<SVGSVGElement> & {
+    solid?: boolean;
+    size?: number;
+};
+
+const SuccessIcon: FC<SuccessIconProps> = ({ size, solid, ...props }) => {
+    if (solid) {
         return (
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="h-6 w-6"
+                width={size ?? 24}
+                height={size ?? 24}
+                {...props}
             >
                 <path
                     fillRule="evenodd"
