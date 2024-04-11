@@ -1,15 +1,19 @@
-import React from "react";
+import type { FC } from "react";
 import { TailSpin } from "react-loader-spinner";
 
 import styles from "./index.module.css";
 
-const index = () => {
+type LoadingSpinnerProps = {
+    size?: number;
+};
+
+const LoadingSpinner: FC<LoadingSpinnerProps> = ({ size }) => {
     return (
         <div className={styles.container}>
             <TailSpin
                 visible={true}
-                height="80"
-                width="80"
+                height={size ?? 80}
+                width={size ?? 80}
                 color="currentColor"
                 ariaLabel="tail-spin-loading"
                 radius="1"
@@ -21,4 +25,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default LoadingSpinner;

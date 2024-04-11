@@ -1,7 +1,7 @@
-import { Epoch } from "@prisma/client";
+import { type Epoch } from "@prisma/client";
 import Head from "next/head";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { type FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
@@ -10,7 +10,6 @@ import SomethingsWrong from "~/components/Partials/SomethingsWrong";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
-import { smartToast } from "~/utils/toast";
 
 export default function DescriptionPage() {
     const { data: epochs, status: epochsStatus } =
@@ -78,37 +77,30 @@ type EpochWizardProps = {
 
 const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
     const [input, setInput] = useState(epoch.title);
-    const { mutate: updateEpochTitle } = api.update.epoch.title.useMutation();
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        setLoading(true);
-        const onFinishedTyping = () => {
-            if (epoch.title !== input) {
-                toast.success("Updated");
-                updateEpochTitle({
-                    epochId: epoch.id,
-                    title: input,
-                });
-            }
-        };
-
-        const typingTimer: NodeJS.Timeout = setTimeout(onFinishedTyping, 3000);
-
-        return () => {
-            clearTimeout(typingTimer);
-            setLoading(false);
-        };
-    }, [input, epoch.id, updateEpochTitle, epoch.title]);
+    const { mutate: updateEpochTitle, status } =
+        api.update.epoch.title.useMutation({
+            onMutate: () =>
+                toast.loading("Loading...", { id: "update-title-toast" }),
+            onSuccess: () =>
+                toast.success("Success!", { id: "update-title-toast" }),
+            onError: () => toast.error("Error!", { id: "update-title-toast" }),
+        });
 
     return (
         <div className="flex flex-col gap-3">
             <h2>Epoch {epoch.order}</h2>
             <TextInput
-                onChange={(e) => {
-                    setInput(e.target.value);
-                }}
+                loading={status == "pending"}
                 value={input}
+                setValue={setInput}
+                onFinishedTyping={() => {
+                    if (epoch.title !== input) {
+                        updateEpochTitle({
+                            epochId: epoch.id,
+                            title: input,
+                        });
+                    }
+                }}
             />
         </div>
     );

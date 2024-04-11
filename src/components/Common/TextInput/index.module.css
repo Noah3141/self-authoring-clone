@@ -1,24 +1,49 @@
-.text-input {
-    @apply rounded-md
-    bg-neutral-50
-    p-1
-    px-2
-    caret-neutral-500
-    outline
-    outline-1
-    outline-neutral-300
-    transition-all
-    placeholder:text-neutral-300
-    hover:cursor-pointer
-    hover:outline-neutral-400
-    focus:cursor-text
-    focus:shadow-inner
-    focus:outline-neutral-500
-    disabled:border-neutral-200
-    disabled:text-neutral-300;
+.container {
+    @apply relative 
+    h-fit 
+    w-fit;
 
-    &.validate {
-        @apply invalid:bg-danger-100 
-        invalid:outline-danger-300;
+    .text-input {
+        @apply rounded-md
+        bg-neutral-50
+        p-1
+        px-2
+        caret-neutral-500
+        outline
+        outline-1
+        outline-neutral-300
+        transition-all
+        placeholder:text-neutral-300
+        hover:cursor-pointer
+        hover:outline-neutral-400
+        focus:cursor-text
+        focus:shadow-inner
+        focus:outline-neutral-500
+        disabled:border-neutral-200
+        disabled:text-neutral-300;
+
+        &.validate {
+            @apply invalid:bg-danger-100 
+            invalid:outline-danger-300;
+        }
+    }
+
+    .loader {
+        @apply absolute
+        -right-1
+        -top-1
+        grid
+        size-4
+        h-fit
+        w-fit
+        scale-90
+        place-items-center
+        opacity-0
+        transition-all;
+
+        &.loading {
+            @apply scale-100 
+            opacity-100;
+        }
     }
 }

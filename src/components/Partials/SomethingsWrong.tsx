@@ -2,7 +2,6 @@ import React from "react";
 import BaseLayout from "~/layouts/Base";
 import Link from "../Common/Link";
 import { useRouter } from "next/router";
-import AuthoringLayout from "~/layouts/Authoring";
 
 const SomethingsWrong = () => {
     const router = useRouter();
@@ -10,7 +9,7 @@ const SomethingsWrong = () => {
     return (
         <BaseLayout>
             <div className="mx-auto w-full max-w-5xl pt-24 text-2xl">
-                Something's wrong!!
+                {`Something's wrong!!`}
                 <Link
                     onClick={(e) => {
                         e.preventDefault();
