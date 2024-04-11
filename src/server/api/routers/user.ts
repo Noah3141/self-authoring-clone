@@ -1,12 +1,11 @@
 import { z } from "zod";
+import crypto from "crypto";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-
-export const GetUserSchema = z.object({ userId: z.string() });
-type GetUserOpts = z.infer<typeof GetUserSchema>;
-
-export const UpdateUserSchema = z.object({});
-type UpdateUserOpts = z.infer<typeof UpdateUserSchema>;
+import {
+    createTRPCRouter,
+    protectedProcedure,
+    publicProcedure,
+} from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
     epochs: {
@@ -21,18 +20,63 @@ export const userRouter = createTRPCRouter({
         allWith: {},
     },
 
-    get: protectedProcedure
-        .input(GetUserSchema)
-        .query(async ({ ctx, input }) => {
-            return await ctx.db.account.findUnique({
-                where: {
-                    id: input.userId,
+    checkExists: {
+        byEmail: publicProcedure
+            .input(z.object({ email: z.string() }))
+            .query(async ({ ctx, input }) => {
+                return {
+                    exists: !!(await ctx.db.user.findUnique({
+                        where: {
+                            email: input.email,
+                        },
+                    })),
+                };
+            }),
+    },
+
+    get: {
+        byId: protectedProcedure
+            .input(z.object({ userId: z.string() }))
+            .query(async ({ ctx, input }) => {
+                return await ctx.db.user.findUnique({
+                    where: {
+                        id: input.userId,
+                    },
+                });
+            }),
+        byEmail: publicProcedure
+            .input(z.object({ email: z.string() }))
+            .query(async ({ ctx, input }) => {
+                return await ctx.db.user.findUnique({
+                    where: {
+                        email: input.email,
+                    },
+                });
+            }),
+    },
+
+    create: publicProcedure
+        .input(z.object({ email: z.string(), password: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const encryptedPassword = crypto
+                .createHash("sha256")
+                .update(input.password, "utf8")
+                .digest("base64");
+
+            await ctx.db.user.create({
+                data: {
+                    email: input.email,
+                    password: encryptedPassword,
                 },
             });
+
+            return {
+                created: true,
+            };
         }),
 
     update: protectedProcedure
-        .input(UpdateUserSchema)
+        .input(z.object({}))
         .mutation(async ({ ctx, input }) => {
             return;
         }),

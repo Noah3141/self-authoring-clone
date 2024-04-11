@@ -1,7 +1,7 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
-
+import { Toaster } from "react-hot-toast";
 import { api } from "~/utils/api";
 import { SidebarStateContext } from "~/server/contexts";
 
@@ -16,6 +16,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
     return (
         <SessionProvider session={session}>
+            <Toaster position="top-center" />
             <SidebarStateContext.Provider value={{ expanded, setExpanded }}>
                 <main className={`h-full  overflow-y-auto `}>
                     <Component {...pageProps} />

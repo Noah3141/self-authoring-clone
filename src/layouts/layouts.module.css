@@ -1,17 +1,19 @@
 .baseLayout {
-    @apply flex size-full flex-col;
+    @apply flex 
+    size-full 
+    flex-col;
 }
 
 .homeLayout {
     @apply mx-auto 
     flex
-    w-full
+    size-full
     max-w-5xl
     flex-col
     py-12;
 
     h1 {
-        @apply text-3xl font-semibold;
+        @apply mb-6 text-3xl font-semibold;
     }
 
     section {

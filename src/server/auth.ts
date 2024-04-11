@@ -7,9 +7,11 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
-
+import CredentialsProvider from "next-auth/providers/credentials";
+import crypto from "crypto";
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { PrismaClient, User } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -38,17 +40,73 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+    pages: {
+        signIn: "/auth/sign-in",
+        signOut: "/",
+        error: "/auth/error",
+    },
+    session: {
+        strategy: "jwt",
+    },
     callbacks: {
-        session: ({ session, user }) => ({
-            ...session,
-            user: {
-                ...session.user,
-                id: user.id,
-            },
-        }),
+        session: ({ session, user, token }) => {
+            if (session.user) {
+                session.user.id = token.sub!;
+            }
+
+            return session;
+        },
     },
     adapter: PrismaAdapter(db) as Adapter,
     providers: [
+        CredentialsProvider({
+            // The name to display on the sign in form (e.g. "Sign in with...")
+            name: "Credentials",
+            // `credentials` is used to generate a form on the sign in page.
+            // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+            // e.g. domain, username, password, 2FA token, etc.
+            // You can pass any HTML attribute to the <input> tag through the object.
+            credentials: {
+                email: {
+                    label: "Email",
+                    type: "text",
+                    placeholder: "Email",
+                },
+                password: {
+                    label: "Password",
+                    type: "password",
+                    placeholder: "Password",
+                },
+            },
+            async authorize(credentials, req): Promise<User | null> {
+                console.log(credentials);
+
+                if (!credentials) {
+                    throw new Error("No credentials provided");
+                }
+
+                const encryptedPassword = crypto
+                    .createHash("sha256")
+                    .update(credentials.password, "utf8")
+                    .digest("base64");
+
+                const user = await db.user.findUnique({
+                    where: {
+                        email: credentials.email,
+                    },
+                });
+
+                if (!user) {
+                    throw new Error("No user found!");
+                }
+
+                if (user.password !== encryptedPassword) {
+                    throw new Error("Invalid credentials!");
+                }
+
+                return user;
+            },
+        }),
         // DiscordProvider({
         //   clientId: env.DISCORD_CLIENT_ID,
         //   clientSecret: env.DISCORD_CLIENT_SECRET,

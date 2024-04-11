@@ -6,17 +6,17 @@ import NavItem from "./NavItem";
 import MenuIcon from "~/components/Icons/Theme/MenuIcon";
 import IconButton from "~/components/Common/IconButton";
 import ExitIcon from "~/components/Icons/Theme/ExitIcon";
-import { useSession } from "next-auth/react";
-import { Session } from "next-auth";
+import { signIn, useSession } from "next-auth/react";
+import type { Session } from "next-auth";
 import NavDropdown from "./NavDropdown";
 
 const Navbar: FC = ({}) => {
-    const sessionData = useSession().data;
+    const session = useSession().data;
 
     return (
         <nav>
-            <DesktopNav session={sessionData} />
-            <MobileNav session={sessionData} />
+            <DesktopNav session={session} />
+            <MobileNav session={session} />
         </nav>
     );
 };
@@ -33,7 +33,9 @@ const DesktopNav: FC<NavbarProps> = ({ session }) => {
                     <NavItem href="/">Self Authoring v2 Desktop</NavItem>
                 </section>
                 <section>
-                    <NavItem href="/dashboard">My Work</NavItem>
+                    {!!session?.user && (
+                        <NavItem href="/dashboard">My Work</NavItem>
+                    )}
                     <NavDropdown
                         href="/products"
                         heading="Products"
@@ -86,13 +88,14 @@ const DesktopNav: FC<NavbarProps> = ({ session }) => {
                             },
                         ]}
                     />
-                    {!!session?.user ? (
-                        <NavDropdown
-                            heading={session.user.name ?? ""}
-                            items={[{ href: "/", text: "Foo" }]}
-                        />
-                    ) : (
-                        <></>
+                    {!session?.user && (
+                        <NavItem
+                            onClick={async () => {
+                                await signIn();
+                            }}
+                        >
+                            Sign In
+                        </NavItem>
                     )}
                 </section>
             </div>
