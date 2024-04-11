@@ -34,7 +34,7 @@ const ProgressBar: FC<ProgressBarProps> = ({ progress, cap, className }) => {
                     className={classNames(styles.progress)}
                 >
                     <div className={classNames(styles.bar)}>
-                        <span className="overflow-hidden">
+                        <span className="overflow-hidden pl-2">
                             {Math.round((progress / cap) * 100)}%
                         </span>
                     </div>

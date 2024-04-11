@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import Button from "~/components/Common/Button";
-import ProgressBar from "~/components/Common/ProgressBar";
-import Sidebar from "~/components/Containers/Sidebar";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
@@ -18,8 +16,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
-                    
+                <AuthoringLayout progress={0}>
                     <h1>Completing the Exercise 1</h1>
                     <p>
                         Welcome to the Past Authoring (Autobiography) component
@@ -53,7 +50,9 @@ export default function Home() {
                                 Previous
                             </Button>
                         </Link>
-                        <Link href={`/past-authoring/exercise/intro-continued`}>
+                        <Link
+                            href={`/suite/past-authoring/exercise/intro-continued`}
+                        >
                             <Button
                                 className="place-self-end"
                                 color="neutral"

@@ -60,6 +60,7 @@ model User {
     sessions      Session[]
 
     pastAuthoring    PastAuthoring?
+    Epoch            Epoch[]
     experiences      Experience[]
     // A users list of past authoring experiences
     extendedAnalysis ExtendedAnalysis[]
@@ -69,18 +70,21 @@ model User {
 }
 
 model PastAuthoring {
-    user   User   @relation(fields: [userId], references: [id])
-    userId String @id @unique
-
+    id     String  @id @unique
+    userId String  @unique
+    user   User    @relation(fields: [userId], references: [id])
     epochs Epoch[]
 }
 
 model Epoch {
-    id            String        @id @default(cuid())
-    pastAuthoring PastAuthoring @relation(fields: [userId], references: [userId])
-    userId        String
-    title         String
-    experiences   Experience[]
+    id              String         @id @default(cuid())
+    user            User           @relation(fields: [userId], references: [id])
+    userId          String
+    order           Int
+    title           String
+    experiences     Experience[]
+    pastAuthoring   PastAuthoring? @relation(fields: [pastAuthoringId], references: [id])
+    pastAuthoringId String?
 }
 
 model Experience {

@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import Button from "~/components/Common/Button";
-import ProgressBar from "~/components/Common/ProgressBar";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
@@ -17,7 +16,7 @@ export default function IntroContinued() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
+                <AuthoringLayout progress={2}>
                     <h1>Completing the Exercise 2</h1>
 
                     <p>
@@ -69,7 +68,7 @@ export default function IntroContinued() {
                         </li>
                     </ol>
                     <div className="flex flex-row justify-between">
-                        <Link href={`/past-authoring/exercise/intro`}>
+                        <Link href={`/suite/past-authoring/exercise/intro`}>
                             <Button
                                 className="place-self-end"
                                 color="neutral"
@@ -79,7 +78,7 @@ export default function IntroContinued() {
                             </Button>
                         </Link>
                         <Link
-                            href={`/past-authoring/exercise/memory-emotion-stress`}
+                            href={`/suite/past-authoring/exercise/memory-emotion-stress`}
                         >
                             <Button
                                 className="place-self-end"

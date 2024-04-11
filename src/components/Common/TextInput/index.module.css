@@ -1,0 +1,24 @@
+.text-input {
+    @apply rounded-md
+    bg-neutral-50
+    p-1
+    px-2
+    caret-neutral-500
+    outline
+    outline-1
+    outline-neutral-300
+    transition-all
+    placeholder:text-neutral-300
+    hover:cursor-pointer
+    hover:outline-neutral-400
+    focus:cursor-text
+    focus:shadow-inner
+    focus:outline-neutral-500
+    disabled:border-neutral-200
+    disabled:text-neutral-300;
+
+    &.validate {
+        @apply invalid:bg-danger-100 
+        invalid:outline-danger-300;
+    }
+}

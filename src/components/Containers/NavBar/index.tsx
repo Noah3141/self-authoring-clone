@@ -9,95 +9,108 @@ import ExitIcon from "~/components/Icons/Theme/ExitIcon";
 import { signIn, useSession } from "next-auth/react";
 import type { Session } from "next-auth";
 import NavDropdown from "./NavDropdown";
+import { useRouter } from "next/router";
 
 const Navbar: FC = ({}) => {
     const session = useSession().data;
+    const router = useRouter();
+    const section = router.pathname.split("/")[2];
+    const inAuthoring =
+        section === "past-authoring" || section === "future-authoring";
 
     return (
         <nav>
-            <DesktopNav session={session} />
-            <MobileNav session={session} />
+            <DesktopNav inAuthoring={inAuthoring} session={session} />
+            <MobileNav inAuthoring={inAuthoring} session={session} />
         </nav>
     );
 };
 
 type NavbarProps = {
     session: Session | null;
+    inAuthoring: boolean;
 };
 
-const DesktopNav: FC<NavbarProps> = ({ session }) => {
+const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
     return (
         <main className={classNames(styles.desktopNavbar, styles.nav)}>
             <div className={styles.container}>
                 <section>
-                    <NavItem href="/">Self Authoring v2 Desktop</NavItem>
+                    <NavItem href="/">Self Authoring v2</NavItem>
                 </section>
-                <section>
-                    {!!session?.user && (
-                        <NavItem href="/dashboard">My Work</NavItem>
-                    )}
-                    <NavDropdown
-                        href="/products"
-                        heading="Products"
-                        items={[
-                            {
-                                href: "/products/past-authoring",
-                                text: "Past Authoring",
-                            },
-                            {
-                                href: "/products/future-authoring",
-                                text: "Future Authoring",
-                            },
-                            {
-                                href: "/products/buy-it-for-a-friend",
-                                text: "Buy it for a friend",
-                            },
-                            {
-                                href: "/products/redeem-a-voucher",
-                                text: "Redeem a voucher",
-                            },
-                        ]}
-                    />
-                    <NavDropdown
-                        heading="More"
-                        items={[
-                            { href: "/faq", text: "FAQ" },
-                            { href: "/privacy", text: "Privacy" },
-                            {
-                                href: "/terms-of-service",
-                                text: "Terms of Service",
-                            },
-                            { href: "/research", text: "Research" },
-                        ]}
-                    />
-                    <NavDropdown
-                        heading="Media"
-                        items={[
-                            {
-                                href: "/media/james-pennebaker",
-                                text: "James Pennebaker",
-                            },
-                            { href: "/media/npr", text: "NPR" },
-                            {
-                                href: "/media/oprah-magazine",
-                                text: "Oprah Magazine",
-                            },
-                            {
-                                href: "/media/steve-hilton",
-                                text: "Steve Hilton",
-                            },
-                        ]}
-                    />
-                    {!session?.user && (
-                        <NavItem
-                            onClick={async () => {
-                                await signIn();
-                            }}
-                        >
-                            Sign In
-                        </NavItem>
-                    )}
-                </section>
+                {!inAuthoring && (
+                    <section>
+                        {!!session?.user && (
+                            <NavItem href="/dashboard">My Work</NavItem>
+                        )}
+                        <NavDropdown
+                            href="/products"
+                            heading="Products"
+                            items={[
+                                {
+                                    href: "/products/past-authoring",
+                                    text: "Past Authoring",
+                                },
+                                {
+                                    href: "/products/future-authoring",
+                                    text: "Future Authoring",
+                                },
+                                {
+                                    href: "/products/buy-it-for-a-friend",
+                                    text: "Buy it for a friend",
+                                },
+                                {
+                                    href: "/products/redeem-a-voucher",
+                                    text: "Redeem a voucher",
+                                },
+                            ]}
+                        />
+                        <NavDropdown
+                            heading="More"
+                            items={[
+                                { href: "/faq", text: "FAQ" },
+                                { href: "/privacy", text: "Privacy" },
+                                {
+                                    href: "/terms-of-service",
+                                    text: "Terms of Service",
+                                },
+                                { href: "/research", text: "Research" },
+                            ]}
+                        />
+                        <NavDropdown
+                            heading="Media"
+                            items={[
+                                {
+                                    href: "/media/james-pennebaker",
+                                    text: "James Pennebaker",
+                                },
+                                { href: "/media/npr", text: "NPR" },
+                                {
+                                    href: "/media/oprah-magazine",
+                                    text: "Oprah Magazine",
+                                },
+                                {
+                                    href: "/media/steve-hilton",
+                                    text: "Steve Hilton",
+                                },
+                            ]}
+                        />
+                        {!session?.user && (
+                            <NavItem
+                                onClick={async () => {
+                                    await signIn();
+                                }}
+                            >
+                                Sign In
+                            </NavItem>
+                        )}
+                    </section>
+                )}
+                {inAuthoring && (
+                    <section>
+                        <NavItem href="/">Exit</NavItem>
+                    </section>
+                )}
             </div>
         </main>
     );
@@ -118,8 +131,12 @@ const MobileNav: FC<NavbarProps> = ({ session }) => {
                     isOn={!expanded}
                 />
             </div>
-            <div className={classNames(styles.items)}>
-                <NavItem href="/">Self Authoring v2 Mobile</NavItem>
+            <div
+                className={classNames(styles.items, {
+                    [styles.expanded!]: expanded,
+                })}
+            >
+                <NavItem href="/">Self Authoring v2</NavItem>
                 <NavItem href="/">Exit</NavItem>
             </div>
         </main>

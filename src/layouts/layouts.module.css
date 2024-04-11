@@ -43,7 +43,7 @@
         place-self-start
         overflow-y-auto
         px-6
-        py-24
+        py-12
         transition-all
         sm:px-12;
     }

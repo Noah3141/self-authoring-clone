@@ -27,11 +27,26 @@
 .mobileNavbar {
     @apply !block md:!hidden;
 
-    &.nav {
-        @apply flex flex-row justify-between;
+    .nav {
+        @apply flex 
+        flex-row
+        justify-end
+        border-b
+        border-neutral-300
+        p-3;
     }
 
     .items {
-        @apply flex flex-col;
+        @apply flex 
+        h-0 
+        flex-col 
+        overflow-hidden 
+        transition-all;
+
+        &.expanded {
+            @apply h-96 
+            border-b 
+            border-neutral-300;
+        }
     }
 }

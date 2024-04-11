@@ -18,7 +18,7 @@ export default function Sleeping() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
+                <AuthoringLayout progress={8}>
                     <h1>Sleeping:</h1>
                     <p>
                         It may be best to do this exercise, as well as future
@@ -34,7 +34,7 @@ export default function Sleeping() {
                         exercise.
                     </p>
                     <div className="flex flex-row justify-between">
-                        <Link href={`/past-authoring/exercise/writing`}>
+                        <Link href={`/suite/past-authoring/exercise/writing`}>
                             <Button
                                 className="place-self-end"
                                 color="neutral"
@@ -43,7 +43,9 @@ export default function Sleeping() {
                                 Previous
                             </Button>
                         </Link>
-                        <Link href={`/past-authoring/exercise/sleeping`}>
+                        <Link
+                            href={`/suite/past-authoring/exercise/attitude-while-writing`}
+                        >
                             <Button
                                 className="place-self-end"
                                 color="neutral"

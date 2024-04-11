@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import Button from "~/components/Common/Button";
-import ProgressBar from "~/components/Common/ProgressBar";
-import Sidebar from "~/components/Containers/Sidebar";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
@@ -18,7 +16,7 @@ export default function Writing() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
+                <AuthoringLayout progress={6}>
                     <h1>Writing:</h1>
                     <p>
                         Why write? Writing is a sophisticated form of thinking.
@@ -72,7 +70,7 @@ export default function Writing() {
 
                     <div className="flex flex-row justify-between">
                         <Link
-                            href={`/past-authoring/exercise/memory-emotion-stress`}
+                            href={`/suite/past-authoring/exercise/memory-emotion-stress`}
                         >
                             <Button
                                 className="place-self-end"
@@ -82,7 +80,7 @@ export default function Writing() {
                                 Previous
                             </Button>
                         </Link>
-                        <Link href={`/past-authoring/exercise/sleeping`}>
+                        <Link href={`/suite/past-authoring/exercise/sleeping`}>
                             <Button
                                 className="place-self-end"
                                 color="neutral"

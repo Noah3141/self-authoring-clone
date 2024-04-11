@@ -4,6 +4,9 @@ import { experienceRouter } from "./routers/experience";
 import { extendedAnalysisRouter } from "./routers/extendedAnalysis";
 import { userRouter } from "./routers/user";
 import { suiteRouter } from "./routers/suite";
+import { getOrCreateRouter } from "./routers/getOrCreate";
+import { getRouter } from "./routers/get";
+import { updateRouter } from "./routers/update";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +19,10 @@ export const appRouter = createTRPCRouter({
     experience: experienceRouter,
     suite: suiteRouter,
     extendedAnalysis: extendedAnalysisRouter,
+
+    get: getRouter,
+    getOrCreate: getOrCreateRouter,
+    update: updateRouter,
 });
 
 // export type definition of API

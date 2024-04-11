@@ -14,7 +14,7 @@
     text-center
     shadow-inner
     transition-all
-    md:max-w-[500px];
+    md:max-w-96;
 }
 
 .progress {

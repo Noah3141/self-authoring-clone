@@ -4,12 +4,15 @@ import styles from "./layouts.module.css";
 import ProgressBar from "~/components/Common/ProgressBar";
 import { useRouter } from "next/router";
 import Sidebar from "~/components/Containers/Sidebar";
+import { title } from "~/utils/page-metadata";
+import { PastAuthoringSettings } from "~/utils/page-metadata";
 
 type AuthoringLayoutProps = {
-    //
+    progress: number;
 };
 
 const AuthoringLayout: FC<PropsWithChildren<AuthoringLayoutProps>> = ({
+    progress,
     children,
 }) => {
     const router = useRouter();
@@ -21,11 +24,16 @@ const AuthoringLayout: FC<PropsWithChildren<AuthoringLayoutProps>> = ({
             <Sidebar suite={suite} />
             <div className={styles.wrapper}>
                 <div className={styles.content}>
-                    <ProgressBar
-                        className="place-self-end"
-                        progress={0}
-                        cap={17}
-                    />
+                    <div className="flex flex-col items-end gap-3">
+                        <h3 className="ml-auto w-96 text-right">
+                            {title[suite]}
+                        </h3>
+                        <ProgressBar
+                            className=""
+                            progress={progress}
+                            cap={PastAuthoringSettings.cap}
+                        />
+                    </div>
                     {children}
                 </div>
             </div>

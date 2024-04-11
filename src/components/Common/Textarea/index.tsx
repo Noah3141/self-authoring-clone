@@ -8,11 +8,6 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     className?: string;
 };
 
-// function wordsIn(text: string): number {
-//     if (text === "") return 0;
-//     return text.replaceAll("  ", " ").split(" ").length;
-// }
-
 const Textarea: FC<TextareaProps> = ({ maxWords, ...props }) => {
     const [wordCount, setWordCount] = useState(0);
 

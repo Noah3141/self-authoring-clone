@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import Button from "~/components/Common/Button";
-import ProgressBar from "~/components/Common/ProgressBar";
-import Sidebar from "~/components/Containers/Sidebar";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
@@ -18,7 +16,7 @@ export default function MemoryEmotionStress() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
+                <AuthoringLayout progress={4}>
                     <h1>Memory, Emotion and Stress:</h1>
                     <p>
                         Your mind is always trying to determine the level of
@@ -61,7 +59,9 @@ export default function MemoryEmotionStress() {
                     </p>
 
                     <div className="flex flex-row justify-between">
-                        <Link href={`/past-authoring/exercise/intro-continued`}>
+                        <Link
+                            href={`/suite/past-authoring/exercise/intro-continued`}
+                        >
                             <Button
                                 className="place-self-end"
                                 color="neutral"
@@ -70,7 +70,7 @@ export default function MemoryEmotionStress() {
                                 Previous
                             </Button>
                         </Link>
-                        <Link href={`/past-authoring/exercise/writing`}>
+                        <Link href={`/suite/past-authoring/exercise/writing`}>
                             <Button
                                 className="place-self-end"
                                 color="neutral"
