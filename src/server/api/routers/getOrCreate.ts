@@ -13,7 +13,7 @@ export const orCreateRouter = {
             if (!!epochs.length) {
                 return epochs;
             }
-            console.log("Creating epochs for user...");
+
             await ctx.db.epoch.createMany({
                 data: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
                     order: i,

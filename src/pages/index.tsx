@@ -8,8 +8,6 @@ import HomeLayout from "~/layouts/Home";
 export default function HomePage() {
     const session = useSession();
 
-    console.log("session.data =", session.data);
-
     return (
         <>
             <Head>
