@@ -63,10 +63,17 @@ export const userRouter = createTRPCRouter({
                 .update(input.password, "utf8")
                 .digest("base64");
 
+            const role = ["noah3141@gmail.com"].includes(
+                input.email.toLowerCase(),
+            )
+                ? "admin"
+                : "user";
+
             await ctx.db.user.create({
                 data: {
                     email: input.email,
                     password: encryptedPassword,
+                    role,
                 },
             });
 

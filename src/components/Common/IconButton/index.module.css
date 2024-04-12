@@ -1,14 +1,17 @@
 .button {
-    @apply after:absolute-center
-    
-    relative 
+    @apply relative 
     grid
     place-items-center
     rounded
     bg-opacity-10
     text-neutral-500
+    after:absolute
+    after:left-1/2
+    after:top-1/2
     after:-z-10
     after:size-0
+    after:-translate-x-1/2
+    after:-translate-y-1/2
     after:rounded-lg
     after:bg-neutral-500
     after:bg-opacity-10
@@ -17,7 +20,14 @@
     hover:text-neutral-900;
 
     svg {
-        @apply absolute-center z-10  scale-0  transition-all;
+        @apply absolute
+        left-1/2
+        top-1/2
+        z-10
+        -translate-x-1/2
+        -translate-y-1/2
+        scale-0
+        transition-all;
 
         &.active {
             @apply scale-100;

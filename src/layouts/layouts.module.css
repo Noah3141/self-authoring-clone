@@ -10,14 +10,16 @@
     size-full
     max-w-5xl
     flex-col
-    py-12;
+    gap-3
+    py-12
+    text-neutral-500;
 
     h1 {
         @apply mb-6 text-3xl font-semibold;
     }
 
     section {
-        @apply p-3 md:p-12;
+        @apply p-3 md:px-12;
     }
 }
 

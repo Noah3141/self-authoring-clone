@@ -17,23 +17,23 @@ const FutureAuthoringPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
+                <AuthoringLayout progress={0}>
                     <h1>Future Authoring</h1>
 
                     <p>
-                        Click Open Exercise below to get started with your Past
+                        {`Click Open Exercise below to get started with your Past
                         Authoring exercise. You may work on it for as long as
                         you wish and exit at any time. Remember to save the page
                         you are working on before exiting. When you are ready to
                         return to work, you'll find your exercise on your My
                         Work page whenever you are logged in. You can return to
                         your exercise as often as you wish. Your previously
-                        completed work will be waiting for you.
+                        completed work will be waiting for you.`}
                     </p>
 
                     <p>
-                        You can delete all the text/information that you've
-                        already entered for this exercise, by clicking here.
+                        {`You can delete all the text/information that you've
+                        already entered for this exercise, by clicking here.`}
                     </p>
 
                     <Link href={`/suite/future-authoring/exercise/intro`}>

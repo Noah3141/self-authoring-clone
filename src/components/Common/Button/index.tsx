@@ -24,7 +24,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
     className,
     status = "idle",
     size = "normal",
-    fill = "blank",
+    fill = "hollow",
     color = "neutral",
     iconSolid = false,
     ...props

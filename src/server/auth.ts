@@ -6,12 +6,10 @@ import {
     type NextAuthOptions,
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
-import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import crypto from "crypto";
-import { env } from "~/env";
 import { db } from "~/server/db";
-import { PrismaClient, User } from "@prisma/client";
+import type { User } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

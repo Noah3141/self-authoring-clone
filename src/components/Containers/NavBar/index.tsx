@@ -6,7 +6,7 @@ import NavItem from "./NavItem";
 import MenuIcon from "~/components/Icons/Theme/MenuIcon";
 import IconButton from "~/components/Common/IconButton";
 import ExitIcon from "~/components/Icons/Theme/ExitIcon";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import type { Session } from "next-auth";
 import NavDropdown from "./NavDropdown";
 import { useRouter } from "next/router";
@@ -32,6 +32,8 @@ type NavbarProps = {
 };
 
 const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
+    const router = useRouter();
+
     return (
         <main className={classNames(styles.desktopNavbar, styles.nav)}>
             <div className={styles.container}>
@@ -95,7 +97,16 @@ const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
                                 },
                             ]}
                         />
-                        {!session?.user && (
+                        {!!session?.user ? (
+                            <NavItem
+                                onClick={async () => {
+                                    await signOut();
+                                    await router.push("/");
+                                }}
+                            >
+                                Sign out
+                            </NavItem>
+                        ) : (
                             <NavItem
                                 onClick={async () => {
                                     await signIn();

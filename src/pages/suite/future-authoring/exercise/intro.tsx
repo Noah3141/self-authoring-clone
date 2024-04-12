@@ -28,7 +28,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout>
+                <AuthoringLayout progress={1}>
                     <h1>Completing the Exercise 1</h1>
 
                     <p>
