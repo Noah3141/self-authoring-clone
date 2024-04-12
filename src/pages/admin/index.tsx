@@ -25,33 +25,8 @@ const AdminPage: NextPage = () => {
 
     return (
         <BaseLayout>
-            <section className="flex flex-col gap-1">
+            <section className="flex flex-col gap-1 p-36">
                 <Link href={`/admin/users`}>
-                    <Button color="neutral" fill="blank">
-                        Users
-                    </Button>
-                </Link>
-                <Link href={`/`}>
-                    <Button color="neutral" fill="blank">
-                        Users
-                    </Button>
-                </Link>
-                <Link href={`/`}>
-                    <Button color="neutral" fill="blank">
-                        Users
-                    </Button>
-                </Link>
-                <Link href={`/`}>
-                    <Button color="neutral" fill="blank">
-                        Users
-                    </Button>
-                </Link>
-                <Link href={`/`}>
-                    <Button color="neutral" fill="blank">
-                        Users
-                    </Button>
-                </Link>
-                <Link href={`/`}>
                     <Button color="neutral" fill="blank">
                         Users
                     </Button>

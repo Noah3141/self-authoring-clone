@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
-export const getOrCreateRouter = createTRPCRouter({
+export const orCreateRouter = {
     epochs: {
         byUser: protectedProcedure.query(async ({ ctx }) => {
             const epochs = await ctx.db.epoch.findMany({
@@ -30,4 +30,4 @@ export const getOrCreateRouter = createTRPCRouter({
             return createdEpochs;
         }),
     },
-});
+};

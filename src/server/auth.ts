@@ -11,7 +11,7 @@ import crypto from "crypto";
 import { db } from "~/server/db";
 import type { User } from "@prisma/client";
 import type { UserRole } from "~/types/enums";
-import { DefaultJWT } from "next-auth/jwt";
+import type { DefaultJWT } from "next-auth/jwt";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -23,7 +23,7 @@ declare module "next-auth" {
     interface Session extends DefaultSession {
         user: DefaultSession["user"] & {
             id: string;
-            role: string;
+            role: string; //todo THIS CAN BE UPDATED TO ENUM ONCE WE GO BEYOND SQLITE
         };
     }
 
@@ -35,7 +35,7 @@ declare module "next-auth/jwt" {
     interface JWT extends DefaultJWT {
         user: {
             id: string;
-            role: string;
+            role: string; //todo THIS CAN BE UPDATED TO ENUM ONCE WE GO BEYOND SQLITE
         };
     }
 }

@@ -17,7 +17,7 @@ export default function DescriptionPage() {
     const apiState = api.useUtils();
 
     const { data: epochs, status: epochsStatus } =
-        api.getOrCreate.epochs.byUser.useQuery();
+        api.get.orCreate.epochs.byUser.useQuery();
 
     const {
         mutate: addEpoch,
@@ -29,7 +29,7 @@ export default function DescriptionPage() {
         },
         onSuccess: async () => {
             toast.success("Epoch added.", { id: "add-epoch-toast" });
-            await apiState.getOrCreate.epochs.byUser.invalidate();
+            await apiState.get.orCreate.epochs.byUser.invalidate();
             setTimeout(() => {
                 reset();
             }, 3000);
@@ -135,7 +135,7 @@ const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
     } = api.delete.epoch.byId.useMutation({
         onSuccess: async () => {
             toast.success("Epoch removed!");
-            await apiState.getOrCreate.epochs.invalidate();
+            await apiState.get.orCreate.epochs.invalidate();
             setTimeout(() => {
                 resetDeletion();
             }, 3000);

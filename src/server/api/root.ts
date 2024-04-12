@@ -4,7 +4,6 @@ import { experienceRouter } from "./routers/experience";
 import { extendedAnalysisRouter } from "./routers/extendedAnalysis";
 import { userRouter } from "./routers/user";
 import { suiteRouter } from "./routers/suite";
-import { getOrCreateRouter } from "./routers/getOrCreate";
 import { getRouter } from "./routers/get";
 import { updateRouter } from "./routers/update";
 import { deleteRouter } from "./routers/delete";
@@ -25,7 +24,6 @@ export const appRouter = createTRPCRouter({
     get: getRouter,
     delete: deleteRouter,
     create: createRouter,
-    getOrCreate: getOrCreateRouter,
     update: updateRouter,
 });
 
