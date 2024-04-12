@@ -10,6 +10,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import crypto from "crypto";
 import { db } from "~/server/db";
 import type { User } from "@prisma/client";
+import type { UserRole } from "~/types/enums";
+import { DefaultJWT } from "next-auth/jwt";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -21,15 +23,21 @@ declare module "next-auth" {
     interface Session extends DefaultSession {
         user: DefaultSession["user"] & {
             id: string;
-            // ...other properties
-            // role: UserRole;
+            role: string;
         };
     }
 
-    // interface User {
-    //   // ...other properties
-    //   // role: UserRole;
-    // }
+    interface User {
+        role: string;
+    }
+}
+declare module "next-auth/jwt" {
+    interface JWT extends DefaultJWT {
+        user: {
+            id: string;
+            role: string;
+        };
+    }
 }
 
 /**
@@ -47,9 +55,23 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        session: ({ session, user, token }) => {
+        jwt: ({ token, user }) => {
+            if (user) {
+                // user is undefined on useSession() calls, but defined on initial sign in,
+                // So, we persist past the initial sign in by passing data in only if user is undefined
+                // (this way it doesn't overwrite to undefined on subsequent calls)
+                token.user = {
+                    id: user.id,
+                    role: user.role,
+                };
+            }
+
+            return token;
+        },
+        session: ({ session, token }) => {
             if (session.user) {
-                session.user.id = token.sub!;
+                session.user.id = token.user.id;
+                session.user.role = token.user.role;
             }
 
             return session;
@@ -60,10 +82,6 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             // The name to display on the sign in form (e.g. "Sign in with...")
             name: "Credentials",
-            // `credentials` is used to generate a form on the sign in page.
-            // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-            // e.g. domain, username, password, 2FA token, etc.
-            // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
                 email: {
                     label: "Email",
@@ -77,8 +95,6 @@ export const authOptions: NextAuthOptions = {
                 },
             },
             async authorize(credentials, req): Promise<User | null> {
-                console.log(credentials);
-
                 if (!credentials) {
                     throw new Error("No credentials provided");
                 }
@@ -105,19 +121,6 @@ export const authOptions: NextAuthOptions = {
                 return user;
             },
         }),
-        // DiscordProvider({
-        //   clientId: env.DISCORD_CLIENT_ID,
-        //   clientSecret: env.DISCORD_CLIENT_SECRET,
-        // }),
-        /**
-         * ...add more providers here.
-         *
-         * Most other providers require a bit more work than the Discord provider. For example, the
-         * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-         * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-         *
-         * @see https://next-auth.js.org/providers/github
-         */
     ],
 };
 
