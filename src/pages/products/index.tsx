@@ -25,12 +25,12 @@ const ProductsPage = () => {
                         <div className="flex flex-col items-center gap-3">
                             <h2 className="text-2xl">
                                 Limited Time Offer - Self Authoring Suite 2 for
-                                1 Special{" "}
+                                1 Special
                             </h2>
                             <p>
                                 Buy the 2 for 1 Special for $29.90 USD, and get
                                 access to all the Self Authoring Exercises for
-                                yourself and for a friend.{" "}
+                                yourself and for a friend.
                             </p>
                             <Button className="!w-96" fill="solid">
                                 Buy Now
