@@ -1,7 +1,6 @@
 .button {
     @apply relative
     z-0
-    flex
     h-fit
     w-fit
     cursor-pointer
@@ -24,14 +23,29 @@
     }
 
     .container {
-        @apply relative z-10 flex shrink-0 flex-row gap-2 whitespace-nowrap;
+        @apply relative
+        z-10
+        flex
+        w-full
+        shrink-0
+        
+        whitespace-nowrap;
 
         .loader {
-            @apply absolute left-1/2 grid -translate-x-1/2 place-items-center;
+            @apply absolute
+            left-1/2
+            grid
+            -translate-x-1/2
+            place-items-center;
         }
 
         .contents {
-            @apply scale-0 transition-all;
+            @apply size-full 
+            scale-0
+            flex-row
+            items-center
+            justify-center
+            transition-all;
 
             &.visible {
                 @apply scale-100;
@@ -69,13 +83,13 @@
 
     /* Filled */
 
-    &.filled-neutral {
+    &.solid-neutral {
         @apply bg-neutral-950 text-neutral-100 hover:bg-primary-500 hover:text-neutral-50;
     }
-    &.filled-primary {
+    &.solid-primary {
         @apply bg-primary-500 text-neutral-50 hover:bg-primary-600;
     }
-    &.filled-danger {
+    &.solid-danger {
         @apply bg-danger-500 text-neutral-50 hover:bg-danger-600;
     }
 

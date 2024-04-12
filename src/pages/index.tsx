@@ -32,10 +32,10 @@ export default function HomePage() {
                             your past, present and future.
                         </h2>
                         <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-between gap-3 px-12 py-12 sm:flex-row">
-                            <Button color="neutral" fill="filled">
+                            <Button color="neutral" fill="solid">
                                 Purchase Full Suite
                             </Button>
-                            <Button color="neutral" fill="filled">
+                            <Button color="neutral" fill="solid">
                                 More Information
                             </Button>
                         </div>

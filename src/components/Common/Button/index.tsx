@@ -12,7 +12,7 @@ import ExclamationIcon from "~/components/Icons/Theme/ExclamationIcon";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     size?: "small" | "normal" | "square";
-    fill?: "hollow" | "filled" | "splash" | "blank";
+    fill?: "hollow" | "solid" | "splash" | "blank";
     color?: "primary" | "neutral" | "danger";
     status?: "idle" | "pending" | "error" | "success";
     iconSolid?: boolean;
