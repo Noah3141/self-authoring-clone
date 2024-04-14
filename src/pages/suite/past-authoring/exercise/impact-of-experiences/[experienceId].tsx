@@ -23,9 +23,6 @@ const ImpactOfExperiencePage: NextPage = () => {
         api.get.experiences.byId.withOrds.useQuery({
             experienceId: urlExperienceId,
         });
-    const [input, setInput] = useState(
-        experienceData?.experience.basicAnalysis ?? "",
-    );
 
     if (experienceStatus == "pending") {
         return <LoadingSpinner />;
@@ -56,8 +53,14 @@ const ImpactOfExperiencePage: NextPage = () => {
             </Head>
             <BaseLayout>
                 <AuthoringLayout progress={30}>
-                    <h1 className="w-fit" id="experience-title">
-                        {experience.title}
+                    <h1
+                        className="flex w-fit flex-row items-center gap-3"
+                        id="experience-title"
+                    >
+                        {experience.title}{" "}
+                        <span className=" text-base text-neutral-300">
+                            ({experience.epoch.order} - {experience.order})
+                        </span>
                     </h1>
                     <Tooltip delayShow={500} id="experience-title">
                         Experience {experience.order} title
@@ -76,17 +79,7 @@ const ImpactOfExperiencePage: NextPage = () => {
                     </ul>
                     <p>Write approximately 1,000 characters.</p>
 
-                    <Textarea
-                        value={input}
-                        setValue={setInput}
-                        onFinishedTyping={() => {
-                            // updateBasicAnalysis({
-                            //     epochId: experience.epochId,
-                            //     experienceId: experience.id,
-                            //     basicAnalysis: input,
-                            // });
-                        }}
-                    />
+                    <BasicAnalysisWizard experience={experience} />
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
                         <Link
@@ -128,125 +121,46 @@ const ImpactOfExperiencePage: NextPage = () => {
 
 export default ImpactOfExperiencePage;
 
-type ExperienceWizardProps = {
+type BasicAnalysisWizardProps = {
     experience: Experience;
 };
 
-const ExperienceWizard: FC<ExperienceWizardProps> = ({ experience }) => {
+const BasicAnalysisWizard: FC<BasicAnalysisWizardProps> = ({ experience }) => {
     const apiState = api.useUtils();
 
-    const [titleInput, setTitleInput] = useState(experience.title);
-    const [descriptionInput, setDescriptionInput] = useState(
-        experience.description,
-    );
+    const [input, setInput] = useState(experience.basicAnalysis);
 
     const {
-        mutate: updateTitle,
-        status: titleStatus,
-        reset: resetTitle,
-    } = api.update.experience.title.useMutation({
-        // onSuccess: async () =>,
-        onError: (e) => toast.error(e.message, { id: "update-title-toast" }),
-        onSuccess: async () => {
-            await apiState.get.orCreate.experiences.forEpochId.invalidate();
-            setTimeout(() => {
-                resetTitle();
-            }, 3000);
-        },
-    });
-
-    const {
-        mutate: updateDescription,
-        status: descriptionStatus,
-        reset: resetDescription,
-    } = api.update.experience.description.useMutation({
+        mutate: updateBasicAnalysis,
+        status: updateStatus,
+        reset: resetUpdating,
+    } = api.update.experience.basicAnalysis.useMutation({
         // onSuccess: async () => await,
         onError: (e) =>
-            toast.error(e.message, { id: "update-description-toast" }),
+            toast.error(e.message, { id: "update-basic-analysis-toast" }),
         onSuccess: async () => {
             await apiState.get.orCreate.experiences.forEpochId.invalidate();
+            await apiState.get.experiences.invalidate();
             setTimeout(() => {
-                resetDescription();
-            }, 3000);
-        },
-    });
-
-    const {
-        mutate: deleteExperience,
-        status: deleteStatus,
-        reset: resetDeletion,
-    } = api.delete.experience.byId.useMutation({
-        onSuccess: async () => {
-            toast.success("Experience removed!");
-            await apiState.get.orCreate.experiences.forEpochId.invalidate();
-            await apiState.get.epoch.byId.withOrds.invalidate();
-        },
-        onError: (e) =>
-            toast.error(e.message, { id: "delete-experience-toast" }),
-        onSettled: () => {
-            setTimeout(() => {
-                resetDeletion();
+                resetUpdating();
             }, 3000);
         },
     });
 
     return (
-        <div className="flex flex-col gap-3">
-            <div className="flex flex-row items-center gap-3">
-                <TextInput
-                    status={titleStatus}
-                    value={titleInput}
-                    setValue={setTitleInput}
-                    maxLength={100}
-                    placeholder="Title"
-                    className="w-full"
-                    tooltips={{ success: "Saved.", error: "Could not update!" }}
-                    onFinishedTyping={() => {
-                        resetTitle();
-                        if (experience.title !== titleInput) {
-                            updateTitle({
-                                experienceId: experience.id,
-                                title: titleInput,
-                            });
-                        }
-                    }}
-                />
-                <Button
-                    status={deleteStatus}
-                    id={`delete-experience-${experience.order}`}
-                    fill="blank"
-                    size="square"
-                    color="danger"
-                    className=" self-end"
-                    onClick={() => {
-                        deleteExperience({ experienceId: experience.id });
-                    }}
-                >
-                    <TrashIcon size={16} />
-                </Button>
-                <Tooltip
-                    place={"right"}
-                    id={`delete-experience-${experience.order}`}
-                >
-                    Remove this experience and associated essays
-                </Tooltip>
-            </div>
-            <div>
-                <Textarea
-                    status={descriptionStatus}
-                    onFinishedTyping={() => {
-                        resetDescription();
-                        if (experience.description !== descriptionInput) {
-                            updateDescription({
-                                experienceId: experience.id,
-                                description: descriptionInput,
-                            });
-                        }
-                    }}
-                    setValue={setDescriptionInput}
-                    value={descriptionInput}
-                />
-            </div>
-        </div>
+        <Textarea
+            status={updateStatus}
+            onFinishedTyping={() => {
+                resetUpdating();
+                if (experience.basicAnalysis !== input) {
+                    updateBasicAnalysis({
+                        experienceId: experience.id,
+                        basicAnalysis: input,
+                    });
+                }
+            }}
+            setValue={setInput}
+            value={input}
+        />
     );
 };

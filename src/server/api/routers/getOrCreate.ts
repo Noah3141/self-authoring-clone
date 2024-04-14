@@ -16,8 +16,8 @@ export const orCreateRouter = {
                 await ctx.db.epoch.createMany({
                     data: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
                         order: i,
-                        title: "",
                         userId: ctx.session.user.id,
+                        // DB default for title
                     })),
                 });
 
@@ -51,10 +51,9 @@ export const orCreateRouter = {
                     await ctx.db.experience.createMany({
                         data: [1, 2, 3, 4, 5, 6].map((i) => ({
                             order: i,
-                            title: "",
-                            description: "",
                             epochId: input.epochId,
                             userId: ctx.session.user.id,
+                            // DB defaults for title, description, basicAnalysis
                         })),
                     });
 

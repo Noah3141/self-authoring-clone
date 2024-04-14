@@ -153,7 +153,10 @@ const PastAuthoringNavigation = () => {
                 })}
             </Tile>
             <Tile>
-                <Subtile main href={`/suite/past-authoring/exercise/intro`}>
+                <Subtile
+                    main
+                    href={`/suite/past-authoring/exercise/impact-of-experiences`}
+                >
                     Impact of Experiences
                 </Subtile>
                 {userExperiences.map((experience) => {

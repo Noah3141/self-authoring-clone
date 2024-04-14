@@ -1,9 +1,9 @@
-import { Experience } from "@prisma/client";
+import type { Experience } from "@prisma/client";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import { type FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
@@ -187,6 +187,7 @@ const ExperienceWizard: FC<ExperienceWizardProps> = ({ experience }) => {
         onError: (e) => toast.error(e.message, { id: "update-title-toast" }),
         onSuccess: async () => {
             await apiState.get.orCreate.experiences.forEpochId.invalidate();
+            await apiState.get.experiences.invalidate();
             setTimeout(() => {
                 resetTitle();
             }, 3000);

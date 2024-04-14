@@ -82,8 +82,44 @@ export const updateRouter = createTRPCRouter({
                 }
 
                 await ctx.db.experience.update({
-                    where: { id: input.experienceId },
+                    where: {
+                        id: input.experienceId,
+                        userId: ctx.session.user.id,
+                    },
                     data: { description: input.description },
+                });
+            }),
+        /**
+         *
+         */
+        basicAnalysis: protectedProcedure
+            .input(
+                z.object({
+                    experienceId: z.string(),
+                    basicAnalysis: z.string(),
+                }),
+            )
+            .mutation(async ({ ctx, input }) => {
+                if (input.basicAnalysis === "") {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Please provide an input.",
+                    });
+                }
+
+                if (input.basicAnalysis.length < 3) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Please provide a longer analysis",
+                    });
+                }
+
+                await ctx.db.experience.update({
+                    where: {
+                        id: input.experienceId,
+                        userId: ctx.session.user.id,
+                    },
+                    data: { basicAnalysis: input.basicAnalysis },
                 });
             }),
     },

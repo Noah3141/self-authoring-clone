@@ -82,7 +82,7 @@ model Epoch {
     user            User           @relation(fields: [userId], references: [id])
     userId          String
     order           Int            @unique // @default(autoincrement())
-    title           String
+    title           String         @default("")
     experiences     Experience[]
     pastAuthoring   PastAuthoring? @relation(fields: [pastAuthoringId], references: [id])
     pastAuthoringId String?
@@ -95,10 +95,9 @@ model Experience {
     order              Int // ! This cannot be unique because 
     epoch              Epoch             @relation(fields: [epochId], references: [id], onDelete: Cascade)
     epochId            String
-    title              String
-    description        String
-    // The first time the user writes about an experience they give it a title, and a description.
-    basicAnalysis      String?
+    title              String            @default("")
+    description        String            @default("")
+    basicAnalysis      String            @default("")
     extendedAnalysis   ExtendedAnalysis?
     extendedAnalysisId String?
 }
