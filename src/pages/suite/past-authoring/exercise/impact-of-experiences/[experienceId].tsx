@@ -53,12 +53,9 @@ const ImpactOfExperiencePage: NextPage = () => {
             </Head>
             <BaseLayout>
                 <AuthoringLayout progress={30}>
-                    <h1
-                        className="flex w-fit flex-row items-center gap-3"
-                        id="experience-title"
-                    >
+                    <h1 className="w-fit" id="experience-title">
                         {experience.title}{" "}
-                        <span className=" text-base text-neutral-300">
+                        <span className="text-base text-neutral-300">
                             ({experience.epoch.order} - {experience.order})
                         </span>
                     </h1>
@@ -79,13 +76,16 @@ const ImpactOfExperiencePage: NextPage = () => {
                     </ul>
                     <p>Write approximately 1,000 characters.</p>
 
-                    <BasicAnalysisWizard experience={experience} />
+                    <BasicAnalysisWizard
+                        experience={experience}
+                        key={experience.id}
+                    />
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
                         <Link
                             href={
-                                !!nextExperience
-                                    ? `/suite/past-authoring/exercise/impact-of-experiences/${nextExperience.id}`
+                                !!previousExperience
+                                    ? `/suite/past-authoring/exercise/impact-of-experiences/${previousExperience.id}`
                                     : `/suite/past-authoring/exercise/impact-of-experiences`
                             }
                         >
@@ -99,9 +99,9 @@ const ImpactOfExperiencePage: NextPage = () => {
                         </Link>
                         <Link
                             href={
-                                !!previousExperience
-                                    ? `/suite/past-authoring/exercise/impact-of-experiences/${previousExperience.id}`
-                                    : `/suite/past-authoring/exercise/impact-of-experiences`
+                                !!nextExperience
+                                    ? `/suite/past-authoring/exercise/impact-of-experiences/${nextExperience.id}`
+                                    : `/suite/past-authoring/exercise/select-for-analysis`
                             }
                         >
                             <Button
@@ -139,8 +139,8 @@ const BasicAnalysisWizard: FC<BasicAnalysisWizardProps> = ({ experience }) => {
         onError: (e) =>
             toast.error(e.message, { id: "update-basic-analysis-toast" }),
         onSuccess: async () => {
-            await apiState.get.orCreate.experiences.forEpochId.invalidate();
             await apiState.get.experiences.invalidate();
+            await apiState.get.orCreate.experiences.forEpochId.invalidate();
             setTimeout(() => {
                 resetUpdating();
             }, 3000);

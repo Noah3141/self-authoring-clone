@@ -88,10 +88,20 @@ const PastAuthoringNavigation = () => {
         api.get.epochs.byUser.useQuery();
     const { data: userExperiences, status: userExperiencesStatus } =
         api.get.experiences.byUser.useQuery();
+    const { data: userExtendedAnalyses, status: userExtendedAnalysesStatus } =
+        api.get.extendedAnalyses.byUser.useQuery();
 
-    if (userEpochsStatus == "pending" || userExperiencesStatus == "pending")
+    if (
+        userEpochsStatus == "pending" ||
+        userExperiencesStatus == "pending" ||
+        userExtendedAnalysesStatus == "pending"
+    )
         return <LoadingSpinner />;
-    if (userEpochsStatus == "error" || userExperiencesStatus == "error")
+    if (
+        userEpochsStatus === "error" ||
+        userExperiencesStatus === "error" ||
+        userExtendedAnalysesStatus === "error"
+    )
         return "Error encountered!";
 
     return (
@@ -172,12 +182,20 @@ const PastAuthoringNavigation = () => {
                 })}
             </Tile>
             <Tile>
-                <Subtile main href={`/suite/past-authoring/exercise/intro`}>
+                <Subtile
+                    main
+                    href={`/suite/past-authoring/exercise/select-for-analysis`}
+                >
                     Select for Analysis
                 </Subtile>
-                <Subtile href={`/suite/past-authoring/exercise/intro`}>
-                    Completing the Exercise
-                </Subtile>
+                {userExtendedAnalyses.map((extendedAnalysis, experienceOrd) => {
+                    return (
+                        <Subtile
+                            href={`/suite/past-authoring/exercise/select-for-analysis/${experienceOrd}`}
+                            key={extendedAnalysis.experienceId}
+                        ></Subtile>
+                    );
+                })}
             </Tile>
         </>
     );

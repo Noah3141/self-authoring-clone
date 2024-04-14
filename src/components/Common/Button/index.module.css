@@ -13,7 +13,7 @@
     disabled:cursor-default;
 
     &.small {
-        @apply px-3 py-1;
+        @apply px-3 py-0.5;
     }
     &.normal {
         @apply px-3 py-2;

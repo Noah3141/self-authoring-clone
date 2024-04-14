@@ -1,9 +1,103 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import type { Prisma } from "@prisma/client";
 
 export const updateRouter = createTRPCRouter({
+    /**
+     *
+     */
+    extendedAnalyses: {
+        selectedList: protectedProcedure
+            .input(z.object({ selected: z.record(z.boolean()) }))
+            .mutation(async ({ ctx, input }) => {
+                const extantAnalyses = await ctx.db.extendedAnalysis.findMany({
+                    where: { userId: ctx.session.user.id },
+                });
+
+                if (!extantAnalyses.length) {
+                    // They don't have any yet
+                    const _newAnalyses =
+                        await ctx.db.extendedAnalysis.createMany({
+                            data: Object.entries(input.selected).map(
+                                ([experienceId, selected]) => ({
+                                    experienceId,
+                                    selected,
+                                    userId: ctx.session.user.id,
+                                }),
+                            ),
+                        });
+                    return {};
+                } else {
+                    // We have some extant Analysis models. Does one exist for each experience?
+                    const _newAnalyses =
+                        await ctx.db.extendedAnalysis.createMany({
+                            data: Object.entries(input.selected)
+                                // Go through our input object, which has a key for every experience right now
+                                .map(([experienceId, selected]) => {
+                                    if (
+                                        // if the extant extendedAnalysis list does not contain one of the ids in the total list,
+                                        !extantAnalyses
+                                            .map(
+                                                (extantAnalysis) =>
+                                                    extantAnalysis.experienceId,
+                                            )
+                                            .includes(experienceId)
+                                    ) {
+                                        // make a new extended analysis for it
+                                        return {
+                                            userId: ctx.session.user.id,
+                                            experienceId: experienceId,
+                                            selected,
+                                        } satisfies Prisma.ExtendedAnalysisCreateManyInput;
+                                    }
+                                })
+                                .filter((item) => !!item),
+                        });
+
+                    // Reacquire the analysis list
+                    const newlyExtantAnalyses =
+                        await ctx.db.extendedAnalysis.findMany({
+                            where: { userId: ctx.session.user.id },
+                        });
+
+                    // todo THIS SUCKS - TOO MANY QUERIES
+                    const responses = await Promise.allSettled(
+                        newlyExtantAnalyses.map(async (extendedAnalysis) => {
+                            if (
+                                input.selected[
+                                    extendedAnalysis.experienceId
+                                ] !== extendedAnalysis.selected
+                            ) {
+                                // Make it so
+                                const updatedExtendedAnalysis =
+                                    await ctx.db.extendedAnalysis.update({
+                                        where: {
+                                            experienceId:
+                                                extendedAnalysis.experienceId,
+                                            userId: ctx.session.user.id,
+                                        },
+                                        data: {
+                                            selected:
+                                                input.selected[
+                                                    extendedAnalysis
+                                                        .experienceId
+                                                ],
+                                        },
+                                    });
+
+                                return updatedExtendedAnalysis;
+                            }
+                        }),
+                    );
+
+                    return {
+                        responses,
+                    };
+                }
+            }),
+    },
+
     epoch: {
         title: protectedProcedure
             .input(z.object({ epochId: z.string(), title: z.string() }))

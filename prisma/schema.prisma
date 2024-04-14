@@ -103,14 +103,15 @@ model Experience {
 }
 
 model ExtendedAnalysis {
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
-
+    userId       String
+    user         User       @relation(fields: [userId], references: [id])
+    selected     Boolean
+    // Soft delete, making the analysis present in cycle or not. This allows the writing to be retained when the user deselects
     experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
     experienceId String     @id
 
-    eventAnalysis  String?
-    effectAnalysis String?
+    eventAnalysis  String @default("")
+    effectAnalysis String @default("")
 }
 
 //

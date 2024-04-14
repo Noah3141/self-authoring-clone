@@ -174,17 +174,19 @@ export const getRouter = createTRPCRouter({
 
                     const nextExperience = await ctx.db.experience.findFirst({
                         orderBy: [
-                            { epoch: { order: "desc" } },
+                            { epoch: { order: "asc" } },
                             { order: "asc" },
                         ],
                         where: {
                             OR: [
                                 {
+                                    // Next in the same epoch
                                     order: experience.order + 1,
                                     userId: ctx.session.user.id,
                                     epochId: experience.epochId,
                                 },
                                 {
+                                    // Else lowest in the next epoch
                                     userId: ctx.session.user.id,
                                     epoch: {
                                         order: experience.epoch.order + 1,
@@ -193,6 +195,10 @@ export const getRouter = createTRPCRouter({
                             ],
                         },
                     });
+
+                    // if (false && !nextExperience) {
+                    //     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+                    // }
 
                     return {
                         experience,
@@ -208,6 +214,14 @@ export const getRouter = createTRPCRouter({
             return await ctx.db.experience.findMany({
                 where: { userId: ctx.session.user.id },
                 orderBy: [{ epoch: { order: "asc" } }, { order: "asc" }],
+            });
+        }),
+    },
+    extendedAnalyses: {
+        byUser: protectedProcedure.query(async ({ ctx }) => {
+            return await ctx.db.extendedAnalysis.findMany({
+                where: { userId: ctx.session.user.id },
+                orderBy: { experience: { order: "asc" } },
             });
         }),
     },

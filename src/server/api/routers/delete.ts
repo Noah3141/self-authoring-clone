@@ -47,17 +47,37 @@ export const deleteRouter = createTRPCRouter({
                         id: input.experienceId,
                         userId: ctx.session.user.id,
                     },
+                    select: { order: true },
                 });
 
-                const updatedOrderExperiences = await ctx.db.epoch.updateMany({
-                    where: {
-                        userId: ctx.session.user.id,
-                        order: { gt: deletedExperience.order },
+                const nextHighestExperience = await ctx.db.experience.findFirst(
+                    {
+                        orderBy: { order: "asc" },
+                        where: {
+                            order: { gte: deletedExperience.order },
+                        },
                     },
-                    data: {
-                        order: { decrement: 1 },
-                    },
-                });
+                );
+
+                if (!nextHighestExperience) {
+                    // Nothing to fix
+                    return;
+                } else {
+                    const gapToCLose =
+                        nextHighestExperience.order - deletedExperience.order;
+
+                    const fixedOrderExperiences = await ctx.db.epoch.updateMany(
+                        {
+                            where: {
+                                userId: ctx.session.user.id,
+                                order: { gt: deletedExperience.order },
+                            },
+                            data: {
+                                order: { decrement: gapToCLose },
+                            },
+                        },
+                    );
+                }
             }),
     },
 });
