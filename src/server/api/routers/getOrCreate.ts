@@ -12,22 +12,64 @@ export const orCreateRouter = {
 
             if (!!epochs.length) {
                 return epochs;
+            } else {
+                await ctx.db.epoch.createMany({
+                    data: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
+                        order: i,
+                        title: "",
+                        userId: ctx.session.user.id,
+                    })),
+                });
+
+                const createdEpochs = await ctx.db.epoch.findMany({
+                    where: { userId: ctx.session.user.id },
+                    orderBy: { order: "asc" },
+                });
+
+                return createdEpochs;
             }
-
-            await ctx.db.epoch.createMany({
-                data: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
-                    order: i,
-                    title: "",
-                    userId: ctx.session.user.id,
-                })),
-            });
-
-            const createdEpochs = await ctx.db.epoch.findMany({
-                where: { userId: ctx.session.user.id },
-                orderBy: { order: "asc" },
-            });
-
-            return createdEpochs;
         }),
+    },
+    /**
+     * Get or create Experiences
+     */
+    experiences: {
+        forEpochId: protectedProcedure
+            .input(z.object({ epochId: z.string() }))
+            .query(async ({ ctx, input }) => {
+                const experiences = await ctx.db.experience.findMany({
+                    where: {
+                        userId: ctx.session.user.id,
+                        epochId: input.epochId,
+                    },
+                    orderBy: { order: "asc" },
+                });
+
+                if (!!experiences.length) {
+                    return experiences;
+                } else {
+                    await ctx.db.experience.createMany({
+                        data: [1, 2, 3, 4, 5, 6].map((i) => ({
+                            order: i,
+                            title: "",
+                            description: "",
+                            epochId: input.epochId,
+                            userId: ctx.session.user.id,
+                        })),
+                    });
+
+                    const createdExperiences = await ctx.db.experience.findMany(
+                        {
+                            where: {
+                                userId: ctx.session.user.id,
+                                epochId: input.epochId,
+                            },
+                            orderBy: { order: "asc" },
+                        },
+                    );
+
+                    return createdExperiences;
+                }
+            }),
     },
 };

@@ -28,4 +28,63 @@ export const updateRouter = createTRPCRouter({
                 });
             }),
     },
+
+    /**
+     * Update an experience object
+     */
+    experience: {
+        /**
+         *  Update experience title
+         */
+        title: protectedProcedure
+            .input(z.object({ experienceId: z.string(), title: z.string() }))
+            .mutation(async ({ ctx, input }) => {
+                if (input.title === "") {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message:
+                            "Please provide a title, or remove unwanted experiences.",
+                    });
+                }
+                if (input.title.length < 3) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Please provide a longer title",
+                    });
+                }
+
+                await ctx.db.experience.update({
+                    where: { id: input.experienceId },
+                    data: { title: input.title },
+                });
+            }),
+        /**
+         * Update experience description
+         */
+        description: protectedProcedure
+            .input(
+                z.object({ experienceId: z.string(), description: z.string() }),
+            )
+            .mutation(async ({ ctx, input }) => {
+                if (input.description === "") {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message:
+                            "Please provide a title, or remove unwanted epochs.",
+                    });
+                }
+
+                if (input.description.length < 3) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Please provide a longer description",
+                    });
+                }
+
+                await ctx.db.experience.update({
+                    where: { id: input.experienceId },
+                    data: { description: input.description },
+                });
+            }),
+    },
 });

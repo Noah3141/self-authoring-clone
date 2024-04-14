@@ -81,7 +81,7 @@ model Epoch {
     id              String         @id @default(cuid())
     user            User           @relation(fields: [userId], references: [id])
     userId          String
-    order           Int            @unique
+    order           Int            @unique // @default(autoincrement())
     title           String
     experiences     Experience[]
     pastAuthoring   PastAuthoring? @relation(fields: [pastAuthoringId], references: [id])
@@ -89,19 +89,16 @@ model Epoch {
 }
 
 model Experience {
-    id     String @id @default(cuid())
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
-
-    epoch   Epoch  @relation(fields: [epochId], references: [id], onDelete: Cascade)
-    epochId String
-
-    title       String?
-    description String?
+    id                 String            @id @default(cuid())
+    userId             String
+    user               User              @relation(fields: [userId], references: [id])
+    order              Int               @unique // @default(autoincrement())
+    epoch              Epoch             @relation(fields: [epochId], references: [id], onDelete: Cascade)
+    epochId            String
+    title              String
+    description        String
     // The first time the user writes about an experience they give it a title, and a description.
-
-    basicAnalysis String?
-
+    basicAnalysis      String?
     extendedAnalysis   ExtendedAnalysis?
     extendedAnalysisId String?
 }

@@ -83,5 +83,13 @@ export const getRouter = createTRPCRouter({
         },
     },
 
+
+    /**
+     * Get multiple experiences
+     */
+    experiences: {
+        //
+    },
+
     orCreate: orCreateRouter,
 });

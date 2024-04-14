@@ -68,8 +68,8 @@ export default function DescriptionPage() {
                         that represent your life so far:{" "}
                     </p>
                     <div className="flex flex-col gap-6">
-                        {epochs.map((epoch, i) => {
-                            return <EpochWizard key={i} epoch={epoch} />;
+                        {epochs.map((epoch) => {
+                            return <EpochWizard key={epoch.id} epoch={epoch} />;
                         })}
                     </div>
                     <div className="self-center pt-3">
@@ -126,7 +126,8 @@ const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
         status,
         reset,
     } = api.update.epoch.title.useMutation({
-        onSuccess: async () => await apiState.user.epochs.all.invalidate(),
+        onSuccess: async () =>
+            await apiState.get.orCreate.epochs.byUser.invalidate(),
         onError: (e) => toast.error(e.message, { id: "update-title-toast" }),
     });
 

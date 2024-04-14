@@ -1,8 +1,8 @@
 .textarea {
-    @apply h-96
+    @apply h-32
+    min-h-32
     w-full
     shrink-0
-    resize-none
     whitespace-pre-wrap
     rounded-lg
     bg-neutral-50
@@ -24,5 +24,31 @@
     &.validate {
         @apply invalid:bg-danger-100 
         invalid:outline-danger-300;
+    }
+}
+
+.label {
+    @apply absolute
+    bottom-1
+    right-2
+    z-10
+    flex
+    flex-row
+    items-center
+    gap-1
+    rounded
+    bg-neutral-50
+    bg-opacity-95
+    px-1
+    text-sm
+    text-neutral-900
+    text-opacity-20;
+
+    .icon {
+        @apply absolute top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all;
+
+        &.visible {
+            @apply scale-100 opacity-100;
+        }
     }
 }
