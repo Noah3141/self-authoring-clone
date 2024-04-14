@@ -43,6 +43,7 @@ const ListEpochExperiencesPage: NextPage = () => {
         onSuccess: async () => {
             toast.success("Experience added.", { id: "add-experience-toast" });
             await apiState.get.orCreate.experiences.forEpochId.invalidate();
+            await apiState.get.epoch.byId.withOrds.invalidate();
             setTimeout(() => {
                 resetAddExperience();
             }, 1000);
@@ -144,7 +145,7 @@ const ListEpochExperiencesPage: NextPage = () => {
                             href={
                                 !!nextEpoch
                                     ? `/suite/past-authoring/exercise/epochs/${nextEpoch.id}`
-                                    : `/suite/past-authoring/exercise/`
+                                    : `/suite/past-authoring/exercise/epochs`
                             }
                         >
                             <Button
@@ -181,9 +182,10 @@ const ExperienceWizard: FC<ExperienceWizardProps> = ({ experience }) => {
         status: titleStatus,
         reset: resetTitle,
     } = api.update.experience.title.useMutation({
-        // onSuccess: async () => await apiState.user.epochs.all.invalidate(),
+        // onSuccess: async () =>,
         onError: (e) => toast.error(e.message, { id: "update-title-toast" }),
-        onSuccess: () => {
+        onSuccess: async () => {
+            await apiState.get.orCreate.experiences.forEpochId.invalidate();
             setTimeout(() => {
                 resetTitle();
             }, 3000);
@@ -195,10 +197,11 @@ const ExperienceWizard: FC<ExperienceWizardProps> = ({ experience }) => {
         status: descriptionStatus,
         reset: resetDescription,
     } = api.update.experience.description.useMutation({
-        // onSuccess: async () => await apiState.user.epochs.all.invalidate(),
+        // onSuccess: async () => await,
         onError: (e) =>
             toast.error(e.message, { id: "update-description-toast" }),
-        onSuccess: () => {
+        onSuccess: async () => {
+            await apiState.get.orCreate.experiences.forEpochId.invalidate();
             setTimeout(() => {
                 resetDescription();
             }, 3000);
@@ -213,6 +216,7 @@ const ExperienceWizard: FC<ExperienceWizardProps> = ({ experience }) => {
         onSuccess: async () => {
             toast.success("Experience removed!");
             await apiState.get.orCreate.experiences.forEpochId.invalidate();
+            await apiState.get.epoch.byId.withOrds.invalidate();
         },
         onError: (e) =>
             toast.error(e.message, { id: "delete-experience-toast" }),

@@ -92,7 +92,7 @@ model Experience {
     id                 String            @id @default(cuid())
     userId             String
     user               User              @relation(fields: [userId], references: [id])
-    order              Int               @unique // @default(autoincrement())
+    order              Int // ! This cannot be unique because 
     epoch              Epoch             @relation(fields: [epochId], references: [id], onDelete: Cascade)
     epochId            String
     title              String
