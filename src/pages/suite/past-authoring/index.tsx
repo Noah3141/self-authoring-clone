@@ -6,8 +6,6 @@ import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
 const PastAuthoringPage = () => {
-    const progress = "getfrom db".lastIndexOf("s");
-
     return (
         <>
             <Head>
@@ -19,7 +17,7 @@ const PastAuthoringPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout progress={progress}>
+                <AuthoringLayout progress={0}>
                     <h1>Past Authoring</h1>
 
                     <p>

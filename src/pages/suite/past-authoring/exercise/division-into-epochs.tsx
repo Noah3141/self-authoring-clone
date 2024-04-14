@@ -170,12 +170,12 @@ const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
                     fill="blank"
                     size="square"
                     color="danger"
-                    className="self-end"
+                    className=" self-end"
                     onClick={() => {
                         deleteEpoch({ epochId: epoch.id });
                     }}
                 >
-                    <TrashIcon />
+                    <TrashIcon size={16} />
                 </Button>
                 <Tooltip place={"right"} id={`delete-epoch-${epoch.order}`}>
                     Remove this epoch and associated essays

@@ -15,7 +15,9 @@ const BuyItForAFriend = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <h1>Main</h1>
+                <section className="border-b border-neutral-300">
+                    <h1>Buy it for a friend</h1>
+                </section>
 
                 <Textarea maxWords={3000} minLength={5} />
             </BaseLayout>

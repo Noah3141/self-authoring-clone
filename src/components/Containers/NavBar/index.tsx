@@ -14,9 +14,8 @@ import { useRouter } from "next/router";
 const Navbar: FC = ({}) => {
     const session = useSession().data;
     const router = useRouter();
-    const section = router.pathname.split("/")[2];
-    const inAuthoring =
-        section === "past-authoring" || section === "future-authoring";
+    const section = router.pathname.split("/")[1];
+    const inAuthoring = section === "suite";
 
     return (
         <nav>

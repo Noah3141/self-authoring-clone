@@ -1,8 +1,8 @@
 import React, {
     type PropsWithChildren,
     type FC,
+    type ButtonHTMLAttributes,
     useState,
-    ButtonHTMLAttributes,
 } from "react";
 import styles from "./index.module.css";
 import classNames from "classnames";

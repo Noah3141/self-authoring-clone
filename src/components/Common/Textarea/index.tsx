@@ -8,6 +8,11 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     className?: string;
 };
 
+function wordsIn(text: string): number {
+    if (text === "") return 0;
+    return text.replaceAll("  ", " ").split(" ").length;
+}
+
 const Textarea: FC<TextareaProps> = ({ maxWords, ...props }) => {
     const [wordCount, setWordCount] = useState(0);
 
@@ -15,7 +20,7 @@ const Textarea: FC<TextareaProps> = ({ maxWords, ...props }) => {
         <div className="relative block w-full">
             <textarea
                 onChange={(e) => {
-                    setWordCount(e.target.value.length);
+                    setWordCount(wordsIn(e.target.value));
                 }}
                 className={classNames(
                     styles.textarea,
@@ -24,7 +29,7 @@ const Textarea: FC<TextareaProps> = ({ maxWords, ...props }) => {
                 )}
                 autoComplete="on"
                 {...props}
-            ></textarea>
+            />
             <label className="absolute bottom-2 right-3 z-10 rounded bg-neutral-50 bg-opacity-95 px-1 text-neutral-900 text-opacity-20">
                 {wordCount} {maxWords ? `/ ${maxWords} ` : <></>}
                 {wordCount === 0 ? "words" : wordCount < 2 ? "word" : "words"}

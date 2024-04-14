@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import Button from "~/components/Common/Button";
-import ProgressBar from "~/components/Common/ProgressBar";
-import Sidebar from "~/components/Containers/Sidebar";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
