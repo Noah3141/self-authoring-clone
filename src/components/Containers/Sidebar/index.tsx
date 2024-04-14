@@ -85,10 +85,14 @@ export default Sidebar;
 
 const PastAuthoringNavigation = () => {
     const { data: userEpochs, status: userEpochsStatus } =
-        api.user.epochs.all.useQuery();
+        api.get.epochs.byUser.useQuery();
+    const { data: userExperiences, status: userExperiencesStatus } =
+        api.get.experiences.byUser.useQuery();
 
-    if (userEpochsStatus == "pending") return <LoadingSpinner />;
-    if (userEpochsStatus == "error") return "Error encountered!";
+    if (userEpochsStatus == "pending" || userExperiencesStatus == "pending")
+        return <LoadingSpinner />;
+    if (userEpochsStatus == "error" || userExperiencesStatus == "error")
+        return "Error encountered!";
 
     return (
         <>
@@ -136,12 +140,12 @@ const PastAuthoringNavigation = () => {
                     Epochs
                 </Subtile>
 
-                {userEpochs.map((epoch, i) => {
+                {userEpochs.map((epoch) => {
                     if (epoch.title)
                         return (
                             <Subtile
-                                key={i}
-                                href={`/suite/past-authoring/exercise/epochs/`}
+                                key={epoch.id}
+                                href={`/suite/past-authoring/exercise/epochs/${epoch.id}`}
                             >
                                 {epoch.title}
                             </Subtile>
@@ -152,9 +156,17 @@ const PastAuthoringNavigation = () => {
                 <Subtile main href={`/suite/past-authoring/exercise/intro`}>
                     Impact of Experiences
                 </Subtile>
-                <Subtile href={`/suite/past-authoring/exercise/intro`}>
-                    Completing the Exercise
-                </Subtile>
+                {userExperiences.map((experience) => {
+                    if (experience.title)
+                        return (
+                            <Subtile
+                                href={`/suite/past-authoring/exercise/impact-of-experiences/${experience.id}`}
+                                key={experience.id}
+                            >
+                                {experience.title}
+                            </Subtile>
+                        );
+                })}
             </Tile>
             <Tile>
                 <Subtile main href={`/suite/past-authoring/exercise/intro`}>

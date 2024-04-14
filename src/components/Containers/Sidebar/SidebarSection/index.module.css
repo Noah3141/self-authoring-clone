@@ -3,17 +3,17 @@
     -z-30
     flex
     h-full
-    w-96
+    w-96 
     origin-left
     -translate-x-full
     flex-col
     gap-3
+    overflow-y-auto
     whitespace-nowrap
     border-r
     border-neutral-300
     bg-neutral-50
     p-8
-    
     transition-all
     duration-300
     ease-in-out;

@@ -23,7 +23,6 @@
 
 .contents {
     @apply absolute 
-    left-16
-    top-0
+    left-16  top-0
     h-full;
 }

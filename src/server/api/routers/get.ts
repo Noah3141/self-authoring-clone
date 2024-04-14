@@ -82,13 +82,134 @@ export const getRouter = createTRPCRouter({
                 }),
         },
     },
-
+    epochs: {
+        byUser: protectedProcedure.query(async ({ ctx }) => {
+            return await ctx.db.epoch.findMany({
+                where: { userId: ctx.session.user.id },
+            });
+        }),
+    },
 
     /**
-     * Get multiple experiences
+     * Get experiences
      */
     experiences: {
-        //
+        /**
+         *
+         */
+        first: protectedProcedure.query(async ({ ctx }) => {
+            const firstEpoch = await ctx.db.epoch.findFirst({
+                where: {
+                    userId: ctx.session.user.id,
+                },
+                orderBy: { order: "asc" },
+                include: { experiences: { orderBy: { order: "asc" } } },
+            });
+
+            if (!firstEpoch) {
+                throw new TRPCError({ code: "NOT_FOUND" });
+            }
+
+            return firstEpoch.experiences[0];
+        }),
+
+        /**
+         *
+         */
+        byId: {
+            /**
+             *
+             */
+            alone: {},
+
+            /**
+             *
+             */
+            withOrds: protectedProcedure
+                .input(z.object({ experienceId: z.string() }))
+                .query(async ({ ctx, input }) => {
+                    const experience = await ctx.db.experience.findUnique({
+                        where: {
+                            id: input.experienceId,
+                            userId: ctx.session.user.id,
+                        },
+                        include: {
+                            epoch: { select: { id: true, order: true } },
+                        },
+                    });
+
+                    if (!experience) {
+                        throw new TRPCError({ code: "NOT_FOUND" });
+                    }
+
+                    const previousExperience =
+                        await ctx.db.experience.findFirst({
+                            orderBy: [
+                                { epoch: { order: "desc" } },
+                                { order: "desc" },
+                            ],
+                            where: {
+                                OR: [
+                                    {
+                                        // The previous in the same epoch
+                                        order: experience.order - 1,
+                                        userId: ctx.session.user.id,
+                                        epochId: experience.epoch.id,
+                                    },
+                                    {
+                                        // Else the highest on the descending list (i.e. highest) order of the preceding epoch
+                                        userId: ctx.session.user.id,
+                                        epoch: {
+                                            order: experience.epoch.order - 1,
+                                        },
+                                    },
+                                ],
+                            },
+                        });
+
+                    if (experience.epoch.order !== 1 && !previousExperience) {
+                        // If we're not talking about the first epoch, and the previous epoch query above failed to get the previous... Something's wrong
+                        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+                    }
+
+                    const nextExperience = await ctx.db.experience.findFirst({
+                        orderBy: [
+                            { epoch: { order: "desc" } },
+                            { order: "asc" },
+                        ],
+                        where: {
+                            OR: [
+                                {
+                                    order: experience.order + 1,
+                                    userId: ctx.session.user.id,
+                                    epochId: experience.epochId,
+                                },
+                                {
+                                    userId: ctx.session.user.id,
+                                    epoch: {
+                                        order: experience.epoch.order + 1,
+                                    },
+                                },
+                            ],
+                        },
+                    });
+
+                    return {
+                        experience,
+                        previousExperience,
+                        nextExperience,
+                    };
+                }),
+        },
+        /**
+         *
+         */
+        byUser: protectedProcedure.query(async ({ ctx }) => {
+            return await ctx.db.experience.findMany({
+                where: { userId: ctx.session.user.id },
+                orderBy: [{ epoch: { order: "asc" } }, { order: "asc" }],
+            });
+        }),
     },
 
     orCreate: orCreateRouter,

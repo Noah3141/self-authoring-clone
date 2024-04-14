@@ -1,6 +1,7 @@
 import { type Epoch } from "@prisma/client";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { type FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "~/components/Common/Button";
@@ -13,47 +14,29 @@ import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 
-export default function DescriptionPage() {
+export default function ImpactOfExperiencesIntroPage() {
     const apiState = api.useUtils();
+    const router = useRouter();
 
-    const { data: epochs, status: epochsStatus } =
-        api.get.orCreate.epochs.byUser.useQuery();
+    const { data: firstExperience, status: experiencesStatus } =
+        api.get.experiences.first.useQuery();
 
-    const {
-        mutate: addEpoch,
-        status,
-        reset,
-    } = api.create.epoch.push.useMutation({
-        onMutate: () => {
-            toast.loading("Adding epoch...", { id: "add-epoch-toast" });
-        },
-        onSuccess: async () => {
-            toast.success("Epoch added.", { id: "add-epoch-toast" });
-            await apiState.get.orCreate.epochs.byUser.invalidate();
-            setTimeout(() => {
-                reset();
-            }, 1000);
-        },
-        onError: () => {
-            toast.error("Something went wrong.", { id: "add-epoch-toast" });
-            setTimeout(() => {
-                reset();
-            }, 3000);
-        },
-    });
-
-    if (epochsStatus == "pending") {
+    if (experiencesStatus === "pending") {
         return <LoadingSpinner />;
     }
 
-    if (epochsStatus == "error") {
-        return <SomethingsWrong />;
+    if (!firstExperience) {
+        toast.error(
+            "Something went wrong locating your first experience, please try again.",
+        );
+        void apiState.get.invalidate();
+        void router.push("/suite/past-authoring/exercise/epochs");
+        return;
     }
-
     return (
         <>
             <Head>
-                <title>My Epochs</title>
+                <title>Impact of Experiences</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
@@ -61,43 +44,28 @@ export default function DescriptionPage() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout progress={14}>
-                    <h1>Division of Your Life into Epochs</h1>
+                <AuthoringLayout progress={20}>
+                    <h1>Impact of Experiences</h1>
                     <p>
-                        Please divide your experiences into seven time periods
-                        that represent your life so far:{" "}
+                        Now you will be asked to take a closer look at the
+                        impact your experiences have had on your life.
+                        <ul className="list-disc ps-6">
+                            <li>What did the experience mean?</li>
+                            <li>What can be learned from it?</li>
+                        </ul>
                     </p>
-                    <div className="flex flex-col gap-6">
-                        {epochs.map((epoch) => {
-                            return <EpochWizard key={epoch.id} epoch={epoch} />;
-                        })}
-                    </div>
-                    <div className="self-center pt-3">
-                        <Button
-                            status={status}
-                            onClick={() => {
-                                addEpoch();
-                            }}
-                            fill="blank"
-                            color="primary"
-                        >
-                            Add Epoch
-                        </Button>
-                    </div>
+
                     <div className="mt-auto flex flex-row justify-between pt-6">
-                        <Link
-                            href={`/suite/past-authoring/exercise/general-description`}
+                        <Button
+                            onClick={() => router.back()}
+                            className="place-self-end"
+                            color="neutral"
+                            fill="hollow"
                         >
-                            <Button
-                                className="place-self-end"
-                                color="neutral"
-                                fill="hollow"
-                            >
-                                Previous
-                            </Button>
-                        </Link>
+                            Previous
+                        </Button>
                         <Link
-                            href={`/suite/past-authoring/exercise/epochs/${epochs.find((epoch) => epoch.order === 1)?.id}`}
+                            href={`/suite/past-authoring/exercise/impact-of-experiences/${firstExperience.id}`}
                         >
                             <Button
                                 className="place-self-end"

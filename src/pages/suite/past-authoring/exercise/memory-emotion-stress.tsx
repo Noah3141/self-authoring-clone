@@ -58,7 +58,7 @@ export default function MemoryEmotionStress() {
                         reasonable boundaries.
                     </p>
 
-                    <div className="flex flex-row justify-between pt-6">
+                    <div className="mt-auto flex flex-row justify-between pt-6">
                         <Link
                             href={`/suite/past-authoring/exercise/intro-continued`}
                         >

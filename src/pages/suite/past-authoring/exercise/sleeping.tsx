@@ -31,7 +31,7 @@ export default function Sleeping() {
                         So take your time and let yourself get deeply into the
                         exercise.
                     </p>
-                    <div className="flex flex-row justify-between pt-6">
+                    <div className="mt-auto flex flex-row justify-between pt-6">
                         <Link href={`/suite/past-authoring/exercise/writing`}>
                             <Button
                                 className="place-self-end"

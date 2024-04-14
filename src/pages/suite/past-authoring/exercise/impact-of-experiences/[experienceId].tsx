@@ -15,62 +15,34 @@ import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 
-const ListEpochExperiencesPage: NextPage = () => {
-    const router = useRouter();
+const ImpactOfExperiencePage: NextPage = () => {
     const apiState = api.useUtils();
-    const urlEpochId = router.query.epochId as string;
-
-    const { data: epochData, status: epochStatus } =
-        api.get.epoch.byId.withOrds.useQuery({
-            epochId: urlEpochId,
+    const router = useRouter();
+    const urlExperienceId = router.query.experienceId as string;
+    const { data: experienceData, status: experienceStatus } =
+        api.get.experiences.byId.withOrds.useQuery({
+            experienceId: urlExperienceId,
         });
+    const [input, setInput] = useState(
+        experienceData?.experience.basicAnalysis ?? "",
+    );
 
-    const { data: experiences, status: experiencesStatus } =
-        api.get.orCreate.experiences.forEpochId.useQuery({
-            epochId: urlEpochId,
-        });
-
-    const {
-        mutate: addExperience,
-        status: addExperienceStatus,
-        reset: resetAddExperience,
-    } = api.create.experience.push.useMutation({
-        onMutate: () => {
-            toast.loading("Adding experience...", {
-                id: "add-experience-toast",
-            });
-        },
-        onSuccess: async () => {
-            toast.success("Experience added.", { id: "add-experience-toast" });
-            await apiState.get.orCreate.experiences.forEpochId.invalidate();
-            await apiState.get.epoch.byId.withOrds.invalidate();
-            setTimeout(() => {
-                resetAddExperience();
-            }, 1000);
-        },
-        onError: () => {
-            toast.error("Something went wrong.", {
-                id: "add-experience-toast",
-            });
-            setTimeout(() => {
-                resetAddExperience();
-            }, 3000);
-        },
-    });
-
-    if (epochStatus == "pending") {
+    if (experienceStatus == "pending") {
         return <LoadingSpinner />;
     }
 
-    if (!epochData || !experiences) {
+    if (!experienceData) {
         toast.error(
-            "Something wasn't right there... Try returning to that page from here.",
+            "Something went wrong determining the first experience to display!",
         );
         void apiState.get.invalidate();
-        void router.push("/suite/past-authoring/exercise");
+        void router.push(
+            "/suite/past-authoring/exercise/impact-of-experiences",
+        );
         return;
     }
-    const { epoch, nextEpoch, previousEpoch } = epochData;
+
+    const { experience, nextExperience, previousExperience } = experienceData;
 
     return (
         <>
@@ -83,55 +55,45 @@ const ListEpochExperiencesPage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <AuthoringLayout progress={17}>
-                    <h1>{epoch.title}</h1>
+                <AuthoringLayout progress={30}>
+                    <h1 className="w-fit" id="experience-title">
+                        {experience.title}
+                    </h1>
+                    <Tooltip delayShow={500} id="experience-title">
+                        Experience {experience.order} title
+                    </Tooltip>
                     <h2>Significant Experiences from this epoch</h2>
                     <p>
-                        Please describe in detail up to six significant
-                        experiences that happened to you during this period of
-                        your life. You can describe positive and negative
-                        experiences. We recommend describing at least four
-                        significant experiences from each time period.
+                        Please outline how this experience has shaped your life
+                        and contributed to making you who you are today.
                     </p>
-                    <p>
-                        For each experience, provide a title (which will be used
-                        to refer to this experience later on) and a description
-                        of the experience. Later you will explore the impact
-                        this experience has had on your life. Here, limit your
-                        description to the event itself (approximately 1,000
-                        characters).
-                    </p>
+                    <ul className="list-disc ps-6">
+                        <li>
+                            How has the experience changed your view of other
+                            people?
+                        </li>
+                        <li>Of the world?</li>
+                    </ul>
+                    <p>Write approximately 1,000 characters.</p>
 
-                    <div className="flex flex-col gap-12">
-                        {experiences.map((experience) => {
-                            return (
-                                <ExperienceWizard
-                                    experience={experience}
-                                    key={experience.id}
-                                />
-                            );
-                        })}
-                    </div>
-
-                    <div className="self-center pt-3">
-                        <Button
-                            status={addExperienceStatus}
-                            onClick={() => {
-                                addExperience({ epochId: epoch.id });
-                            }}
-                            fill="blank"
-                            color="primary"
-                        >
-                            Add Experience
-                        </Button>
-                    </div>
+                    <Textarea
+                        value={input}
+                        setValue={setInput}
+                        onFinishedTyping={() => {
+                            // updateBasicAnalysis({
+                            //     epochId: experience.epochId,
+                            //     experienceId: experience.id,
+                            //     basicAnalysis: input,
+                            // });
+                        }}
+                    />
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
                         <Link
                             href={
-                                !!previousEpoch
-                                    ? `/suite/past-authoring/exercise/epochs/${previousEpoch.id}`
-                                    : `/suite/past-authoring/exercise/epochs`
+                                !!nextExperience
+                                    ? `/suite/past-authoring/exercise/impact-of-experiences/${nextExperience.id}`
+                                    : `/suite/past-authoring/exercise/impact-of-experiences`
                             }
                         >
                             <Button
@@ -144,8 +106,8 @@ const ListEpochExperiencesPage: NextPage = () => {
                         </Link>
                         <Link
                             href={
-                                !!nextEpoch
-                                    ? `/suite/past-authoring/exercise/epochs/${nextEpoch.id}`
+                                !!previousExperience
+                                    ? `/suite/past-authoring/exercise/impact-of-experiences/${previousExperience.id}`
                                     : `/suite/past-authoring/exercise/impact-of-experiences`
                             }
                         >
@@ -164,7 +126,7 @@ const ListEpochExperiencesPage: NextPage = () => {
     );
 };
 
-export default ListEpochExperiencesPage;
+export default ImpactOfExperiencePage;
 
 type ExperienceWizardProps = {
     experience: Experience;

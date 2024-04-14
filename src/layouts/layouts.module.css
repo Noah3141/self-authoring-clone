@@ -38,6 +38,7 @@
     .content {
         @apply mx-auto 
         flex
+        min-h-[90vh]
         w-full
         max-w-5xl
         flex-col
