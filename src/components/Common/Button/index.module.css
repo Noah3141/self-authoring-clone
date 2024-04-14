@@ -19,7 +19,7 @@
         @apply px-3 py-2;
     }
     &.square {
-        @apply p-1;
+        @apply size-8;
     }
 
     .container {
@@ -28,7 +28,8 @@
         flex
         w-full
         shrink-0
-        
+        flex-row
+        justify-center
         whitespace-nowrap;
 
         .loader {
@@ -40,7 +41,8 @@
         }
 
         .contents {
-            @apply size-full 
+            @apply flex 
+            size-full
             scale-0
             flex-row
             items-center

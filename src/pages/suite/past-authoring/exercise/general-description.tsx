@@ -58,9 +58,7 @@ export default function DescriptionPage() {
                                 Previous
                             </Button>
                         </Link>
-                        <Link
-                            href={`/suite/past-authoring/exercise/division-into-epochs`}
-                        >
+                        <Link href={`/suite/past-authoring/exercise/epochs`}>
                             <Button
                                 className="place-self-end"
                                 color="neutral"

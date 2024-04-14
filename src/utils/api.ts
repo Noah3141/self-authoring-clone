@@ -67,3 +67,5 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export type EpochWithOrds = RouterOutputs["get"]["epoch"]["byId"]["withOrds"];

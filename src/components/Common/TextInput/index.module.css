@@ -24,7 +24,7 @@
 
         &.validate {
             @apply bg-danger-100 
-            outline-danger-300
+            outline-danger-400
             placeholder:text-danger-500 
             placeholder:opacity-40
             hover:bg-danger-200;

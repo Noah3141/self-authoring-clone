@@ -32,7 +32,7 @@ export default function DescriptionPage() {
             await apiState.get.orCreate.epochs.byUser.invalidate();
             setTimeout(() => {
                 reset();
-            }, 3000);
+            }, 1000);
         },
         onError: () => {
             toast.error("Something went wrong.", { id: "add-epoch-toast" });
@@ -85,7 +85,9 @@ export default function DescriptionPage() {
                         </Button>
                     </div>
                     <div className="flex flex-row justify-between pt-6">
-                        <Link href={`/suite/past-authoring/exercise/intro`}>
+                        <Link
+                            href={`/suite/past-authoring/exercise/general-description`}
+                        >
                             <Button
                                 className="place-self-end"
                                 color="neutral"
@@ -95,7 +97,7 @@ export default function DescriptionPage() {
                             </Button>
                         </Link>
                         <Link
-                            href={`/suite/past-authoring/exercise/memory-emotion-stress`}
+                            href={`/suite/past-authoring/exercise/epochs/${epochs.find((epoch) => epoch.order === 1)?.id}`}
                         >
                             <Button
                                 className="place-self-end"
@@ -138,7 +140,7 @@ const EpochWizard: FC<EpochWizardProps> = ({ epoch }) => {
             await apiState.get.orCreate.epochs.invalidate();
             setTimeout(() => {
                 resetDeletion();
-            }, 3000);
+            }, 1000);
         },
     });
 

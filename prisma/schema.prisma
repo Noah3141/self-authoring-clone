@@ -81,7 +81,7 @@ model Epoch {
     id              String         @id @default(cuid())
     user            User           @relation(fields: [userId], references: [id])
     userId          String
-    order           Int
+    order           Int            @unique
     title           String
     experiences     Experience[]
     pastAuthoring   PastAuthoring? @relation(fields: [pastAuthoringId], references: [id])
