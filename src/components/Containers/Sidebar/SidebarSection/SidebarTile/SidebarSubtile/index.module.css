@@ -4,6 +4,7 @@
     flex-col
     gap-3
     overflow-hidden
+    whitespace-nowrap
     text-wrap
     rounded
     bg-neutral-100

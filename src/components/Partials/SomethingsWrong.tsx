@@ -16,6 +16,7 @@ const SomethingsWrong = () => {
                         router.back();
                     }}
                 >
+                    {" "}
                     Go back
                 </Link>
             </div>

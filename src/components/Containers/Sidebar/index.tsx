@@ -87,9 +87,9 @@ const PastAuthoringNavigation = () => {
     const { data: userEpochs, status: userEpochsStatus } =
         api.get.epochs.byUser.useQuery();
     const { data: userExperiences, status: userExperiencesStatus } =
-        api.get.experiences.byUser.useQuery();
+        api.get.experiences.byUser.alone.useQuery();
     const { data: userExtendedAnalyses, status: userExtendedAnalysesStatus } =
-        api.get.extendedAnalyses.byUser.useQuery();
+        api.get.extendedAnalyses.byUser.withExperience.useQuery();
 
     if (
         userEpochsStatus == "pending" ||
@@ -188,13 +188,30 @@ const PastAuthoringNavigation = () => {
                 >
                     Select for Analysis
                 </Subtile>
-                {userExtendedAnalyses.map((extendedAnalysis, experienceOrd) => {
-                    return (
-                        <Subtile
-                            href={`/suite/past-authoring/exercise/select-for-analysis/${experienceOrd}`}
-                            key={extendedAnalysis.experienceId}
-                        ></Subtile>
-                    );
+                {userExtendedAnalyses.map((extendedAnalysis) => {
+                    if (extendedAnalysis.selected)
+                        return (
+                            <Subtile
+                                href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}`}
+                                key={extendedAnalysis.experienceId}
+                            >
+                                <h3>{extendedAnalysis.experience.title}</h3>
+                                <div className="flex flex-col ps-2">
+                                    <Link
+                                        color="neutral"
+                                        href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/event-analysis`}
+                                    >
+                                        Analysis of this event
+                                    </Link>
+                                    <Link
+                                        color="neutral"
+                                        href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/effects-analysis`}
+                                    >
+                                        The effects of this event
+                                    </Link>
+                                </div>
+                            </Subtile>
+                        );
                 })}
             </Tile>
         </>

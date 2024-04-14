@@ -210,20 +210,79 @@ export const getRouter = createTRPCRouter({
         /**
          *
          */
-        byUser: protectedProcedure.query(async ({ ctx }) => {
-            return await ctx.db.experience.findMany({
-                where: { userId: ctx.session.user.id },
-                orderBy: [{ epoch: { order: "asc" } }, { order: "asc" }],
-            });
-        }),
+        byUser: {
+            alone: protectedProcedure.query(async ({ ctx }) => {
+                return await ctx.db.experience.findMany({
+                    where: { userId: ctx.session.user.id },
+                    orderBy: [{ epoch: { order: "asc" } }, { order: "asc" }],
+                });
+            }),
+            withExtendedAnalysis: protectedProcedure.query(async ({ ctx }) => {
+                return await ctx.db.experience.findMany({
+                    where: { userId: ctx.session.user.id },
+                    orderBy: [{ epoch: { order: "asc" } }, { order: "asc" }],
+                    include: { extendedAnalysis: true },
+                });
+            }),
+        },
     },
+    /**
+     *
+     */
     extendedAnalyses: {
-        byUser: protectedProcedure.query(async ({ ctx }) => {
-            return await ctx.db.extendedAnalysis.findMany({
-                where: { userId: ctx.session.user.id },
-                orderBy: { experience: { order: "asc" } },
-            });
-        }),
+        /**
+         *  Include just the analysis model
+         */
+        byUser: {
+            alone: protectedProcedure.query(async ({ ctx }) => {
+                return await ctx.db.extendedAnalysis.findMany({
+                    where: { userId: ctx.session.user.id },
+                    orderBy: { experience: { order: "asc" } },
+                });
+            }),
+            withExperience: protectedProcedure.query(async ({ ctx }) => {
+                return await ctx.db.extendedAnalysis.findMany({
+                    where: { userId: ctx.session.user.id },
+                    orderBy: { experience: { order: "asc" } },
+                    include: { experience: true },
+                });
+            }),
+        },
+    },
+    extendedAnalysis: {
+        byOrd: {
+            alone: protectedProcedure
+                .input(z.object({ experienceOrder: z.number() }))
+                .query(async ({ ctx, input }) => {
+                    const extendedAnalysis =
+                        await ctx.db.extendedAnalysis.findFirst({
+                            where: {
+                                userId: ctx.session.user.id,
+                                experience: { order: input.experienceOrder },
+                            },
+                        });
+
+                    // Nullish will be used by front end
+
+                    return extendedAnalysis;
+                }),
+            withExperience: protectedProcedure
+                .input(z.object({ experienceOrder: z.number() }))
+                .query(async ({ ctx, input }) => {
+                    const extendedAnalysis =
+                        await ctx.db.extendedAnalysis.findFirst({
+                            where: {
+                                userId: ctx.session.user.id,
+                                experience: { order: input.experienceOrder },
+                            },
+                            include: { experience: true },
+                        });
+
+                    // Nullish will be used by front end
+
+                    return extendedAnalysis;
+                }),
+        },
     },
 
     orCreate: orCreateRouter,

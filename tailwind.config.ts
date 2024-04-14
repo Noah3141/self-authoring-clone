@@ -1,6 +1,6 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
-import colors, { transparent } from "tailwindcss/colors";
+import colors, { transparent, inherit } from "tailwindcss/colors";
 
 export default {
     content: ["./src/**/*.tsx"],
@@ -16,6 +16,7 @@ export default {
         },
         extend: {
             colors: {
+                inherit: inherit,
                 transparent: transparent,
             },
             fontFamily: {

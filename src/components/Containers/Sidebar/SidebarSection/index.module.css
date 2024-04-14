@@ -3,7 +3,8 @@
     -z-30
     flex
     h-full
-    w-96 
+    w-[500px]
+    shrink-0
     origin-left
     -translate-x-full
     flex-col

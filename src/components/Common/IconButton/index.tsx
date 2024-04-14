@@ -10,6 +10,7 @@ import { ITooltip } from "react-tooltip";
 type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     OnIcon: FC<SVGProps<SVGSVGElement>>;
     OffIcon?: FC<SVGProps<SVGSVGElement>>;
+    hoverBubble?: boolean;
     isOn: boolean;
     tooltips?: {
         on?: string;
@@ -25,6 +26,7 @@ const IconButton: FC<IconButtonProps> = ({
     OffIcon = ExitIcon,
     size = "large",
     isOn,
+    hoverBubble = true,
     tooltips,
     className,
     tooltipProps,
@@ -35,7 +37,12 @@ const IconButton: FC<IconButtonProps> = ({
 
     return (
         <button
-            className={classNames(styles.button, styles[size], className)}
+            className={classNames(
+                styles.button,
+                styles[size],
+                { [styles["hover-bubble"]!]: hoverBubble },
+                className,
+            )}
             {...props}
         >
             <OnIcon

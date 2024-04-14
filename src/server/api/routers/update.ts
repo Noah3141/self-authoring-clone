@@ -9,7 +9,11 @@ export const updateRouter = createTRPCRouter({
      */
     extendedAnalyses: {
         selectedList: protectedProcedure
-            .input(z.object({ selected: z.record(z.boolean()) }))
+            .input(
+                z.object({
+                    selected: z.record(z.string(), z.boolean()),
+                }),
+            )
             .mutation(async ({ ctx, input }) => {
                 const extantAnalyses = await ctx.db.extendedAnalysis.findMany({
                     where: { userId: ctx.session.user.id },
@@ -27,33 +31,38 @@ export const updateRouter = createTRPCRouter({
                                 }),
                             ),
                         });
-                    return {};
                 } else {
                     // We have some extant Analysis models. Does one exist for each experience?
-                    const _newAnalyses =
-                        await ctx.db.extendedAnalysis.createMany({
-                            data: Object.entries(input.selected)
-                                // Go through our input object, which has a key for every experience right now
-                                .map(([experienceId, selected]) => {
-                                    if (
-                                        // if the extant extendedAnalysis list does not contain one of the ids in the total list,
-                                        !extantAnalyses
-                                            .map(
-                                                (extantAnalysis) =>
-                                                    extantAnalysis.experienceId,
-                                            )
-                                            .includes(experienceId)
-                                    ) {
-                                        // make a new extended analysis for it
-                                        return {
-                                            userId: ctx.session.user.id,
-                                            experienceId: experienceId,
-                                            selected,
-                                        } satisfies Prisma.ExtendedAnalysisCreateManyInput;
-                                    }
-                                })
-                                .filter((item) => !!item),
-                        });
+
+                    if (
+                        extantAnalyses.length !==
+                        Object.keys(input.selected).length
+                    ) {
+                        const _newAnalyses =
+                            await ctx.db.extendedAnalysis.createMany({
+                                data: Object.entries(input.selected)
+                                    // Go through our input object, which has a key for every experience right now
+                                    .map(([experienceId, selected]) => {
+                                        if (
+                                            // if the extant extendedAnalysis list does not contain one of the ids in the total list,
+                                            !extantAnalyses
+                                                .map(
+                                                    (extantAnalysis) =>
+                                                        extantAnalysis.experienceId,
+                                                )
+                                                .includes(experienceId)
+                                        ) {
+                                            // make a new extended analysis for it
+                                            return {
+                                                userId: ctx.session.user.id,
+                                                experienceId: experienceId,
+                                                selected,
+                                            } satisfies Prisma.ExtendedAnalysisCreateManyInput;
+                                        }
+                                    })
+                                    .filter((item) => !!item),
+                            });
+                    }
 
                     // Reacquire the analysis list
                     const newlyExtantAnalyses =
@@ -62,12 +71,14 @@ export const updateRouter = createTRPCRouter({
                         });
 
                     // todo THIS SUCKS - TOO MANY QUERIES
-                    const responses = await Promise.allSettled(
-                        newlyExtantAnalyses.map(async (extendedAnalysis) => {
+
+                    const updateQueries = newlyExtantAnalyses.map(
+                        async (extendedAnalysis) => {
                             if (
                                 input.selected[
                                     extendedAnalysis.experienceId
-                                ] !== extendedAnalysis.selected
+                                ] !== // Input value
+                                extendedAnalysis.selected // DB value
                             ) {
                                 // Make it so
                                 const updatedExtendedAnalysis =
@@ -88,12 +99,23 @@ export const updateRouter = createTRPCRouter({
 
                                 return updatedExtendedAnalysis;
                             }
-                        }),
+                        },
                     );
 
-                    return {
-                        responses,
-                    };
+                    const responses = await Promise.allSettled(updateQueries);
+
+                    responses.map((response) => {
+                        if (response.status === "rejected") {
+                            throw new TRPCError({
+                                code: "INTERNAL_SERVER_ERROR",
+                            });
+                        } else {
+                            console.log(`
+                            ${response.value?.selected}
+                            ${response.value?.experienceId}
+                            `);
+                        }
+                    });
                 }
             }),
     },
