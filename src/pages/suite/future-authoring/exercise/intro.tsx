@@ -42,7 +42,6 @@ export default function Home() {
                         progress={val}
                         cap={17}
                     ></ProgressBar>
-                    <Textarea maxWords={3000} minLength={5} />
                     <Button
                         onClick={() => {
                             increment();

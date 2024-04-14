@@ -98,8 +98,7 @@ const ListEpochExperiencesPage: NextPage = () => {
                         to refer to this experience later on) and a description
                         of the experience. Later you will explore the impact
                         this experience has had on your life. Here, limit your
-                        description to the event itself (approximately 1,000
-                        characters).
+                        description to the event itself (about 250 words).
                     </p>
 
                     <div className="flex flex-col gap-12">
@@ -272,6 +271,7 @@ const ExperienceWizard: FC<ExperienceWizardProps> = ({ experience }) => {
             </div>
             <div>
                 <Textarea
+                    maxWords={250}
                     status={descriptionStatus}
                     onFinishedTyping={() => {
                         resetDescription();

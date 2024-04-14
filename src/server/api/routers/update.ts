@@ -60,7 +60,9 @@ export const updateRouter = createTRPCRouter({
                                             } satisfies Prisma.ExtendedAnalysisCreateManyInput;
                                         }
                                     })
-                                    .filter((item) => !!item),
+                                    .filter(
+                                        (item) => !!item,
+                                    ) as Prisma.ExtendedAnalysisCreateManyInput[],
                             });
                     }
 
@@ -119,7 +121,57 @@ export const updateRouter = createTRPCRouter({
                 }
             }),
     },
+    /**
+     *
+     */
+    extendedAnalysis: {
+        eventAnalysis: protectedProcedure
+            .input(
+                z.object({
+                    experienceId: z.string(),
+                    eventAnalysis: z.string(),
+                }),
+            )
+            .mutation(async ({ ctx, input }) => {
+                const updatedExtendedAnalysis =
+                    await ctx.db.extendedAnalysis.update({
+                        where: {
+                            userId: ctx.session.user.id,
+                            experienceId: input.experienceId,
+                        },
+                        data: {
+                            eventAnalysis: input.eventAnalysis,
+                        },
+                    });
 
+                return;
+            }),
+        effectAnalysis: protectedProcedure
+            .input(
+                z.object({
+                    experienceId: z.string(),
+                    effectAnalysis: z.string(),
+                }),
+            )
+            .mutation(async ({ ctx, input }) => {
+                const updatedExtendedAnalysis =
+                    await ctx.db.extendedAnalysis.update({
+                        where: {
+                            userId: ctx.session.user.id,
+                            experienceId: input.experienceId,
+                        },
+                        data: {
+                            effectAnalysis: input.effectAnalysis,
+                        },
+                    });
+
+                return;
+            }),
+    },
+
+    /**
+     *
+     */
     epoch: {
         title: protectedProcedure
             .input(z.object({ epochId: z.string(), title: z.string() }))

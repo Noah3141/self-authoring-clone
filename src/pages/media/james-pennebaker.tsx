@@ -16,8 +16,6 @@ const JamesPennebaker = () => {
             </Head>
             <BaseLayout>
                 <h1>Main</h1>
-
-                <Textarea maxWords={3000} minLength={5} />
             </BaseLayout>
         </>
     );

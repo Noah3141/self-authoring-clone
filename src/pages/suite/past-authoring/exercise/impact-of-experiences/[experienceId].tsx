@@ -74,7 +74,7 @@ const ImpactOfExperiencePage: NextPage = () => {
                         </li>
                         <li>Of the world?</li>
                     </ul>
-                    <p>Write approximately 1,000 characters.</p>
+                    <p>Write approximately 250 words.</p>
 
                     <BasicAnalysisWizard
                         experience={experience}
@@ -149,6 +149,7 @@ const BasicAnalysisWizard: FC<BasicAnalysisWizardProps> = ({ experience }) => {
 
     return (
         <Textarea
+            maxWords={250}
             status={updateStatus}
             onFinishedTyping={() => {
                 resetUpdating();

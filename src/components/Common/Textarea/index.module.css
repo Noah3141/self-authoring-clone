@@ -1,5 +1,5 @@
 .textarea {
-    @apply h-32
+    @apply h-96
     min-h-32
     w-full
     shrink-0
@@ -8,6 +8,7 @@
     bg-neutral-50
     p-3
     caret-neutral-500
+    shadow-inner
     outline
     outline-1
     outline-neutral-300

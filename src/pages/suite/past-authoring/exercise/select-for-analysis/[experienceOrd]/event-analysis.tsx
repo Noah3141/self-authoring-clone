@@ -1,15 +1,16 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { FC, useState } from "react";
 import { z } from "zod";
 import Button from "~/components/Common/Button";
-import Link from "~/components/Common/Link";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
+import Textarea from "~/components/Common/Textarea";
 import SomethingsWrong from "~/components/Partials/SomethingsWrong";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
-import { api } from "~/utils/api";
+import { api, RouterOutputs } from "~/utils/api";
 
 const EventAnalysisPage: NextPage = () => {
     const router = useRouter();
@@ -19,12 +20,13 @@ const EventAnalysisPage: NextPage = () => {
         return <SomethingsWrong />;
     }
 
-    const { data: extendedAnalysis, status: analysesStatus } =
+    const { data: extendedAnalysis, status: extendedAnalysisStatus } =
         api.get.extendedAnalysis.byOrd.withExperience.useQuery({
             experienceOrder,
         });
 
-    if (!extendedAnalysis) {
+    if (extendedAnalysisStatus == "error") {
+        return;
     }
     return (
         <>
@@ -47,17 +49,17 @@ const EventAnalysisPage: NextPage = () => {
                         there things that you should have done differently? Were
                         there important occurrences that were out of your
                         control, or beyond your understanding at that time?
-                        Write approximately 1,000 characters.
+                        Write approximately 250 words.
                     </p>
 
                     <div>
-                        {/* {experiencesStatus == "pending" ? (
+                        {extendedAnalysisStatus == "pending" ? (
                             <LoadingSpinner />
                         ) : (
-                            <EventAnalysisAnalysisWizard
-                                experiences={experiences}
+                            <EventAnalysisWizard
+                                extendedAnalysis={extendedAnalysis}
                             />
-                        )} */}
+                        )}
                     </div>
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
@@ -89,3 +91,32 @@ const EventAnalysisPage: NextPage = () => {
 };
 
 export default EventAnalysisPage;
+
+type EventAnalysisWizardProps = {
+    extendedAnalysis: RouterOutputs["get"]["extendedAnalysis"]["byOrd"]["withExperience"];
+};
+
+const EventAnalysisWizard: FC<EventAnalysisWizardProps> = ({
+    extendedAnalysis,
+}) => {
+    const [input, setInput] = useState(extendedAnalysis.eventAnalysis);
+    const { mutate: updateEventAnalysis, status: updatingStatus } =
+        api.update.extendedAnalysis.eventAnalysis.useMutation({});
+
+    return (
+        <div>
+            <Textarea
+                status={updatingStatus}
+                onFinishedTyping={() => {
+                    updateEventAnalysis({
+                        experienceId: extendedAnalysis.experienceId,
+                        eventAnalysis: input,
+                    });
+                }}
+                value={input}
+                setValue={setInput}
+                maxWords={250}
+            />
+        </div>
+    );
+};

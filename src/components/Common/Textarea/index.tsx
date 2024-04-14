@@ -22,7 +22,7 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
         success: string;
         error: string;
     };
-    status?: "pending" | "success" | "error" | "idle";
+    status: "pending" | "success" | "error" | "idle";
     className?: string;
 };
 

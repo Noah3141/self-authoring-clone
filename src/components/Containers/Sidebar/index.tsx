@@ -10,12 +10,12 @@ import SidebarSection from "./SidebarSection";
 import Tile from "./SidebarSection/SidebarTile";
 import Header from "./SidebarSection/SidebarHeader";
 import Subtile from "./SidebarSection/SidebarTile/SidebarSubtile";
-import Link from "~/components/Common/Link";
 import GearIcon from "~/components/Icons/Theme/GearIcon";
 import useClickOutside from "~/hooks/useClickOutside";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
+import Link from "next/link";
 
 /** Used by variants of the sidebar */
 export type SidebarProps = {
@@ -192,22 +192,24 @@ const PastAuthoringNavigation = () => {
                     if (extendedAnalysis.selected)
                         return (
                             <Subtile
-                                href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}`}
+                                href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/event-analysis`}
                                 key={extendedAnalysis.experienceId}
                             >
-                                <h3>{extendedAnalysis.experience.title}</h3>
-                                <div className="flex flex-col ps-2">
+                                <div className="flex flex-col ">
+                                    <h3 className="">
+                                        {extendedAnalysis.experience.title}
+                                    </h3>
                                     <Link
-                                        color="neutral"
+                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
                                         href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/event-analysis`}
                                     >
-                                        Analysis of this event
+                                        - Analysis of this event
                                     </Link>
                                     <Link
-                                        color="neutral"
+                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
                                         href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/effects-analysis`}
                                     >
-                                        The effects of this event
+                                        - The effects of this event
                                     </Link>
                                 </div>
                             </Subtile>

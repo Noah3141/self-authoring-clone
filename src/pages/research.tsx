@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 import Textarea from "~/components/Common/Textarea";
 import BaseLayout from "~/layouts/Base";
+import HomeLayout from "~/layouts/Home";
 
 const research = () => {
     return (
@@ -15,9 +16,9 @@ const research = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <h1>Research</h1>
-
-                <Textarea maxWords={3000} minLength={5} />
+                <HomeLayout>
+                    <h1>Research</h1>
+                </HomeLayout>
             </BaseLayout>
         </>
     );

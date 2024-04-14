@@ -278,7 +278,9 @@ export const getRouter = createTRPCRouter({
                             include: { experience: true },
                         });
 
-                    // Nullish will be used by front end
+                    if (!extendedAnalysis) {
+                        throw new TRPCError({ code: "NOT_FOUND" });
+                    }
 
                     return extendedAnalysis;
                 }),

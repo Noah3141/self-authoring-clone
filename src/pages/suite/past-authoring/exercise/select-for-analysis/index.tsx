@@ -73,7 +73,7 @@ const SelectForAnalysisPage: NextPage = () => {
                             Previous
                         </Button>
                         <Link
-                            href={`/suite/past-authoring/exercise/select-for-analysis/1`}
+                            href={`/suite/past-authoring/exercise/select-for-analysis/1/event-analysis`}
                         >
                             <Button
                                 className="place-self-end"

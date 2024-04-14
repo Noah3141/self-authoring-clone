@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 import Textarea from "~/components/Common/Textarea";
 import BaseLayout from "~/layouts/Base";
+import HomeLayout from "~/layouts/Home";
 
 const BuyItForAFriend = () => {
     return (
@@ -15,11 +16,11 @@ const BuyItForAFriend = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <BaseLayout>
-                <section className="border-b border-neutral-300">
-                    <h1>Buy it for a friend</h1>
-                </section>
-
-                <Textarea maxWords={3000} minLength={5} />
+                <HomeLayout>
+                    <section className="border-b border-neutral-300">
+                        <h1>Buy it for a friend</h1>
+                    </section>
+                </HomeLayout>
             </BaseLayout>
         </>
     );
