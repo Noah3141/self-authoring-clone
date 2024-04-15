@@ -1,5 +1,7 @@
 .desktopNavbar {
-    @apply !hidden md:!flex;
+    @apply !hidden 
+    md:!flex
+    print:!hidden;
 
     &.nav {
         @apply border-b
@@ -25,7 +27,9 @@
 }
 
 .mobileNavbar {
-    @apply !block md:!hidden;
+    @apply !block 
+    md:!hidden
+    print:!hidden;
 
     .nav {
         @apply flex 

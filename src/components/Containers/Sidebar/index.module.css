@@ -1,5 +1,8 @@
 .sidebar {
-    @apply relative z-10 h-full;
+    @apply relative
+    z-10
+    h-full
+    print:hidden;
 }
 
 .buttons {

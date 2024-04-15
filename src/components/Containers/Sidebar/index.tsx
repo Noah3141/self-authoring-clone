@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import Link from "next/link";
+import EllipsisCircleIcon from "~/components/Icons/Theme/EllipsisCircle";
 
 /** Used by variants of the sidebar */
 export type SidebarProps = {
@@ -49,7 +50,7 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                 />
                 <IconButton
                     size="medium"
-                    OnIcon={GearIcon}
+                    OnIcon={EllipsisCircleIcon}
                     onClick={() => {
                         setExpanded((p) => ({ settings: !p.settings }));
                     }}
@@ -72,10 +73,12 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                     )}
                 </SidebarSection>
 
-                <SidebarSection
-                    expanded={!!expanded.settings}
-                    id="settings"
-                ></SidebarSection>
+                <SidebarSection expanded={!!expanded.settings} id="settings">
+                    <Header>Settings</Header>
+                    <Subtile href="/suite/past-authoring/summary">
+                        View Summary
+                    </Subtile>
+                </SidebarSection>
             </div>
         </nav>
     );

@@ -14,7 +14,8 @@
     text-center
     shadow-inner
     transition-all
-    md:max-w-96;
+    md:max-w-96
+    print:hidden;
 }
 
 .progress {

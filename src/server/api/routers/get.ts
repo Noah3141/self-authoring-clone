@@ -9,6 +9,30 @@ import { orCreateRouter } from "./getOrCreate";
 import { TRPCError } from "@trpc/server";
 
 export const getRouter = createTRPCRouter({
+    pastAuthoring: {
+        complete: protectedProcedure.query(async ({ ctx }) => {
+            const autobiography = await ctx.db.epoch.findMany({
+                where: { userId: ctx.session.user.id },
+                orderBy: { order: "asc" },
+                include: {
+                    experiences: {
+                        orderBy: { order: "asc" },
+                        include: {
+                            extendedAnalysis: {
+                                where: { selected: true },
+                            },
+                        },
+                    },
+                },
+            });
+
+            if (!autobiography) {
+                throw new TRPCError({ code: "NOT_FOUND" });
+            }
+
+            return autobiography;
+        }),
+    },
     users: {
         all: adminProcedure.query(async ({ ctx }) => {
             return await ctx.db.user.findMany({ include: { sessions: true } });
