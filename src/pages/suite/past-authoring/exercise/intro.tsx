@@ -40,7 +40,7 @@ export default function Home() {
                         and you will be taken to the last point in the exercise
                         that you had completed.
                     </p>
-                    <div className="flex w-full flex-row justify-between">
+                    <div className="mt-auto flex w-full flex-row justify-between">
                         <Link href={`/suite/past-authoring/`}>
                             <Button
                                 className="place-self-end"

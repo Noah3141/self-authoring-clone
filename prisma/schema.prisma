@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mysql"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -114,18 +114,18 @@ model FutureAuthoring {
 
     // Stage 1 Forming an Abstract View, from the bottom up
 
-    oneThingYouCouldDoBetter String?
-    thingsToLearnAbout       String?
-    improveYourHabits        String?
+    oneThingYouCouldDoBetter String @default("")
+    thingsToLearnAbout       String @default("")
+    improveYourHabits        String @default("")
 
-    socialLife  String?
-    leisureLife String?
-    familyLife  String?
-    careerLife  String?
+    socialLife  String @default("")
+    leisureLife String @default("")
+    familyLife  String @default("")
+    careerLife  String @default("")
 
-    qualitiesYouAdmire String?
-    idealFuture        String?
-    worstFuture        String?
+    qualitiesYouAdmire String @default("")
+    idealFuture        String @default("")
+    worstFuture        String @default("")
 
     // Stage 2
     goals Goal[]
@@ -139,8 +139,8 @@ model Goal {
     priority        Int
     title           String
     description     String
-    FutureAuthoring FutureAuthoring? @relation(fields: [userId], references: [userId])
-    userId          String?
+    FutureAuthoring FutureAuthoring @relation(fields: [userId], references: [userId])
+    userId          String
 
     // Evaluating your motives
     motiveAnalysis    String

@@ -4,6 +4,15 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const deleteRouter = createTRPCRouter({
+    epochs: {
+        all: protectedProcedure.mutation(async ({ ctx }) => {
+            const deleted = await ctx.db.epoch.deleteMany({
+                where: {
+                    userId: ctx.session.user.id,
+                },
+            });
+        }),
+    },
     epoch: {
         byId: protectedProcedure
             .input(z.object({ epochId: z.string() }))

@@ -1,22 +1,20 @@
-import classNames from "classnames";
-import { Dispatch, SetStateAction, SVGProps, useRef, type FC } from "react";
+import { useRef, type FC } from "react";
 
 import styles from "./index.module.css";
 import IconButton from "~/components/Common/IconButton";
 import { MapIcon } from "@heroicons/react/24/solid";
 import { useSidebarContext } from "~/server/contexts";
-import { useRouter } from "next/router";
 import SidebarSection from "./SidebarSection";
 import Tile from "./SidebarSection/SidebarTile";
 import Header from "./SidebarSection/SidebarHeader";
 import Subtile from "./SidebarSection/SidebarTile/SidebarSubtile";
-import GearIcon from "~/components/Icons/Theme/GearIcon";
 import useClickOutside from "~/hooks/useClickOutside";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import Link from "next/link";
 import EllipsisCircleIcon from "~/components/Icons/Theme/EllipsisCircle";
+import PastAuthoringDeletionWizard from "~/components/Partials/PastAuthoringDeletionWizard";
 
 /** Used by variants of the sidebar */
 export type SidebarProps = {
@@ -78,6 +76,7 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                     <Subtile href="/suite/past-authoring/summary">
                         View Summary
                     </Subtile>
+                    <PastAuthoringDeletionWizard />
                 </SidebarSection>
             </div>
         </nav>

@@ -4,7 +4,6 @@ import type {
     ExtendedAnalysis,
     FutureAuthoring,
     Goal,
-    PastAuthoring,
 } from "@prisma/client";
 
 export function wordCount(...strs: (string | null | undefined)[]): number {
