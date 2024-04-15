@@ -192,7 +192,7 @@ const PastAuthoringNavigation = () => {
                     if (extendedAnalysis.selected)
                         return (
                             <Subtile
-                                href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/event-analysis`}
+                                href={`/suite/past-authoring/exercise/select-for-analysis/event-analysis?experienceId=${extendedAnalysis.experience.id}`}
                                 key={extendedAnalysis.experienceId}
                             >
                                 <div className="flex flex-col ">
@@ -201,13 +201,13 @@ const PastAuthoringNavigation = () => {
                                     </h3>
                                     <Link
                                         className="ps-2 text-neutral-500 hover:text-neutral-600"
-                                        href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/event-analysis`}
+                                        href={`/suite/past-authoring/exercise/select-for-analysis/event-analysis?experienceId=${extendedAnalysis.experience.id}`}
                                     >
                                         - Analysis of this event
                                     </Link>
                                     <Link
                                         className="ps-2 text-neutral-500 hover:text-neutral-600"
-                                        href={`/suite/past-authoring/exercise/select-for-analysis/${extendedAnalysis.experience.order}/effects-analysis`}
+                                        href={`/suite/past-authoring/exercise/select-for-analysis/effect-analysis?experienceId=${extendedAnalysis.experience.id}`}
                                     >
                                         - The effects of this event
                                     </Link>

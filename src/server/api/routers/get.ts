@@ -243,13 +243,19 @@ export const getRouter = createTRPCRouter({
             withExperience: protectedProcedure.query(async ({ ctx }) => {
                 return await ctx.db.extendedAnalysis.findMany({
                     where: { userId: ctx.session.user.id },
-                    orderBy: { experience: { order: "asc" } },
+                    orderBy: [
+                        { experience: { epoch: { order: "asc" } } },
+                        { experience: { order: "asc" } },
+                    ],
                     include: { experience: true },
                 });
             }),
         },
     },
     extendedAnalysis: {
+        /**
+         *
+         */
         byOrd: {
             alone: protectedProcedure
                 .input(z.object({ experienceOrder: z.number() }))
@@ -283,6 +289,154 @@ export const getRouter = createTRPCRouter({
                     }
 
                     return extendedAnalysis;
+                }),
+            lowest: protectedProcedure.query(async ({ ctx }) => {
+                const extendedAnalysis =
+                    await ctx.db.extendedAnalysis.findFirst({
+                        orderBy: [
+                            { experience: { epoch: { order: "asc" } } },
+                            { experience: { order: "asc" } },
+                        ],
+                        where: {
+                            userId: ctx.session.user.id,
+                            selected: true,
+                        },
+                    });
+
+                return extendedAnalysis;
+            }),
+            highest: protectedProcedure.query(async ({ ctx }) => {
+                const extendedAnalysis =
+                    await ctx.db.extendedAnalysis.findFirst({
+                        orderBy: [
+                            { experience: { epoch: { order: "desc" } } },
+                            { experience: { order: "desc" } },
+                        ],
+                        where: {
+                            userId: ctx.session.user.id,
+                            selected: true,
+                        },
+                    });
+
+                return extendedAnalysis;
+            }),
+        },
+        /**
+         * By Id
+         */
+        byId: {
+            /**
+             *
+             */
+            alone: {},
+            /**
+             *
+             */
+            withAdjacent: protectedProcedure
+                .input(z.object({ experienceId: z.string() }))
+                .query(async ({ ctx, input }) => {
+                    const extendedAnalysis =
+                        await ctx.db.extendedAnalysis.findUnique({
+                            where: {
+                                userId: ctx.session.user.id,
+                                experienceId: input.experienceId,
+                            },
+                            include: {
+                                experience: {
+                                    include: {
+                                        epoch: {
+                                            select: { order: true, id: true },
+                                        },
+                                    },
+                                },
+                            },
+                        });
+
+                    if (!extendedAnalysis) {
+                        throw new TRPCError({ code: "NOT_FOUND" });
+                    }
+
+                    const previousAnalysis =
+                        await ctx.db.extendedAnalysis.findFirst({
+                            orderBy: [
+                                { experience: { epoch: { order: "desc" } } },
+                                { experience: { order: "desc" } },
+                            ],
+                            where: {
+                                OR: [
+                                    {
+                                        // Whose experience is previous within the same epoch
+                                        experience: {
+                                            epoch: {
+                                                order: extendedAnalysis
+                                                    .experience.epoch.order, // WITHIN THE SAME EPOCH
+                                            },
+                                            order:
+                                                extendedAnalysis.experience
+                                                    .order - 1, // NEXT IN ORDER
+                                        },
+                                        userId: ctx.session.user.id,
+                                        selected: true,
+                                    },
+                                    {
+                                        // Whose experience is heighest in the next epoch
+                                        experience: {
+                                            epoch: {
+                                                order:
+                                                    extendedAnalysis.experience
+                                                        .epoch.order - 1,
+                                            },
+                                        },
+                                        userId: ctx.session.user.id,
+                                        selected: true,
+                                    },
+                                ],
+                            },
+                        });
+
+                    const nextAnalysis =
+                        await ctx.db.extendedAnalysis.findFirst({
+                            orderBy: [
+                                { experience: { epoch: { order: "asc" } } },
+                                { experience: { order: "asc" } },
+                            ],
+                            where: {
+                                OR: [
+                                    {
+                                        // Whose experience is next within the same epoch
+                                        experience: {
+                                            epoch: {
+                                                order: extendedAnalysis
+                                                    .experience.epoch.order, // WITHIN THE SAME EPOCH
+                                            },
+                                            order:
+                                                extendedAnalysis.experience
+                                                    .order + 1, // NEXT IN ORDER
+                                        },
+                                        userId: ctx.session.user.id,
+                                        selected: true,
+                                    },
+                                    {
+                                        // Whose experience is lowest in the next epoch
+                                        experience: {
+                                            epoch: {
+                                                order:
+                                                    extendedAnalysis.experience
+                                                        .epoch.order + 1,
+                                            },
+                                        },
+                                        userId: ctx.session.user.id,
+                                        selected: true,
+                                    },
+                                ],
+                            },
+                        });
+
+                    return {
+                        extendedAnalysis,
+                        previousAnalysis,
+                        nextAnalysis,
+                    };
                 }),
         },
     },

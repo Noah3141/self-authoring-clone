@@ -22,7 +22,20 @@ const SelectForAnalysisPage: NextPage = () => {
     const { data: experiences, status: experiencesStatus } =
         api.get.experiences.byUser.withExtendedAnalysis.useQuery();
 
-    if (experiencesStatus == "error") {
+    const { data: firstSelectedAnalysis, status: firstSelectedStatus } =
+        api.get.extendedAnalysis.byOrd.lowest.useQuery();
+
+    if (experiencesStatus == "pending" || firstSelectedStatus == "pending") {
+        return (
+            <BaseLayout>
+                <AuthoringLayout progress={20}>
+                    <LoadingSpinner />
+                </AuthoringLayout>
+            </BaseLayout>
+        );
+    }
+
+    if (experiencesStatus == "error" || firstSelectedStatus == "error") {
         toast.error(
             "Something went wrong retrieving your list of experiences!",
         );
@@ -31,7 +44,6 @@ const SelectForAnalysisPage: NextPage = () => {
         );
         return;
     }
-
     return (
         <>
             <Head>
@@ -54,13 +66,7 @@ const SelectForAnalysisPage: NextPage = () => {
                     </p>
 
                     <div>
-                        {experiencesStatus == "pending" ? (
-                            <LoadingSpinner />
-                        ) : (
-                            <SelectForAnalysisWizard
-                                experiences={experiences}
-                            />
-                        )}
+                        <SelectForAnalysisWizard experiences={experiences} />
                     </div>
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
@@ -73,7 +79,11 @@ const SelectForAnalysisPage: NextPage = () => {
                             Previous
                         </Button>
                         <Link
-                            href={`/suite/past-authoring/exercise/select-for-analysis/1/event-analysis`}
+                            href={
+                                !!firstSelectedAnalysis
+                                    ? `/suite/past-authoring/exercise/select-for-analysis/event-analysis?experienceId=${firstSelectedAnalysis.experienceId}`
+                                    : "/suite/past-authoring/exercise/conclusion"
+                            }
                         >
                             <Button
                                 className="place-self-end"
@@ -118,7 +128,6 @@ const SelectForAnalysisWizard: FC<SelectForAnalysisWizardProps> = ({
             {} as Record<string, boolean>,
         ),
     );
-    const [previousState, setPreviousState] = useState(selected);
 
     const selectedCount = Object.values(selected).filter((val) => val).length;
     const { mutate: updateSelectedForAnalysis } =
@@ -131,6 +140,7 @@ const SelectForAnalysisWizard: FC<SelectForAnalysisWizardProps> = ({
             onSuccess: async () => {
                 await apiState.get.extendedAnalyses.invalidate();
                 await apiState.get.experiences.byUser.withExtendedAnalysis.invalidate();
+                await apiState.get.extendedAnalysis.byOrd.lowest.invalidate();
             },
         });
 
@@ -162,6 +172,9 @@ const SelectForAnalysisWizard: FC<SelectForAnalysisWizardProps> = ({
                                     ...p,
                                     [experience.id]: !p[experience.id],
                                 }));
+
+                                if (selected[experience.id]) {
+                                }
                             }}
                             className={classNames(
                                 "group flex cursor-pointer flex-row items-center rounded-lg border py-1 pe-3 ps-0 text-lg transition-all",

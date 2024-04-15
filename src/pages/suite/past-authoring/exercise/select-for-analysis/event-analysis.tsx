@@ -2,32 +2,48 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
-import { z } from "zod";
+import React, { type FC, useState } from "react";
+import toast from "react-hot-toast";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import Textarea from "~/components/Common/Textarea";
 import SomethingsWrong from "~/components/Partials/SomethingsWrong";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
-import { api, RouterOutputs } from "~/utils/api";
+import { api, type RouterOutputs } from "~/utils/api";
 
 const EventAnalysisPage: NextPage = () => {
     const router = useRouter();
-    const experienceOrder = Number(router.query.experienceOrd);
+    const experienceId = router.query.experienceId as string;
 
-    if (!experienceOrder) {
+    if (!experienceId) {
         return <SomethingsWrong />;
     }
 
-    const { data: extendedAnalysis, status: extendedAnalysisStatus } =
-        api.get.extendedAnalysis.byOrd.withExperience.useQuery({
-            experienceOrder,
+    const { data: analysesData, status: analysesDataStatus } =
+        api.get.extendedAnalysis.byId.withAdjacent.useQuery({
+            experienceId,
         });
 
-    if (extendedAnalysisStatus == "error") {
+    if (analysesDataStatus == "pending") {
+        return (
+            <BaseLayout>
+                <AuthoringLayout progress={20}>
+                    <LoadingSpinner />
+                </AuthoringLayout>
+            </BaseLayout>
+        );
+    }
+
+    if (!analysesData) {
+        toast.error(
+            "Something went wrong arranging the experiences selected for analysis.",
+        );
+        void router.push("/suite/past-authoring/exercise/select-for-analysis");
         return;
     }
+
+    const { extendedAnalysis, previousAnalysis } = analysesData;
     return (
         <>
             <Head>
@@ -40,7 +56,7 @@ const EventAnalysisPage: NextPage = () => {
             </Head>
             <BaseLayout>
                 <AuthoringLayout progress={20}>
-                    <h1>{extendedAnalysis?.experience.title}</h1>
+                    <h1>{extendedAnalysis.experience.title}</h1>
                     <p>
                         How did this experience come about? Was it primarily
                         positive or negative? Were you helped or hurt by other
@@ -53,27 +69,30 @@ const EventAnalysisPage: NextPage = () => {
                     </p>
 
                     <div>
-                        {extendedAnalysisStatus == "pending" ? (
-                            <LoadingSpinner />
-                        ) : (
-                            <EventAnalysisWizard
-                                extendedAnalysis={extendedAnalysis}
-                            />
-                        )}
+                        <EventAnalysisWizard
+                            extendedAnalysis={extendedAnalysis}
+                        />
                     </div>
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
-                        <Button
-                            onClick={() => router.back()}
-                            className="place-self-end"
-                            color="neutral"
-                            fill="hollow"
-                        >
-                            Previous
-                        </Button>
                         <Link
-                            // Send the user to the same analysis but the next subsection
-                            href={`/suite/past-authoring/exercise/select-for-analysis/${experienceOrder}/effect-analysis`}
+                            href={
+                                !!previousAnalysis
+                                    ? `/suite/past-authoring/exercise/select-for-analysis/effect-analysis?experienceId=${previousAnalysis.experienceId}`
+                                    : "/suite/past-authoring/exercise/select-for-analysis/"
+                            }
+                        >
+                            <Button
+                                onClick={() => router.back()}
+                                className="place-self-end"
+                                color="neutral"
+                                fill="hollow"
+                            >
+                                Previous
+                            </Button>
+                        </Link>
+                        <Link
+                            href={`/suite/past-authoring/exercise/select-for-analysis/effect-analysis?experienceId=${extendedAnalysis.experienceId}`}
                         >
                             <Button
                                 className="place-self-end"
@@ -106,6 +125,7 @@ const EventAnalysisWizard: FC<EventAnalysisWizardProps> = ({
     return (
         <div>
             <Textarea
+                tooltips={{ success: "Saved!", error: "Not saved!" }}
                 status={updatingStatus}
                 onFinishedTyping={() => {
                     updateEventAnalysis({

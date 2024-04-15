@@ -112,10 +112,6 @@ export const updateRouter = createTRPCRouter({
                                 code: "INTERNAL_SERVER_ERROR",
                             });
                         } else {
-                            console.log(`
-                            ${response.value?.selected}
-                            ${response.value?.experienceId}
-                            `);
                         }
                     });
                 }

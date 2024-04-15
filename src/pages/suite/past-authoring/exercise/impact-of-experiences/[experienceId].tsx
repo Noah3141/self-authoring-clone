@@ -149,6 +149,7 @@ const BasicAnalysisWizard: FC<BasicAnalysisWizardProps> = ({ experience }) => {
 
     return (
         <Textarea
+            tooltips={{ success: "Saved!", error: "Not saved!" }}
             maxWords={250}
             status={updateStatus}
             onFinishedTyping={() => {
