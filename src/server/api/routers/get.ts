@@ -81,6 +81,13 @@ export const getRouter = createTRPCRouter({
                     };
                 }),
         },
+        last: protectedProcedure.query(async ({ ctx }) => {
+            const lastEpoch = ctx.db.epoch.findFirst({
+                orderBy: { order: "desc" },
+                where: { userId: ctx.session.user.id },
+            });
+            return lastEpoch;
+        }),
     },
     epochs: {
         byUser: protectedProcedure.query(async ({ ctx }) => {

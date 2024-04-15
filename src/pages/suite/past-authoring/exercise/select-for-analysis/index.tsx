@@ -70,14 +70,17 @@ const SelectForAnalysisPage: NextPage = () => {
                     </div>
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
-                        <Button
-                            onClick={() => router.back()}
-                            className="place-self-end"
-                            color="neutral"
-                            fill="hollow"
+                        <Link
+                            href={`/suite/past-authoring/exercise/impact-of-experiences/${experiences.at(-1)?.id}`}
                         >
-                            Previous
-                        </Button>
+                            <Button
+                                className="place-self-end"
+                                color="neutral"
+                                fill="hollow"
+                            >
+                                Previous
+                            </Button>
+                        </Link>
                         <Link
                             href={
                                 !!firstSelectedAnalysis

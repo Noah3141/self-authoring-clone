@@ -83,7 +83,6 @@ const EventAnalysisPage: NextPage = () => {
                             }
                         >
                             <Button
-                                onClick={() => router.back()}
                                 className="place-self-end"
                                 color="neutral"
                                 fill="hollow"

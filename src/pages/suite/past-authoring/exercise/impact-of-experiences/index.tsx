@@ -15,8 +15,17 @@ export default function ImpactOfExperiencesIntroPage() {
     const { data: firstExperience, status: experiencesStatus } =
         api.get.experiences.first.useQuery();
 
-    if (experiencesStatus === "pending") {
-        return <LoadingSpinner />;
+    const { data: lastEpoch, status: epochStatus } =
+        api.get.epoch.last.useQuery();
+
+    if (experiencesStatus === "pending" || epochStatus == "pending") {
+        return (
+            <BaseLayout>
+                <AuthoringLayout progress={20}>
+                    <LoadingSpinner />
+                </AuthoringLayout>
+            </BaseLayout>
+        );
     }
 
     if (!firstExperience) {
@@ -27,6 +36,13 @@ export default function ImpactOfExperiencesIntroPage() {
         void router.push("/suite/past-authoring/exercise/epochs");
         return;
     }
+    if (!lastEpoch) {
+        toast.error("Something went with your epoch list");
+        void apiState.get.invalidate();
+        void router.push("/suite/past-authoring/exercise/epochs");
+        return;
+    }
+
     return (
         <>
             <Head>
@@ -50,14 +66,17 @@ export default function ImpactOfExperiencesIntroPage() {
                     </p>
 
                     <div className="mt-auto flex flex-row justify-between pt-6">
-                        <Button
-                            onClick={() => router.back()}
-                            className="place-self-end"
-                            color="neutral"
-                            fill="hollow"
+                        <Link
+                            href={`/suite/past-authoring/exercise/epochs/${lastEpoch.id}`}
                         >
-                            Previous
-                        </Button>
+                            <Button
+                                className="place-self-end"
+                                color="neutral"
+                                fill="hollow"
+                            >
+                                Previous
+                            </Button>
+                        </Link>
                         <Link
                             href={`/suite/past-authoring/exercise/impact-of-experiences/${firstExperience.id}`}
                         >

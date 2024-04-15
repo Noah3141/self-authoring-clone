@@ -76,7 +76,6 @@ const EffectAnalysisPage: NextPage = () => {
                             href={`/suite/past-authoring/exercise/select-for-analysis/event-analysis?experienceId=${extendedAnalysis.experienceId}`}
                         >
                             <Button
-                                onClick={() => router.back()}
                                 className="place-self-end"
                                 color="neutral"
                                 fill="hollow"
