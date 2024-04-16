@@ -223,43 +223,183 @@ const PastAuthoringNavigation = () => {
 };
 
 const FutureAuthoringNavigation = () => {
+    const { data: goals, status: goalsStatus } =
+        api.get.futureAuthoring.stage2.all.useQuery();
+
+    if (goalsStatus == "pending") {
+        return <LoadingSpinner />;
+    }
+    if (goalsStatus === "error") {
+        return "Error encountered!";
+    }
+
     return (
         <>
             <Tile>
-                <Link
-                    color="neutral"
-                    href={`/suite/past-authoring/exercise/intro`}
+                <Subtile
+                    main
+                    href={`/suite/future-authoring/exercise/stage-1/intro`}
                 >
-                    Intro
-                </Link>
-                <Subtile href={`/suite/past-authoring/exercise/intro`}>
-                    Completing the Exercise 1
+                    General Instructions 1
                 </Subtile>
                 <Subtile
-                    href={`/suite/past-authoring/exercise/intro-continued`}
+                    href={`/suite/future-authoring/exercise/stage-1/intro-2`}
                 >
-                    Completing the Exercise 2
+                    General Instructions 2
                 </Subtile>
                 <Subtile
-                    href={`/suite/past-authoring/exercise/memory-emotion-stress`}
+                    href={`/suite/future-authoring/exercise/stage-1/intro-3`}
                 >
-                    Memory, Emotion, and Stress
-                </Subtile>
-                <Subtile href={`/suite/past-authoring/exercise/writing`}>
-                    Writing
-                </Subtile>
-                <Subtile href={`/suite/past-authoring/exercise/sleeping`}>
-                    Sleeping
+                    General Instructions 3
                 </Subtile>
                 <Subtile
-                    href={`/suite/past-authoring/exercise/attitude-while-writing`}
+                    main
+                    href={`/suite/future-authoring/exercise/stage-1/the-ideal-future`}
                 >
-                    Attitude While Writing
+                    The Ideal Future
                 </Subtile>
                 <Subtile
-                    href={`/suite/past-authoring/exercise/general-description`}
+                    href={`/suite/future-authoring/exercise/stage-1/imagining-your-ideal-future`}
                 >
-                    General Description
+                    Imagining Your Ideal Future
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/one-thing-you-could-do-better`}
+                >
+                    One Thing You Could Do Better
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/things-to-learn-about`}
+                >
+                    Things to Learn About
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/improve-your-habits`}
+                >
+                    Improve Your Habits
+                </Subtile>
+                <Subtile
+                    main
+                    href={`/suite/future-authoring/exercise/stage-1/your-social-life`}
+                >
+                    Your Future Life ( )
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/your-social-life`}
+                >
+                    Your Social Life in the Future
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/your-leisure-life`}
+                >
+                    Your Leisure Life in the Future
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/your-family-life`}
+                >
+                    Your Family Life in the Future
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/your-career`}
+                >
+                    Your Career in the Future
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/qualities-you-admire`}
+                >
+                    Qualities You Admire
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/ideal-future-integration`}
+                >
+                    The Ideal Future
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-1/a-future-to-avoid`}
+                >
+                    A Future to Avoid
+                </Subtile>
+                <Subtile
+                    main
+                    href={`/suite/future-authoring/exercise/stage-1/ideal-future-summary`}
+                >
+                    Ideal Future Summary
+                </Subtile>
+            </Tile>
+            <Tile>
+                <Subtile
+                    main
+                    href={`/suite/future-authoring/exercise/stage-2/intro`}
+                >
+                    Goal Setting
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-2/main-goal`}
+                >
+                    Main Goal
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-2/goals`}
+                >
+                    Subgoals
+                </Subtile>
+                <Subtile
+                    href={`/suite/future-authoring/exercise/stage-2/prioritize-goal`}
+                >
+                    Prioritize Goals
+                </Subtile>
+                <Subtile
+                    main
+                    href={`/suite/future-authoring/exercise/stage-2/`}
+                >
+                    Analysis of Goals
+                </Subtile>
+
+                {!!goals.length ? (
+                    goals.map((goal) => {
+                        return (
+                            <Subtile
+                                href={`/suite/future-authoring/exercise/stage-2/${goal.id}/evaluating-your-motives`}
+                                key={goal.id}
+                            >
+                                <div className="flex flex-col">
+                                    <h3>{goal.title}</h3>
+                                    <Link
+                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/evaluating-your-motives`}
+                                    >
+                                        - Evaluating Your Motives
+                                    </Link>
+                                    <Link
+                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/considering-broader-impact`}
+                                    >
+                                        - Considering the Broad Impact
+                                    </Link>
+                                    <Link
+                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/identifying-solutions-to-obstacles`}
+                                    >
+                                        - Identifying Solutions to Potential
+                                        Obstacles
+                                    </Link>
+                                    <Link
+                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/monitoring-progress`}
+                                    >
+                                        - Monitoring Progress
+                                    </Link>
+                                </div>
+                            </Subtile>
+                        );
+                    })
+                ) : (
+                    <Subtile href={``}>No goals yet...</Subtile>
+                )}
+            </Tile>
+            <Tile>
+                <Subtile main href={``}>
+                    Conclusion
                 </Subtile>
             </Tile>
         </>

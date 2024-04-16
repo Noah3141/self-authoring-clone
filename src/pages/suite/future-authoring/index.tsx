@@ -36,7 +36,9 @@ const FutureAuthoringPage = () => {
                         already entered for this exercise, by clicking here.`}
                     </p>
 
-                    <Link href={`/suite/future-authoring/exercise/intro`}>
+                    <Link
+                        href={`/suite/future-authoring/exercise/stage-1/intro`}
+                    >
                         <Button
                             className="mx-auto !px-12"
                             color="primary"

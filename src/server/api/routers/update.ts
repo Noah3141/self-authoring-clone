@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import type { Prisma } from "@prisma/client";
+import { wordCount } from "~/utils/authoring";
 
 export const updateRouter = createTRPCRouter({
     /**
@@ -28,6 +29,8 @@ export const updateRouter = createTRPCRouter({
                                     experienceId,
                                     selected,
                                     userId: ctx.session.user.id,
+                                    effectAnalysis: "",
+                                    eventAnalysis: "",
                                 }),
                             ),
                         });
@@ -57,6 +60,8 @@ export const updateRouter = createTRPCRouter({
                                                 userId: ctx.session.user.id,
                                                 experienceId: experienceId,
                                                 selected,
+                                                effectAnalysis: "",
+                                                eventAnalysis: "",
                                             } satisfies Prisma.ExtendedAnalysisCreateManyInput;
                                         }
                                     })
@@ -245,6 +250,13 @@ export const updateRouter = createTRPCRouter({
                     });
                 }
 
+                if (wordCount(input.description) > 300) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Your input has exceeded the maximum length!",
+                    });
+                }
+
                 await ctx.db.experience.update({
                     where: {
                         id: input.experienceId,
@@ -287,4 +299,126 @@ export const updateRouter = createTRPCRouter({
                 });
             }),
     },
+
+    futureAuthoring: protectedProcedure
+        .input(
+            z.object({
+                oneThingYouCouldDoBetter: z.string().optional(),
+                thingsToLearnAbout: z.string().optional(),
+                improveYourHabits: z.string().optional(),
+                socialLife: z.string().optional(),
+                leisureLife: z.string().optional(),
+                familyLife: z.string().optional(),
+                careerLife: z.string().optional(),
+                qualitiesYouAdmire: z.string().optional(),
+                idealFuture: z.string().optional(),
+                worstFuture: z.string().optional(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            if (wordCount(Object.values(input).join(" ")) > 300) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Your input has exceeded the maximum length!",
+                });
+            }
+
+            await ctx.db.futureAuthoring.update({
+                where: { userId: ctx.session.user.id },
+                data: input satisfies Prisma.FutureAuthoringUpdateInput,
+            });
+        }),
+    /**
+     *
+     */
+    goals: {
+        priority: protectedProcedure
+            .input(
+                z.array(
+                    z.object({
+                        priority: z.number(),
+                        goalId: z.string(),
+                    }),
+                ),
+            )
+            .mutation(async ({ ctx, input }) => {
+                const reordered = await Promise.allSettled(
+                    input.map(async (newState) => {
+                        const newPlacement = await ctx.db.goal.update({
+                            where: {
+                                userId: ctx.session.user.id,
+                                id: newState.goalId,
+                            },
+                            data: {
+                                priority: newState.priority,
+                            },
+                        });
+                    }),
+                );
+
+                return;
+            }),
+    },
+    /**
+     *
+     */
+    goal: protectedProcedure
+        .input(
+            z.object({
+                goalId: z.string(),
+                isMain: z.boolean().optional(),
+                priority: z.number().optional(),
+                title: z.string().optional(),
+                description: z.string().optional(),
+                motiveAnalysis: z.string().optional(),
+                impactAnalysis: z.string().optional(),
+                strategicAnalysis: z.string().optional(),
+                obstacleAnalysis: z.string().optional(),
+            }),
+        )
+        .mutation(async ({ ctx, input: { goalId, ...input } }) => {
+            if (input.title === "") {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Please provide a goal title!",
+                });
+            }
+
+            if (!!input.title && input.title.length < 3) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Please provide a longer title!",
+                });
+            }
+
+            if (input.description === "") {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Please provide a goal description!",
+                });
+            }
+
+            if (wordCount(Object.values(input).join(" ")) > 300) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Your input has exceeded the maximum length!",
+                });
+            }
+
+            try {
+                await ctx.db.goal.update({
+                    where: {
+                        id: goalId,
+                        userId: ctx.session.user.id,
+                    },
+                    data: input satisfies Prisma.GoalUpdateInput,
+                });
+            } catch {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message:
+                        "Something's not right with our database right now. Please try again in a bit.",
+                });
+            }
+        }),
 });

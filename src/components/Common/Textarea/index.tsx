@@ -41,6 +41,7 @@ const Textarea: FC<TextareaProps> = ({
     },
     status = "idle",
     maxWords,
+    className,
     ...props
 }) => {
     const [wordCount, setWordCount] = useState(0);
@@ -64,7 +65,7 @@ const Textarea: FC<TextareaProps> = ({
                 className={classNames(
                     styles.textarea,
                     styles.validate,
-                    classNames,
+                    className,
                 )}
                 autoComplete="on"
                 {...props}

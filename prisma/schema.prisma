@@ -62,6 +62,7 @@ model User {
 
     epochs           Epoch[]
     experiences      Experience[]
+    goals            Goal[]
     // A users list of past authoring experiences
     extendedAnalysis ExtendedAnalysis[]
     // An experience that the user has chosen to go into more depth on
@@ -86,8 +87,8 @@ model Experience {
     epoch              Epoch             @relation(fields: [epochId], references: [id], onDelete: Cascade)
     epochId            String
     title              String            @default("")
-    description        String            @default("")
-    basicAnalysis      String            @default("")
+    description        String            @db.Text
+    basicAnalysis      String            @db.Text
     extendedAnalysis   ExtendedAnalysis?
     extendedAnalysisId String?
 }
@@ -100,8 +101,8 @@ model ExtendedAnalysis {
     experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
     experienceId String     @id
 
-    eventAnalysis  String @default("")
-    effectAnalysis String @default("")
+    eventAnalysis  String @db.Text
+    effectAnalysis String @db.Text
 }
 
 //
@@ -114,37 +115,34 @@ model FutureAuthoring {
 
     // Stage 1 Forming an Abstract View, from the bottom up
 
-    oneThingYouCouldDoBetter String @default("")
-    thingsToLearnAbout       String @default("")
-    improveYourHabits        String @default("")
+    oneThingYouCouldDoBetter String @db.Text
+    thingsToLearnAbout       String @db.Text
+    improveYourHabits        String @db.Text
 
-    socialLife  String @default("")
-    leisureLife String @default("")
-    familyLife  String @default("")
-    careerLife  String @default("")
+    socialLife  String @db.Text
+    leisureLife String @db.Text
+    familyLife  String @db.Text
+    careerLife  String @db.Text
 
-    qualitiesYouAdmire String @default("")
-    idealFuture        String @default("")
-    worstFuture        String @default("")
-
-    // Stage 2
-    goals Goal[]
+    qualitiesYouAdmire String @db.Text
+    idealFuture        String @db.Text
+    worstFuture        String @db.Text
 }
 
 model Goal {
-    id String @id @unique
+    id     String @id @default(cuid())
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
 
-    isMain          Boolean
+    isMain      Boolean
     // Is this the abstract aggregate goal
-    priority        Int
-    title           String
-    description     String
-    FutureAuthoring FutureAuthoring @relation(fields: [userId], references: [userId])
-    userId          String
+    priority    Int
+    title       String  @default("")
+    description String  @db.Text
 
     // Evaluating your motives
-    motiveAnalysis    String
-    impactAnalysis    String
-    strategicAnalysis String
-    obstacleAnalysis  String
+    motiveAnalysis    String @db.Text
+    impactAnalysis    String @db.Text
+    strategicAnalysis String @db.Text
+    obstacleAnalysis  String @db.Text
 }

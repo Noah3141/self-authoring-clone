@@ -33,8 +33,11 @@ export const suiteRouter = createTRPCRouter({
 
             const futureAuthoring = await ctx.db.futureAuthoring.findUnique({
                 where: { userId: ctx.session.user.id },
-                include: {
-                    goals: true,
+            });
+
+            const goals = await ctx.db.goal.findMany({
+                where: {
+                    userId: ctx.session.user.id,
                 },
             });
 
@@ -55,7 +58,7 @@ export const suiteRouter = createTRPCRouter({
                         futureAuthoring.socialLife,
                         futureAuthoring.thingsToLearnAbout,
                         futureAuthoring.worstFuture,
-                        ...futureAuthoring.goals
+                        ...goals
                             .map((goal): string[] => {
                                 return [
                                     goal.description,

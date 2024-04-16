@@ -42,7 +42,9 @@ export const createRouter = createTRPCRouter({
                         order: (lastExperience?.order ?? 0) + 1,
                         userId: ctx.session.user.id,
                         epochId: input.epochId,
-                        // DB defaults for title, description, basicAnalysis
+                        description: "",
+                        basicAnalysis: "",
+                        // DB defaults for title,
                     },
                 });
             }),

@@ -7,6 +7,7 @@ import {
 } from "~/server/api/trpc";
 import { orCreateRouter } from "./getOrCreate";
 import { TRPCError } from "@trpc/server";
+import { Prisma } from "@prisma/client";
 
 export const getRouter = createTRPCRouter({
     pastAuthoring: {
@@ -469,6 +470,89 @@ export const getRouter = createTRPCRouter({
                         nextAnalysis,
                     };
                 }),
+        },
+    },
+
+    futureAuthoring: {
+        stage1: {
+            all: protectedProcedure.query(async ({ ctx }) => {
+                const futureAuthoring = await ctx.db.futureAuthoring.findUnique(
+                    {
+                        where: {
+                            userId: ctx.session.user.id,
+                        },
+                    },
+                );
+
+                if (!futureAuthoring) {
+                    const initializedFutureAuthoring =
+                        await ctx.db.futureAuthoring.create({
+                            data: {
+                                userId: ctx.session.user.id,
+                            },
+                        });
+
+                    return initializedFutureAuthoring;
+                }
+
+                return futureAuthoring;
+            }),
+        },
+        stage2: {
+            mainGoal: protectedProcedure.query(async ({ ctx }) => {
+                const mainGoal = await ctx.db.goal.findFirst({
+                    where: {
+                        userId: ctx.session.user.id,
+                        isMain: true,
+                    },
+                });
+
+                if (!mainGoal) {
+                    const initializedMainGoal = await ctx.db.goal.create({
+                        data: {
+                            userId: ctx.session.user.id,
+                            isMain: true,
+                            priority: 0,
+                        },
+                    });
+                }
+
+                return mainGoal;
+            }),
+
+            all: protectedProcedure.query(async ({ ctx }) => {
+                const goals = await ctx.db.goal.findMany({
+                    orderBy: { priority: "asc" },
+                    where: {
+                        userId: ctx.session.user.id,
+                        isMain: false,
+                    },
+                });
+
+                if (!goals.length) {
+                    const initializedGoals = await ctx.db.goal.createMany({
+                        data: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+                            return {
+                                isMain: false,
+                                priority: i,
+                                userId: ctx.session.user.id,
+                            };
+                        }),
+                    });
+
+                    const newlyInitializedGoals = await ctx.db.goal.findMany({
+                        orderBy: { priority: "asc" },
+                        where: {
+                            userId: ctx.session.user.id,
+                            isMain: false,
+                        },
+                    });
+
+                    return newlyInitializedGoals;
+                }
+
+                return goals;
+            }),
         },
     },
 

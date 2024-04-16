@@ -53,7 +53,9 @@ export const orCreateRouter = {
                             order: i,
                             epochId: input.epochId,
                             userId: ctx.session.user.id,
-                            // DB defaults for title, description, basicAnalysis
+                            description: "",
+                            basicAnalysis: "",
+                            // DB defaults for title,
                         })),
                     });
 

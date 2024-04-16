@@ -62,7 +62,7 @@ const SignInPage = () => {
                                 }}
                                 id="password"
                                 type="password"
-                                className="w-96 rounded border border-neutral-400 p-1 autofill:bg-info-200 hover:cursor-pointer hover:bg-neutral-100 hover:autofill:bg-info-300 focus:cursor-text"
+                                className="hover:!autofill:bg-info-300 w-96 rounded border border-neutral-400 p-1 autofill:!bg-info-200 hover:cursor-pointer hover:bg-neutral-100 focus:cursor-text"
                             />
                         </div>
                     </div>
