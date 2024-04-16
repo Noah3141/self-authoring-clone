@@ -505,6 +505,14 @@ export const getRouter = createTRPCRouter({
 
                 return previousGoal;
             }),
+        last: protectedProcedure.query(async ({ ctx }) => {
+            return await ctx.db.goal.findFirst({
+                where: { userId: ctx.session.user.id },
+                orderBy: {
+                    priority: "desc",
+                },
+            });
+        }),
     },
 
     futureAuthoring: {
@@ -565,6 +573,7 @@ export const getRouter = createTRPCRouter({
                             progressAnalysis: "",
                         },
                     });
+                    return initializedMainGoal;
                 }
 
                 return mainGoal;

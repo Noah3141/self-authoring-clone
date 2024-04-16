@@ -89,4 +89,13 @@ export const deleteRouter = createTRPCRouter({
                 }
             }),
     },
+
+    futureAuthoring: protectedProcedure.mutation(async ({ ctx }) => {
+        const deleted = await ctx.db.futureAuthoring.delete({
+            where: { userId: ctx.session.user.id },
+        });
+        const deletedGoals = await ctx.db.goal.deleteMany({
+            where: { userId: ctx.session.user.id },
+        });
+    }),
 });

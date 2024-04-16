@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { type FC, useState } from "react";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 import SomethingsWrong from "~/components/Partials/SomethingsWrong";
-import { Goal } from "@prisma/client";
+import type { Goal } from "@prisma/client";
 import { useRouter } from "next/router";
 import Textarea from "~/components/Common/Textarea";
 import toast from "react-hot-toast";
@@ -45,7 +45,7 @@ const IdentifyingSolutionsToObstaclesPage: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Defining Goals</title>
+                <title>Planning for Obstacles</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
@@ -160,10 +160,12 @@ const IdentifyingSolutionsToObstaclesWizard: FC<
                 setValue={setInput}
                 status={status}
                 onFinishedTyping={() => {
-                    update({
-                        obstacleAnalysis: input,
-                        goalId: goal.id,
-                    });
+                    if (input !== goal.obstacleAnalysis) {
+                        update({
+                            obstacleAnalysis: input,
+                            goalId: goal.id,
+                        });
+                    }
                 }}
                 maxWords={300}
             />

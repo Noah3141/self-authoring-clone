@@ -1,8 +1,8 @@
-import { Goal } from "@prisma/client";
+import type { Goal } from "@prisma/client";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import React, { FC, useState } from "react";
+import React, { type FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";

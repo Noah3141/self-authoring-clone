@@ -23,7 +23,7 @@ const AuthoringLayout: FC<PropsWithChildren<AuthoringLayoutProps>> = ({
         <div className={styles.authoringLayout}>
             <Sidebar suite={suite} />
             <div className={styles.wrapper}>
-                <div className={styles.content}>
+                <div id="printable" className={styles.content}>
                     <div className="flex flex-col items-end gap-3">
                         <h3 className="ml-auto text-right">{title[suite]}</h3>
                         <ProgressBar

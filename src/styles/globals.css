@@ -12,4 +12,16 @@
     #__next {
         @apply !h-[100vh] !min-h-full;
     }
+
+    @media print {
+        body {
+            visibility: hidden;
+        }
+        #printable {
+            visibility: visible;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
 }

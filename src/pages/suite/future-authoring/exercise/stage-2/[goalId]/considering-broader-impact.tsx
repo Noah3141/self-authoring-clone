@@ -45,7 +45,7 @@ const ConsideringBroaderImpactPage: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Defining Goals</title>
+                <title>Considering Impact</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
@@ -186,10 +186,12 @@ const ConsideringBroaderImpactWizard: FC<
                 setValue={setInput}
                 status={status}
                 onFinishedTyping={() => {
-                    update({
-                        impactAnalysis: input,
-                        goalId: goal.id,
-                    });
+                    if (input !== goal.impactAnalysis) {
+                        update({
+                            impactAnalysis: input,
+                            goalId: goal.id,
+                        });
+                    }
                 }}
                 maxWords={300}
             />

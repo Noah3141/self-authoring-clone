@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import React, { FC, useEffect, useState } from "react";
+import React, { type FC, useEffect, useState } from "react";
 import Button from "~/components/Common/Button";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import AuthoringLayout from "~/layouts/Authoring";
@@ -9,7 +9,8 @@ import BaseLayout from "~/layouts/Base";
 import { api } from "~/utils/api";
 import SomethingsWrong from "~/components/Partials/SomethingsWrong";
 import { Reorder } from "framer-motion";
-import { Goal } from "@prisma/client";
+import type { Goal } from "@prisma/client";
+import toast from "react-hot-toast";
 
 const MainGoalPage: NextPage = () => {
     const { data: goals, status: goalsStatus } =
@@ -28,7 +29,7 @@ const MainGoalPage: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Defining Goals</title>
+                <title>Prioritize Goals</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
@@ -103,6 +104,12 @@ const GoalsPriorityListWizard: FC<GoalsPriorityListWizardProps> = ({
         status: updateStatus,
         reset: resetUpdating,
     } = api.update.goals.priority.useMutation({
+        onError: () => {
+            void toast.error("Something went wrong rearranging your goals!", {
+                id: "rearrange-goal-toast",
+            });
+        },
+
         onSuccess: () => {
             void apiState.get.futureAuthoring.stage2.all.invalidate();
         },

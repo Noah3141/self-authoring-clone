@@ -2,7 +2,7 @@ import { useRef, type FC } from "react";
 
 import styles from "./index.module.css";
 import IconButton from "~/components/Common/IconButton";
-import { MapIcon } from "@heroicons/react/24/solid";
+import { HomeIcon, MapIcon } from "@heroicons/react/24/solid";
 import { useSidebarContext } from "~/server/contexts";
 import SidebarSection from "./SidebarSection";
 import Tile from "./SidebarSection/SidebarTile";
@@ -14,7 +14,7 @@ import { api } from "~/utils/api";
 import LoadingSpinner from "~/components/Common/LoadingSpinner";
 import Link from "next/link";
 import EllipsisCircleIcon from "~/components/Icons/Theme/EllipsisCircle";
-import PastAuthoringDeletionWizard from "~/components/Partials/PastAuthoringDeletionWizard";
+import DeletionWizard from "~/components/Partials/DeletionWizard";
 
 /** Used by variants of the sidebar */
 export type SidebarProps = {
@@ -28,7 +28,7 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
     const sidebarRef = useRef(null);
 
     useClickOutside(() => {
-        setExpanded((p) => ({}));
+        setExpanded({});
     }, sidebarRef);
 
     return (
@@ -46,6 +46,20 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                     tooltipProps={{ place: "right" }}
                     isOn={!expanded.map}
                 />
+
+                <IconButton
+                    size="medium"
+                    OnIcon={HomeIcon}
+                    onClick={() => {
+                        setExpanded((p) => ({ home: !p.home }));
+                    }}
+                    tooltips={{
+                        on: "Home",
+                    }}
+                    tooltipProps={{ place: "right" }}
+                    isOn={!expanded.home}
+                />
+
                 <IconButton
                     size="medium"
                     OnIcon={EllipsisCircleIcon}
@@ -61,7 +75,6 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
             </div>
             <div className={styles.contents}>
                 <SidebarSection expanded={!!expanded.map} id="map">
-                    <Header>Navigate</Header>
                     {suite === "past-authoring" ? (
                         <PastAuthoringNavigation />
                     ) : suite === "future-authoring" ? (
@@ -71,12 +84,33 @@ const Sidebar: FC<SidebarProps> = ({ suite }) => {
                     )}
                 </SidebarSection>
 
+                <SidebarSection expanded={!!expanded.home} id="home">
+                    <Header>Self Authoring</Header>
+                    <Tile>
+                        <Subtile main href="/dashboard">
+                            My Work
+                        </Subtile>
+                        <Subtile href={`/suite/past-authoring`}>
+                            Past Authoring
+                        </Subtile>
+                        <Subtile href={`/suite/future-authoring`}>
+                            Future Authoring
+                        </Subtile>
+                    </Tile>
+                    <Tile>
+                        <Subtile href="/suite/past-authoring/summary">
+                            Past Authoring Summary
+                        </Subtile>
+                        <Subtile href="/suite/future-authoring/summary">
+                            Future Authoring Summary
+                        </Subtile>
+                    </Tile>
+                </SidebarSection>
+
                 <SidebarSection expanded={!!expanded.settings} id="settings">
                     <Header>Settings</Header>
-                    <Subtile href="/suite/past-authoring/summary">
-                        View Summary
-                    </Subtile>
-                    <PastAuthoringDeletionWizard />
+
+                    <DeletionWizard />
                 </SidebarSection>
             </div>
         </nav>
@@ -108,6 +142,8 @@ const PastAuthoringNavigation = () => {
 
     return (
         <>
+            <Header>Navigate Past Authoring</Header>
+
             <Tile>
                 {/* 
                     
@@ -235,6 +271,8 @@ const FutureAuthoringNavigation = () => {
 
     return (
         <>
+            <Header>Navigate Future Authoring</Header>
+
             <Tile>
                 <Subtile
                     main
@@ -405,7 +443,10 @@ const FutureAuthoringNavigation = () => {
                 )}
             </Tile>
             <Tile>
-                <Subtile main href={``}>
+                <Subtile
+                    main
+                    href={`/suite/future-authoring/exercise/stage-2/conclusion`}
+                >
                     Conclusion
                 </Subtile>
             </Tile>

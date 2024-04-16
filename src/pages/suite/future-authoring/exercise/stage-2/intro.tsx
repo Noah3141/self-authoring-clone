@@ -6,11 +6,11 @@ import Button from "~/components/Common/Button";
 import AuthoringLayout from "~/layouts/Authoring";
 import BaseLayout from "~/layouts/Base";
 
-const FutureAuthoringStage2Intro: NextPage = () => {
+const FutureAuthoringIntro: NextPage = () => {
     return (
         <>
             <Head>
-                <title></title>
+                <title>Intro to Future Authoring</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
@@ -62,4 +62,4 @@ const FutureAuthoringStage2Intro: NextPage = () => {
     );
 };
 
-export default FutureAuthoringStage2Intro;
+export default FutureAuthoringIntro;

@@ -27,7 +27,7 @@ const FutureAuthoringStage2Intro: NextPage = () => {
     return (
         <>
             <Head>
-                <title></title>
+                <title>Analysis of Goals</title>
                 <meta
                     name="description"
                     content="Map Your Life & Chart Your Course"
