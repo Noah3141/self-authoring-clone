@@ -1,5 +1,6 @@
 .footer {
     @apply mx-auto
+    mt-auto
     flex
     w-full
     max-w-5xl

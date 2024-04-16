@@ -64,7 +64,7 @@ export default function HomePage() {
                         </div>
                     </section>
                     <section className="flex flex-col gap-6 lg:flex-row">
-                        <div className="w-[600px] shrink-0 overflow-hidden rounded-md">
+                        <div className="w-[600px] max-w-full shrink-0 overflow-hidden rounded-md">
                             <ReactPlayer
                                 width={600}
                                 controls

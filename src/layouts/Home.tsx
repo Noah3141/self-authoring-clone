@@ -6,6 +6,7 @@ import Footer from "~/components/Containers/Footer";
 const HomeLayout: FC<PropsWithChildren> = ({ children }) => (
     <>
         <Image
+            className="mb-6"
             src={"/static/hand-writing.jpeg"}
             alt=""
             width={4000}

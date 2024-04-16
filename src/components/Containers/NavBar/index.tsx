@@ -128,7 +128,7 @@ const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
     );
 };
 
-const MobileNav: FC<NavbarProps> = ({ session }) => {
+const MobileNav: FC<NavbarProps> = ({ session, inAuthoring }) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -148,14 +148,68 @@ const MobileNav: FC<NavbarProps> = ({ session }) => {
                     [styles.expanded!]: expanded,
                 })}
             >
-                <Link className="p-3" href="/">
-                    <Button color="neutral" fill="solid">
-                        Exit Self Authoring
-                    </Button>
-                </Link>
+                {inAuthoring ? (
+                    <Link href="/">
+                        <Button color="neutral" fill="solid">
+                            Exit Self Authoring
+                        </Button>
+                    </Link>
+                ) : (
+                    <>
+                        <Link href="/">
+                            <Button color="neutral" fill="solid">
+                                Self Authoring
+                            </Button>
+                        </Link>
+                        <Link href="/products">
+                            <Button color="neutral" fill="solid">
+                                Products
+                            </Button>
+                        </Link>
+
+                        {session?.user && (
+                            <Link href="/dashboard">
+                                <Button color="neutral" fill="solid">
+                                    My Work
+                                </Button>
+                            </Link>
+                        )}
+                        <AccountButton session={session} />
+                    </>
+                )}
             </div>
         </main>
     );
 };
 
 export default Navbar;
+
+const AccountButton = ({ session }: { session: Session | null }) => {
+    const router = useRouter();
+    if (!session) {
+        return (
+            <Button
+                onClick={async () => {
+                    await signIn();
+                }}
+                color="neutral"
+                fill="solid"
+            >
+                Sign In
+            </Button>
+        );
+    } else {
+        return (
+            <Button
+                onClick={async () => {
+                    await signOut();
+                    await router.push("/");
+                }}
+                color="neutral"
+                fill="solid"
+            >
+                Sign Out
+            </Button>
+        );
+    }
+};

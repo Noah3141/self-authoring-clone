@@ -21,74 +21,76 @@ const SignInPage = () => {
     return (
         <BaseLayout>
             <HomeLayout>
-                <h1>Log on</h1>
+                <section>
+                    <h1>Log on</h1>
 
-                <p>
-                    Please enter your username and password. Click here if you
-                    have forgotten your username or your password.
-                </p>
+                    <p>
+                        Please enter your username and password. Click here if
+                        you have forgotten your username or your password.
+                    </p>
 
-                <form
-                    className="flex flex-col justify-center gap-12 pt-16 "
-                    action=""
-                >
-                    <div className="flex flex-col gap-3">
-                        <div className="flex w-full flex-col justify-between gap-1">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                placeholder="Email"
-                                id="email"
-                                value={credentials.email}
-                                onChange={(e) => {
-                                    setCredentials((p) => ({
-                                        ...p,
-                                        email: e.target.value,
-                                    }));
-                                }}
-                                type="email"
-                                className="w-96 rounded border border-neutral-400 p-1 autofill:bg-info-200 hover:cursor-pointer hover:bg-neutral-100 hover:autofill:bg-info-300 focus:cursor-text"
-                            />
-                        </div>
-                        <div className="flex w-full flex-col justify-between gap-1">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                placeholder="Password"
-                                value={credentials.password}
-                                onChange={(e) => {
-                                    setCredentials((p) => ({
-                                        ...p,
-                                        password: e.target.value,
-                                    }));
-                                }}
-                                id="password"
-                                type="password"
-                                className="hover:!autofill:bg-info-300 w-96 rounded border border-neutral-400 p-1 autofill:!bg-info-200 hover:cursor-pointer hover:bg-neutral-100 focus:cursor-text"
-                            />
-                        </div>
-                    </div>
-
-                    <Button
-                        onClick={async (e) => {
-                            e.preventDefault();
-                            const res = await signIn("credentials", {
-                                email: credentials.email,
-                                password: credentials.password,
-                                redirect: false,
-                            });
-
-                            if (res?.ok) {
-                                await router.push("/");
-                                toast.success("Signed in!");
-                            } else {
-                                toast.error(
-                                    res?.error ?? "Something went wrong",
-                                );
-                            }
-                        }}
+                    <form
+                        className="flex flex-col justify-center gap-12 pt-16 "
+                        action=""
                     >
-                        Sign in
-                    </Button>
-                </form>
+                        <div className="flex flex-col gap-3">
+                            <div className="flex w-full flex-col justify-between gap-1">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    placeholder="Email"
+                                    id="email"
+                                    value={credentials.email}
+                                    onChange={(e) => {
+                                        setCredentials((p) => ({
+                                            ...p,
+                                            email: e.target.value,
+                                        }));
+                                    }}
+                                    type="email"
+                                    className="w-96 rounded border border-neutral-400 p-1 autofill:bg-info-200 hover:cursor-pointer hover:bg-neutral-100 hover:autofill:bg-info-300 focus:cursor-text"
+                                />
+                            </div>
+                            <div className="flex w-full flex-col justify-between gap-1">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    placeholder="Password"
+                                    value={credentials.password}
+                                    onChange={(e) => {
+                                        setCredentials((p) => ({
+                                            ...p,
+                                            password: e.target.value,
+                                        }));
+                                    }}
+                                    id="password"
+                                    type="password"
+                                    className="hover:!autofill:bg-info-300 w-96 rounded border border-neutral-400 p-1 autofill:!bg-info-200 hover:cursor-pointer hover:bg-neutral-100 focus:cursor-text"
+                                />
+                            </div>
+                        </div>
+
+                        <Button
+                            onClick={async (e) => {
+                                e.preventDefault();
+                                const res = await signIn("credentials", {
+                                    email: credentials.email,
+                                    password: credentials.password,
+                                    redirect: false,
+                                });
+
+                                if (res?.ok) {
+                                    await router.push("/");
+                                    toast.success("Signed in!");
+                                } else {
+                                    toast.error(
+                                        res?.error ?? "Something went wrong",
+                                    );
+                                }
+                            }}
+                        >
+                            Sign in
+                        </Button>
+                    </form>
+                </section>
             </HomeLayout>
         </BaseLayout>
     );

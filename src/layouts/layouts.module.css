@@ -11,8 +11,9 @@
     max-w-6xl
     flex-col
     gap-3
-    py-12
-    text-neutral-500;
+    px-3
+    text-neutral-500
+    md:px-12;
 
     h1 {
         @apply mb-6 text-3xl font-semibold;

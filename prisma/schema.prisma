@@ -72,7 +72,7 @@ model User {
 
 model Epoch {
     id          String       @id @default(cuid())
-    user        User         @relation(fields: [userId], references: [id])
+    user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String
     order       Int          @unique // @default(autoincrement())
     title       String       @default("")
@@ -82,7 +82,7 @@ model Epoch {
 model Experience {
     id                 String            @id @default(cuid())
     userId             String
-    user               User              @relation(fields: [userId], references: [id])
+    user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
     order              Int // ! This cannot be unique because 
     epoch              Epoch             @relation(fields: [epochId], references: [id], onDelete: Cascade)
     epochId            String
@@ -95,7 +95,7 @@ model Experience {
 
 model ExtendedAnalysis {
     userId       String
-    user         User       @relation(fields: [userId], references: [id])
+    user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     selected     Boolean
     // Soft delete, making the analysis present in cycle or not. This allows the writing to be retained when the user deselects
     experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
@@ -110,7 +110,7 @@ model ExtendedAnalysis {
 //
 
 model FutureAuthoring {
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String @id @unique
 
     // Stage 1 Forming an Abstract View, from the bottom up
@@ -131,7 +131,7 @@ model FutureAuthoring {
 
 model Goal {
     id     String @id @default(cuid())
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
     isMain      Boolean
