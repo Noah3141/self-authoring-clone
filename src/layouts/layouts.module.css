@@ -26,8 +26,9 @@
 .authoringLayout {
     @apply flex 
     size-full
-    flex-row
-    overflow-y-hidden;
+    flex-col
+    overflow-y-hidden
+    md:flex-row;
 
     .wrapper {
         @apply h-full 

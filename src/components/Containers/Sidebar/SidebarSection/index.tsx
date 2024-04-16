@@ -1,14 +1,13 @@
 import classNames from "classnames";
 import React, {
-    FC,
-    PropsWithChildren,
+    type FC,
+    type PropsWithChildren,
     SetStateAction,
     useRef,
     useState,
 } from "react";
 
 import styles from "./index.module.css";
-import useClickOutside from "~/hooks/useClickOutside";
 
 type SidebarSectionProps = {
     expanded: boolean;
@@ -16,7 +15,6 @@ type SidebarSectionProps = {
 };
 
 const SidebarSection: FC<PropsWithChildren<SidebarSectionProps>> = ({
-    id,
     expanded,
     children,
 }) => {

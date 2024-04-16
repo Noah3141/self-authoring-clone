@@ -10,6 +10,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import type { Session } from "next-auth";
 import NavDropdown from "./NavDropdown";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import Button from "~/components/Common/Button";
 
 const Navbar: FC = ({}) => {
     const session = useSession().data;
@@ -37,7 +39,7 @@ const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
         <main className={classNames(styles.desktopNavbar, styles.nav)}>
             <div className={styles.container}>
                 <section>
-                    <NavItem href="/">Self Authoring v2</NavItem>
+                    <span>Self Authoring</span>
                 </section>
                 {!inAuthoring && (
                     <section>
@@ -146,8 +148,11 @@ const MobileNav: FC<NavbarProps> = ({ session }) => {
                     [styles.expanded!]: expanded,
                 })}
             >
-                <NavItem href="/">Self Authoring v2</NavItem>
-                <NavItem href="/">Exit</NavItem>
+                <Link className="p-3" href="/">
+                    <Button color="neutral" fill="solid">
+                        Exit Self Authoring
+                    </Button>
+                </Link>
             </div>
         </main>
     );

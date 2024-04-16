@@ -1,5 +1,5 @@
 .tooltip {
-    @apply z-50  !rounded !bg-neutral-900 !p-0 !text-neutral-300 !opacity-0 !transition-[scale_opacity];
+    @apply !invisible !z-50 !rounded !bg-neutral-900 !p-0 !text-neutral-300 !opacity-0 !transition-[scale_opacity] md:!visible;
 
     .mini {
         @apply !px-2 !py-1 text-xs;

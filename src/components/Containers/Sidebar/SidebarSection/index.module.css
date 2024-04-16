@@ -1,25 +1,29 @@
 .sidebar-section {
-    @apply absolute
+    @apply pointer-events-none
+    absolute
     -z-30
     flex
     h-full
-    w-[500px]
+    w-full
     shrink-0
     origin-left
     -translate-x-full
     flex-col
     gap-3
-    overflow-y-auto
+    overflow-y-auto 
     whitespace-nowrap
     border-r
+    border-t
     border-neutral-300
     bg-neutral-50
-    p-8
+    p-4
     transition-all
     duration-300
-    ease-in-out;
+    ease-in-out
+    md:w-[500px]
+    md:p-8;
 
     &.expanded {
-        @apply -translate-x-0 shadow-xl;
+        @apply pointer-events-auto -translate-x-0 shadow-xl;
     }
 }

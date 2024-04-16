@@ -43,12 +43,13 @@
     .items {
         @apply flex 
         h-0 
-        flex-col 
+        flex-col items-center
+        justify-center 
         overflow-hidden 
         transition-all;
 
         &.expanded {
-            @apply h-96 
+            @apply h-32 
             border-b 
             border-neutral-300;
         }
