@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Sidebar from "~/components/Containers/Sidebar";
 import { title } from "~/utils/page-metadata";
 import { PastAuthoringSettings } from "~/utils/page-metadata";
+import { useSession } from "next-auth/react";
 
 type AuthoringLayoutProps = {
     progress: number;
@@ -16,8 +17,12 @@ const AuthoringLayout: FC<PropsWithChildren<AuthoringLayoutProps>> = ({
     children,
 }) => {
     const router = useRouter();
-
+    const session = useSession();
     const suite = router.pathname.split("/")[2] ?? "";
+
+    if (session.status == "unauthenticated") {
+        void router.push("/");
+    }
 
     return (
         <div className={styles.authoringLayout}>

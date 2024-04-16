@@ -4,6 +4,22 @@ import Link from "next/link";
 import Button from "~/components/Common/Button";
 import BaseLayout from "~/layouts/Base";
 import HomeLayout from "~/layouts/Home";
+import dynamic from "next/dynamic";
+import LoadingSpinner from "~/components/Common/LoadingSpinner";
+import BeakerIcon from "~/components/Icons/Theme/BeakerIcon";
+import {
+    CogIcon,
+    MapIcon,
+    TrophyIcon,
+    UserGroupIcon,
+    WrenchIcon,
+} from "@heroicons/react/24/solid";
+import Image from "next/image";
+
+const ReactPlayer = dynamic(() => import("react-player"), {
+    ssr: false,
+    loading: () => <LoadingSpinner />,
+});
 
 export default function HomePage() {
     const session = useSession();
@@ -47,8 +63,14 @@ export default function HomePage() {
                             simpler and more rewarding path through life.
                         </div>
                     </section>
-                    <section className="flex flex-col gap-6 sm:flex-row">
-                        <div className="h-[360px] w-[600px] shrink-0 border"></div>
+                    <section className="flex flex-col gap-6 lg:flex-row">
+                        <div className="w-[600px] shrink-0 overflow-hidden rounded-md">
+                            <ReactPlayer
+                                width={600}
+                                controls
+                                url={`https://www.youtube.com/watch?v=qa9u5t3C0AI`}
+                            />
+                        </div>
                         <div>
                             <p>
                                 The Past Authoring Program helps you remember,
@@ -74,6 +96,101 @@ export default function HomePage() {
                                 want to live! The Self Authoring Suite will
                                 improve your life.
                             </p>
+                        </div>
+                    </section>
+                    <section>
+                        <div className="mx-auto flex w-full max-w-sm flex-col justify-between gap-6 py-6 md:flex-row">
+                            <Link
+                                href={"/products/future-authoring"}
+                                className="group flex flex-col items-center text-xl text-primary-500 transition-all duration-500 hover:text-info-500"
+                            >
+                                <MapIcon className="size-20 rounded-full border p-3 transition-all duration-500 ease-out group-hover:scale-105 group-hover:shadow-lg" />
+                                Map your Life
+                            </Link>
+                            <Link
+                                href={"/products/future-authoring"}
+                                className="group flex flex-col items-center text-xl text-primary-500 transition-all duration-500 hover:text-info-500"
+                            >
+                                <BeakerIcon className="size-20 rounded-full border p-3 transition-all duration-500 ease-out group-hover:scale-105 group-hover:shadow-lg" />
+                                Chart your Course
+                            </Link>
+                        </div>
+                    </section>
+                    <section>
+                        <div className="flex flex-col items-center lg:flex-row">
+                            <Image
+                                className="h-[600px] shrink-0"
+                                src={"/static/landscape.jpg"}
+                                alt=""
+                                width={600}
+                                height={600}
+                            />
+                            <div className="pt-">
+                                <div className="flex flex-row items-start p-3">
+                                    <div className="p-3">
+                                        <WrenchIcon className="size-12" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold">
+                                            Tried and Tested
+                                        </h2>
+                                        <p>
+                                            The Self Authoring programs have
+                                            been used in many different
+                                            settings, and the results have been
+                                            overwhelmingly positive.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row items-start p-3">
+                                    <div className="p-3">
+                                        <CogIcon className="size-12 " />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold">
+                                            Improve performance
+                                        </h2>
+                                        <p>
+                                            Students who use the Self Authoring
+                                            programs often see an increase in
+                                            school performance, and are less
+                                            likely to drop out of classes.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row items-start p-3">
+                                    <div className="p-3">
+                                        <UserGroupIcon className="size-12" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold">
+                                            Improve relationships
+                                        </h2>
+                                        <p>
+                                            Find out what you want from both
+                                            your friendships, and your intimate
+                                            relationships with the Self
+                                            Authoring Suite.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row items-start p-3">
+                                    <div className="p-3">
+                                        <TrophyIcon className="size-12" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold">
+                                            Dream big
+                                        </h2>
+                                        <p>
+                                            The Self Authoring programs will
+                                            help identify your highest goals,
+                                            and allow you to discover the tools
+                                            necessary to achieve them.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
                 </HomeLayout>
