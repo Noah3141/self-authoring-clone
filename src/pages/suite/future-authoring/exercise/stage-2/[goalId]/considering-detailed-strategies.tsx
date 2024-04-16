@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import Textarea from "~/components/Common/Textarea";
 import toast from "react-hot-toast";
 
-const ConsideringBroaderImpactPage: NextPage = () => {
+const ConsideringDetailedStrategies: NextPage = () => {
     const router = useRouter();
     const goalId = router.query.goalId as string;
 
@@ -55,70 +55,59 @@ const ConsideringBroaderImpactPage: NextPage = () => {
             <BaseLayout>
                 <AuthoringLayout progress={53}>
                     <h1>
-                        {goal.title}
+                        {goal?.title}
                         <span className="ps-6 text-neutral-200">
-                            2.{goal.priority}.2
+                            2.{goal?.priority}.3
                         </span>
                     </h1>
                     <h2>
-                        Considering the Broad Personal and Social Impact of
-                        Goals
+                        Considering the Detailed Strategies for Goal Attainment
                     </h2>
 
                     <p>
-                        Goals can have an impact beyond the obvious. Our
-                        specific personal goals are connected to larger, more
-                        important life goals. These higher-order goals reflect
-                        our most important ideals. The specific goal of spending
-                        more time studying or reading, for example, is a
-                        specific element of the more important goal of being a
-                        well-educated person. Achieving other specific goals,
-                        such as becoming more assertive, help us to move closer
-                        to our ideal self.
-                    </p>
-
-                    <p>
-                        You will now be asked to write about what more globally
-                        important things might be affected by your attainment of
-                        the goal listed below:
+                        Goals are related to lesser, smaller sub-goals and
+                        behaviors, as well as connected to higher-order, more
+                        important abstract goals. Sub-goals are easier to
+                        achieve, but are still fundamental to reaching our
+                        greater aspirations. Sub-goals can thus be thought of as
+                        strategies for greater goal achievement. Thinking about
+                        what specific things need to be done in order to achieve
+                        your goals allows you to create practical strategies for
+                        realizing your dreams. Please take some time to write
+                        about the concrete daily or weekly things you might do
+                        to further your goal. Deeply consider what particular
+                        behaviors this goal is built upon.
                     </p>
 
                     <ul className="list-disc ps-6">
                         <li>
-                            How would disciplined success change the way that
-                            you see yourself?
+                            Should you spend more time planning at school or at
+                            work?
                         </li>
                         <li>
-                            How would other parts of your personal life change,
-                            in consequence?
+                            Do you need to spend more time with your friends, or
+                            your children?
                         </li>
                         <li>
-                            How would this affect the way that others perceive
-                            you? (You might also consider fears of being
-                            successful. Sometimes people are afraid to succeed
-                            because of the responsibility this would entail.
-                            Sometimes they are afraid of even becoming conscious
-                            of their true goals, because then they would be
-                            aware when they fail. These are not good
-                            strategies.)
-                        </li>
-                        <li>
-                            How would attaining this goal affect the lives of
-                            the people around you?
-                        </li>
-                        <li>
-                            What broader beneficial social impact might your
-                            success have?
+                            Do you need to discuss household chores with your
+                            roommates, partner or spouse?
                         </li>
                     </ul>
-
                     <p>
-                        Please write a short description of how attaining this
-                        goal would change additional important aspects of your
-                        life, and the lives of others.
+                        Specify when you are going to work on your goal. Specify
+                        how often. Specify where. Think hard about how you are
+                        going to implement your plans. Make your plans concrete.
+                    </p>
+                    <p>
+                        Write down those concrete weekly or daily things you
+                        might do to further this goal.
                     </p>
 
-                    <ConsideringBroaderImpactWizard goal={goal} />
+                    {!!goal ? (
+                        <IdentifyingSolutionsToObstaclesWizard goal={goal} />
+                    ) : (
+                        <LoadingSpinner />
+                    )}
 
                     <div className="mt-auto flex w-full flex-row justify-between">
                         <Link
@@ -133,7 +122,7 @@ const ConsideringBroaderImpactPage: NextPage = () => {
                             </Button>
                         </Link>
                         <Link
-                            href={`/suite/future-authoring/exercise/stage-2/${goalId}/considering-detailed-strategies`}
+                            href={`/suite/future-authoring/exercise/stage-2/${goalId}/identifying-solutions-to-obstacles`}
                         >
                             <Button
                                 className="place-self-end"
@@ -150,18 +139,18 @@ const ConsideringBroaderImpactPage: NextPage = () => {
     );
 };
 
-export default ConsideringBroaderImpactPage;
+export default ConsideringDetailedStrategies;
 
-type ConsideringBroaderImpactWizardProps = {
+type IdentifyingSolutionsToObstaclesWizardProps = {
     goal: Goal;
 };
 
-const ConsideringBroaderImpactWizard: FC<
-    ConsideringBroaderImpactWizardProps
+const IdentifyingSolutionsToObstaclesWizard: FC<
+    IdentifyingSolutionsToObstaclesWizardProps
 > = ({ goal }) => {
     const apiState = api.useUtils();
 
-    const [input, setInput] = useState(goal.impactAnalysis);
+    const [input, setInput] = useState(goal.strategicAnalysis);
 
     const {
         mutate: update,
@@ -187,7 +176,7 @@ const ConsideringBroaderImpactWizard: FC<
                 status={status}
                 onFinishedTyping={() => {
                     update({
-                        impactAnalysis: input,
+                        strategicAnalysis: input,
                         goalId: goal.id,
                     });
                 }}

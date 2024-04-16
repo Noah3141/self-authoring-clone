@@ -473,6 +473,40 @@ export const getRouter = createTRPCRouter({
         },
     },
 
+    goal: {
+        previous: protectedProcedure
+            .input(
+                z.object({
+                    comparisonGoal: z.object({
+                        id: z.string(),
+                    }),
+                }),
+            )
+            .query(async ({ ctx, input }) => {
+                const comparisonGoal = await ctx.db.goal.findUnique({
+                    where: { id: input.comparisonGoal.id },
+                });
+
+                if (!comparisonGoal) {
+                    console.error("No comparison goal!? \n");
+                    return null;
+                }
+
+                const previousGoal = await ctx.db.goal.findFirst({
+                    where: {
+                        userId: ctx.session.user.id,
+                        priority: comparisonGoal.priority - 1,
+                    },
+                });
+
+                if (!previousGoal || previousGoal.priority < 1) {
+                    return null;
+                }
+
+                return previousGoal;
+            }),
+    },
+
     futureAuthoring: {
         stage1: {
             all: protectedProcedure.query(async ({ ctx }) => {
@@ -489,6 +523,16 @@ export const getRouter = createTRPCRouter({
                         await ctx.db.futureAuthoring.create({
                             data: {
                                 userId: ctx.session.user.id,
+                                careerLife: "",
+                                familyLife: "",
+                                idealFuture: "",
+                                socialLife: "",
+                                improveYourHabits: "",
+                                leisureLife: "",
+                                oneThingYouCouldDoBetter: "",
+                                qualitiesYouAdmire: "",
+                                thingsToLearnAbout: "",
+                                worstFuture: "",
                             },
                         });
 
@@ -513,6 +557,12 @@ export const getRouter = createTRPCRouter({
                             userId: ctx.session.user.id,
                             isMain: true,
                             priority: 0,
+                            description: "",
+                            impactAnalysis: "",
+                            motiveAnalysis: "",
+                            obstacleAnalysis: "",
+                            strategicAnalysis: "",
+                            progressAnalysis: "",
                         },
                     });
                 }
@@ -536,6 +586,12 @@ export const getRouter = createTRPCRouter({
                                 isMain: false,
                                 priority: i,
                                 userId: ctx.session.user.id,
+                                description: "",
+                                impactAnalysis: "",
+                                motiveAnalysis: "",
+                                obstacleAnalysis: "",
+                                strategicAnalysis: "",
+                                progressAnalysis: "",
                             };
                         }),
                     });
@@ -553,6 +609,50 @@ export const getRouter = createTRPCRouter({
 
                 return goals;
             }),
+
+            byId: {
+                alone: {},
+
+                withAdjacent: protectedProcedure
+                    .input(z.object({ goalId: z.string() }))
+                    .query(async ({ ctx, input }) => {
+                        const goal = await ctx.db.goal.findUnique({
+                            where: {
+                                userId: ctx.session.user.id,
+                                isMain: false,
+                                id: input.goalId,
+                            },
+                        });
+
+                        if (!goal) {
+                            throw new TRPCError({ code: "NOT_FOUND" });
+                        }
+
+                        const previousGoal = await ctx.db.goal.findFirst({
+                            where: {
+                                userId: ctx.session.user.id,
+                                priority: goal.priority - 1,
+                                isMain: false,
+                                title: { not: "" },
+                            },
+                        });
+
+                        const nextGoal = await ctx.db.goal.findFirst({
+                            where: {
+                                userId: ctx.session.user.id,
+                                priority: goal.priority + 1,
+                                isMain: false,
+                                title: { not: "" },
+                            },
+                        });
+
+                        return {
+                            goal,
+                            previousGoal,
+                            nextGoal,
+                        };
+                    }),
+            },
         },
     },
 

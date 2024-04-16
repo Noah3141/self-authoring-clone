@@ -44,7 +44,7 @@ const Textarea: FC<TextareaProps> = ({
     className,
     ...props
 }) => {
-    const [wordCount, setWordCount] = useState(0);
+    const [wordCount, setWordCount] = useState(wordsIn(value));
 
     const id = useId("textarea_input");
     useEffect(() => {

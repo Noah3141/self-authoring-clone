@@ -25,8 +25,6 @@ const MainGoalPage: NextPage = () => {
         );
     }
 
-    const firstGoal = goals?.at(0);
-
     return (
         <>
             <Head>
@@ -70,11 +68,7 @@ const MainGoalPage: NextPage = () => {
                             </Button>
                         </Link>
                         <Link
-                            href={
-                                !!firstGoal
-                                    ? `/suite/future-authoring/exercise/stage-2/${firstGoal.id}/evaluating-your-motives`
-                                    : "/suite/future-authoring/exercise/stage-2/goals"
-                            }
+                            href={`/suite/future-authoring/exercise/stage-2/analysis-of-goals`}
                         >
                             <Button
                                 className="place-self-end"

@@ -7,20 +7,18 @@ const SomethingsWrong = () => {
     const router = useRouter();
 
     return (
-        <BaseLayout>
-            <div className="mx-auto w-full max-w-5xl pt-24 text-2xl">
-                {`Something's wrong!!`}
-                <Link
-                    onClick={(e) => {
-                        e.preventDefault();
-                        router.back();
-                    }}
-                >
-                    {" "}
-                    Go back
-                </Link>
-            </div>
-        </BaseLayout>
+        <div className="mx-auto w-full max-w-5xl pt-24 text-2xl">
+            {`Something's wrong!!`}
+            <Link
+                onClick={(e) => {
+                    e.preventDefault();
+                    router.back();
+                }}
+            >
+                {" "}
+                Go back
+            </Link>
+        </div>
     );
 };
 

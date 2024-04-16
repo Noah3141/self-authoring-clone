@@ -114,7 +114,8 @@ export const GoalWizard: FC<GoalWizardProps> = ({ goal }) => {
             void toast.error(e.message);
         },
         onSuccess: () => {
-            void apiState.get.futureAuthoring.stage1.all.invalidate();
+            void apiState.get.futureAuthoring.stage2.all.invalidate();
+            void apiState.get.futureAuthoring.stage2.mainGoal.invalidate();
             setTimeout(() => {
                 resetTitle();
             }, 3000);

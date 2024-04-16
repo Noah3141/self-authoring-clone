@@ -344,54 +344,61 @@ const FutureAuthoringNavigation = () => {
                     Subgoals
                 </Subtile>
                 <Subtile
-                    href={`/suite/future-authoring/exercise/stage-2/prioritize-goal`}
+                    href={`/suite/future-authoring/exercise/stage-2/prioritize-goals`}
                 >
                     Prioritize Goals
                 </Subtile>
                 <Subtile
                     main
-                    href={`/suite/future-authoring/exercise/stage-2/`}
+                    href={`/suite/future-authoring/exercise/stage-2/analysis-of-goals`}
                 >
                     Analysis of Goals
                 </Subtile>
 
                 {!!goals.length ? (
                     goals.map((goal) => {
-                        return (
-                            <Subtile
-                                href={`/suite/future-authoring/exercise/stage-2/${goal.id}/evaluating-your-motives`}
-                                key={goal.id}
-                            >
-                                <div className="flex flex-col">
-                                    <h3>{goal.title}</h3>
-                                    <Link
-                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
-                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/evaluating-your-motives`}
-                                    >
-                                        - Evaluating Your Motives
-                                    </Link>
-                                    <Link
-                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
-                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/considering-broader-impact`}
-                                    >
-                                        - Considering the Broad Impact
-                                    </Link>
-                                    <Link
-                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
-                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/identifying-solutions-to-obstacles`}
-                                    >
-                                        - Identifying Solutions to Potential
-                                        Obstacles
-                                    </Link>
-                                    <Link
-                                        className="ps-2 text-neutral-500 hover:text-neutral-600"
-                                        href={`/suite/future-authoring/exercise/stage-2/${goal.id}/monitoring-progress`}
-                                    >
-                                        - Monitoring Progress
-                                    </Link>
-                                </div>
-                            </Subtile>
-                        );
+                        if (goal.title !== "")
+                            return (
+                                <Subtile
+                                    href={`/suite/future-authoring/exercise/stage-2/${goal.id}/evaluating-your-motives`}
+                                    key={goal.id}
+                                >
+                                    <div className="flex flex-col">
+                                        <h3>{goal.title}</h3>
+                                        <Link
+                                            className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                            href={`/suite/future-authoring/exercise/stage-2/${goal.id}/evaluating-your-motives`}
+                                        >
+                                            - Evaluating Your Motives
+                                        </Link>
+                                        <Link
+                                            className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                            href={`/suite/future-authoring/exercise/stage-2/${goal.id}/considering-broader-impact`}
+                                        >
+                                            - Considering the Broad Impact
+                                        </Link>
+                                        <Link
+                                            className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                            href={`/suite/future-authoring/exercise/stage-2/${goal.id}/considering-detailed-strategies`}
+                                        >
+                                            - Considering the Detailed Strategy
+                                        </Link>
+                                        <Link
+                                            className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                            href={`/suite/future-authoring/exercise/stage-2/${goal.id}/identifying-solutions-to-obstacles`}
+                                        >
+                                            - Identifying Solutions to Potential
+                                            Obstacles
+                                        </Link>
+                                        <Link
+                                            className="ps-2 text-neutral-500 hover:text-neutral-600"
+                                            href={`/suite/future-authoring/exercise/stage-2/${goal.id}/monitoring-progress`}
+                                        >
+                                            - Monitoring Progress
+                                        </Link>
+                                    </div>
+                                </Subtile>
+                            );
                     })
                 ) : (
                     <Subtile href={``}>No goals yet...</Subtile>

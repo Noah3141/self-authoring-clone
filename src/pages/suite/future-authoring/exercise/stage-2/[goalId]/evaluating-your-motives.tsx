@@ -15,11 +15,10 @@ import toast from "react-hot-toast";
 
 const EvaluatingYourMotives: NextPage = () => {
     const router = useRouter();
-
-    const { data: goals, status: goalsStatus } =
-        api.get.futureAuthoring.stage2.all.useQuery();
-
     const goalId = router.query.goalId as string;
+
+    const { data: goalData, status: goalsStatus } =
+        api.get.futureAuthoring.stage2.byId.withAdjacent.useQuery({ goalId });
 
     if (goalsStatus === "error") {
         return (
@@ -31,7 +30,17 @@ const EvaluatingYourMotives: NextPage = () => {
         );
     }
 
-    const goal = goals?.find((goal) => goal.id === goalId);
+    if (goalsStatus === "pending") {
+        return (
+            <BaseLayout>
+                <AuthoringLayout progress={53}>
+                    <LoadingSpinner />
+                </AuthoringLayout>
+            </BaseLayout>
+        );
+    }
+
+    const { goal, previousGoal } = goalData;
 
     return (
         <>
@@ -46,9 +55,12 @@ const EvaluatingYourMotives: NextPage = () => {
             <BaseLayout>
                 <AuthoringLayout progress={53}>
                     <h1>
-                        Evaluating Your Motives
-                        <span className="ps-6 text-neutral-200">2.3</span>
+                        {goal.title}
+                        <span className="ps-6 text-neutral-200">
+                            2.{goal.priority}.1
+                        </span>
                     </h1>
+                    <h2>Evaluating Your Motives</h2>
 
                     <p>
                         For this goal, you might want to consider issues such as
@@ -87,15 +99,15 @@ const EvaluatingYourMotives: NextPage = () => {
                         for pursuing this goal:
                     </p>
 
-                    {!!goal ? (
-                        <EvaluatingYourMotivesWizard goal={goal} />
-                    ) : (
-                        <LoadingSpinner />
-                    )}
+                    <EvaluatingYourMotivesWizard goal={goal} />
 
                     <div className="mt-auto flex w-full flex-row justify-between">
                         <Link
-                            href={`/suite/future-authoring/exercise/stage-2/goals`}
+                            href={
+                                previousGoal
+                                    ? `/suite/future-authoring/exercise/stage-2/${previousGoal.id}/monitoring-progress`
+                                    : `/suite/future-authoring/exercise/stage-2/analysis-of-goals`
+                            }
                         >
                             <Button
                                 className="place-self-end"
@@ -106,7 +118,7 @@ const EvaluatingYourMotives: NextPage = () => {
                             </Button>
                         </Link>
                         <Link
-                            href={`/suite/future-authoring/exercise/stage-2/${goalId}/evaluating-your-motives`}
+                            href={`/suite/future-authoring/exercise/stage-2/${goalId}/considering-broader-impact`}
                         >
                             <Button
                                 className="place-self-end"
@@ -134,7 +146,7 @@ const EvaluatingYourMotivesWizard: FC<EvaluatingYourMotivesWizardProps> = ({
 }) => {
     const apiState = api.useUtils();
 
-    const [input, setInput] = useState(goal?.motiveAnalysis);
+    const [input, setInput] = useState(goal.motiveAnalysis);
 
     const {
         mutate: update,
@@ -154,8 +166,6 @@ const EvaluatingYourMotivesWizard: FC<EvaluatingYourMotivesWizardProps> = ({
 
     return (
         <div className="flex flex-col gap-1">
-            <h3>{goal.title}</h3>
-
             <Textarea
                 value={input}
                 setValue={setInput}

@@ -374,6 +374,7 @@ export const updateRouter = createTRPCRouter({
                 impactAnalysis: z.string().optional(),
                 strategicAnalysis: z.string().optional(),
                 obstacleAnalysis: z.string().optional(),
+                progressAnalysis: z.string().optional(),
             }),
         )
         .mutation(async ({ ctx, input: { goalId, ...input } }) => {

@@ -145,4 +145,5 @@ model Goal {
     impactAnalysis    String @db.Text
     strategicAnalysis String @db.Text
     obstacleAnalysis  String @db.Text
+    progressAnalysis  String @db.Text
 }
