@@ -39,7 +39,7 @@ const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
         <main className={classNames(styles.desktopNavbar, styles.nav)}>
             <div className={styles.container}>
                 <section>
-                    <span>Self Authoring</span>
+                    <span className="p-3">Self Authoring</span>
                 </section>
                 {!inAuthoring && (
                     <section>
