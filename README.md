@@ -2,7 +2,22 @@
 
 ## Deployed at [SelfAuthoringClone.com](https://self-authoring-clone.vercel.app)
 
-### Todo:
+### Todo
+
+-   [] Mobile size causes text input icons not to be vertically aligned sometimes?
+-   [] bg behind input icons, especially needed for mobile where w-full is not crazy long
+-   [] Copy does not always match how the app actually works anymore
+-   [] "Return to last finished page"?
+-   [] Make all the payment buttons link to actual SelfAuthoring.com
+-   [] Make disclaimer banner that this is a demonstration app
+-   [x] Change copyright statements "reserved to <Link>"
+-   [] Change password link is totally fake
+-   [x] No link back to '/'??
+-   [] "Prevent access to future pages you haven't reached yet"? (Why?)
+-   [] Emptying the description box for an experience should not show that toast
+-   [x] Fix email case sensitivity
+
+### Issues:
 
 -   [ ] Sign UP flow has no entry point
 -   [ ] Sign up flow currently runs zero checks for valid input, I don't recall it checking for extant emails

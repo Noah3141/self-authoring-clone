@@ -7,13 +7,13 @@ import HomeLayout from "~/layouts/Home";
 
 const ErrorPage = () => {
     const error = useRouter().query.error;
+    console.error(error);
 
     return (
         <BaseLayout>
             <HomeLayout>
-                <h1>Error!</h1>
-
-                <p>{error}</p>
+                <h1>Uh oh, an error occured!</h1>
+                <p>Please try signing out, and signing in again.</p>
             </HomeLayout>
         </BaseLayout>
     );

@@ -138,6 +138,7 @@ const SignUpPage: NextPage = () => {
                                 });
 
                                 await router.push("/");
+                                void toast.success("Signed in!");
                             }}
                         >
                             Sign in

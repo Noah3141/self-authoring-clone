@@ -39,7 +39,9 @@ const DesktopNav: FC<NavbarProps> = ({ inAuthoring, session }) => {
         <main className={classNames(styles.desktopNavbar, styles.nav)}>
             <div className={styles.container}>
                 <section>
-                    <span className="p-3">Self Authoring</span>
+                    <Link href={"/"} className="p-3">
+                        Self Authoring
+                    </Link>
                 </section>
                 {!inAuthoring && (
                     <section>
@@ -138,6 +140,7 @@ const MobileNav: FC<NavbarProps> = ({ session, inAuthoring }) => {
                     onClick={() => {
                         setExpanded((p) => !p);
                     }}
+                    size={"large"}
                     OffIcon={ExitIcon}
                     OnIcon={MenuIcon}
                     isOn={!expanded}

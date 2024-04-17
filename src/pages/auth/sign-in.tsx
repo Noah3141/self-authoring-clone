@@ -77,9 +77,9 @@ const SignInPage = () => {
                                     redirect: false,
                                 });
 
-                                if (res?.ok) {
-                                    await router.push("/");
+                                if (!!res?.ok) {
                                     toast.success("Signed in!");
+                                    void router.push("/");
                                 } else {
                                     toast.error(
                                         res?.error ?? "Something went wrong",

@@ -13,8 +13,17 @@ const Footer: FC<FooterProps> = ({}) => {
 
     return (
         <footer className={styles.footer}>
-            <div>© 2024 Self Authoring. All rights reserved.</div>
             <div>
+                All rights reserved to{" "}
+                <Link
+                    className="text-neutral-700 hover:text-primary-500"
+                    href={"https://SelfAuthoring.com"}
+                >
+                    SelfAuthoring.com
+                </Link>
+                . This is a demonstration rebuild not intended for actual use.
+            </div>
+            <div className="shrink-0">
                 {!!session.data ? (
                     <span
                         className="cursor-pointer hover:text-primary-500"
