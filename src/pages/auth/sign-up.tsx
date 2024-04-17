@@ -131,14 +131,21 @@ const SignUpPage: NextPage = () => {
                                     password: credentials.password,
                                 });
 
-                                await signIn("credentials", {
+                                const res = await signIn("credentials", {
                                     email: credentials.email,
                                     password: credentials.password,
                                     redirect: false,
                                 });
 
-                                await router.push("/");
-                                void toast.success("Signed in!");
+                                if (!!res?.ok) {
+                                    await router.push("/");
+                                    void toast.success("Signed in!");
+                                } else {
+                                    await router.push("/auth/sign-in");
+                                    void toast.error(
+                                        "Something went wrong signing you in!",
+                                    );
+                                }
                             }}
                         >
                             Sign in
