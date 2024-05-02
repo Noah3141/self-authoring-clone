@@ -318,6 +318,7 @@ export const updateRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             if (
                 !input.idealFuture &&
+                !input.worstFuture &&
                 wordCount(Object.values(input).join(" ")) > 300
             ) {
                 throw new TRPCError({
@@ -326,7 +327,10 @@ export const updateRouter = createTRPCRouter({
                 });
             }
 
-            if (wordCount(input.idealFuture) > 1200) {
+            if (
+                wordCount(input.idealFuture) > 1200 ||
+                wordCount(input.worstFuture) > 1200
+            ) {
                 throw new TRPCError({
                     code: "BAD_REQUEST",
                     message: "Your input has exceeded the maximum length!",
