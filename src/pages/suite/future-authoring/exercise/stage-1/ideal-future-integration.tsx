@@ -130,8 +130,8 @@ const IdealFutureWizard: FC<IdealFutureWizardProps> = ({ idealFuture }) => {
         status,
         reset,
     } = api.update.futureAuthoring.useMutation({
-        onError: () => {
-            void toast.error("Something went wrong saving your input!");
+        onError: (e) => {
+            void toast.error(e.message);
         },
         onSuccess: () => {
             void apiState.get.futureAuthoring.stage1.all.invalidate();
