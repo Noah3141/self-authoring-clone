@@ -4,18 +4,18 @@
 
 ### Todo
 
--   [] Mobile size causes text input icons not to be vertically aligned sometimes?
--   [] bg behind input icons, especially needed for mobile where w-full is not crazy long
--   [] Copy does not always match how the app actually works anymore
--   [] "Return to last finished page"?
--   [] Empty experiences still load pages during Significant Experiences. (Might as well fix this during an overhaul of UI facing CRUD, because initially seeding with 8 was arbitrary and due to constraints of the old platform, we can do cooler here)
--   [] Make all the payment buttons link to actual SelfAuthoring.com
--   [] Make disclaimer banner that this is a demonstration app
+-   [ ] Mobile size causes text input icons not to be vertically aligned sometimes?
+-   [ ] bg behind input icons, especially needed for mobile where w-full is not crazy long
+-   [ ] Copy does not always match how the app actually works anymore
+-   [ ] "Return to last finished page"?
+-   [ ] Empty experiences still load pages during Significant Experiences. (Might as well fix this during an overhaul of UI facing CRUD, because initially seeding with 8 was arbitrary and due to constraints of the old platform, we can do cooler here)
+-   [ ] Make all the payment buttons link to actual SelfAuthoring.com
+-   [ ] Make disclaimer banner that this is a demonstration app
 -   [x] Change copyright statements "reserved to <Link>"
--   [] Change password link is totally fake
+-   [ ] Change password link is totally fake
 -   [x] No link back to '/'??
--   [] "Prevent access to future pages you haven't reached yet"? (Why?)
--   [] Emptying the description box for an experience should not show that toast
+-   [ ] "Prevent access to future pages you haven't reached yet"? (Why?)
+-   [ ] Emptying the description box for an experience should not show that toast
 -   [x] Fix email case sensitivity
 
 ### Notes:
