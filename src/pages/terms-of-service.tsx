@@ -17,7 +17,42 @@ const TermsOfService = () => {
             </Head>
             <BaseLayout>
                 <HomeLayout>
-                    <h1>Terms of Service</h1>
+                    <section className="border-b border-neutral-300">
+                        <h1>Terms of Service</h1>
+                    </section>
+
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Sequi explicabo incidunt unde inventore
+                        necessitatibus similique vero eaque aliquam adipisci
+                        cupiditate quod asperiores, eos nesciunt, illo itaque,
+                        est tempore! Quia, reiciendis. Lorem ipsum dolor sit
+                        amet consectetur, adipisicing elit. Quaerat perspiciatis
+                        quas delectus ea quos. Commodi quia rem ad maxime
+                        maiores eaque recusandae quis earum, sapiente, dolore
+                        adipisci libero, sed ratione.
+                    </p>
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Sequi explicabo incidunt unde inventore cupiditate
+                        quod asperiores, eos nesciunt, illo itaque, est tempore!
+                        Quia, reiciendis.
+                    </p>
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Sequi explicabo incidunt unde inventore
+                    </p>
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Sequi explicabo incidunt unde inventore
+                        necessitatibus similique vero eaque aliquam adipisci
+                        cupiditate quod asperiores, eos nesciunt, illo itaque,
+                        est tempore! Quia, reiciendis. Lorem, ipsum dolor sit
+                        amet consectetur adipisicing elit. Natus explicabo
+                        cupiditate, asperiores praesentium sunt ipsam nisi,
+                        dolorum excepturi iure dicta eveniet officia a neque et
+                        dolorem, doloremque rem aperiam voluptatum!
+                    </p>
                 </HomeLayout>
             </BaseLayout>
         </>

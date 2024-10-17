@@ -21,7 +21,7 @@ const FaqPage = () => {
                         <h1>FAQ</h1>
                     </section>
                     <section className="flex flex-col gap-3">
-                        <Link href="#">Contact Us Here</Link>
+                        <Link href="/support">Contact Us Here</Link>
                         <h3 className=" font-bold">
                             In what order should I write the programs?
                         </h3>

@@ -1,0 +1,7 @@
+.quoteBlock {
+    @apply border-l-4 border-l-neutral-200 py-3 ps-6 text-lg;
+
+    .attribution {
+        @apply mt-3 block text-sm text-neutral-500;
+    }
+}
